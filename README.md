@@ -4,3 +4,8 @@
 [ie10/ie11不支持条件注释的替代方法](http://www.webhek.com/post/conditional-comments-in-ie11-10.html)  
 [github emoji](https://www.webpagefx.com/tools/emoji-cheat-sheet/)  
 [绕过chrome弹窗拦截问题(window.open)](https://www.cnblogs.com/foru/p/3924385.html)
+### webpack  
+[webpack插件列表归类](https://segmentfault.com/a/1190000016816813)
+
+### canvas
+[canvas解算法题](https://www.jianshu.com/p/f54d265f7aa4)
