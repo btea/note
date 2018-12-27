@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>svg icon</title>
+    <style>
+        .container{
+            width: 100px;
+            margin: 0 auto;
+        }
+        .container .arrow{
+            stroke-width: 1px;
+            stroke: #ccc;
+            animation: lineMove 3s ease-out infinite;
+        }
+        @keyframes lineMove{
+            0% {
+                stroke-dasharray: 0, 168.9793243408203;
+            }
+            50% {
+                stroke-dasharray: 168.9793243408203, 168.9793243408203;
+                fill: rgba(102, 205, 150, 0);
+                opacity: .8;
+            }
+            100% {
+                stroke-dasharray: 168.9793243408203, 168.9793243408203;
+                fill: rgba(102, 205, 255, .9);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- demo http://www.cnblogs.com/st-leslie/p/7436756.html -->
+    <div class="container">
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            width="27.203px" height="27.383px" viewBox="0 0 27.203 27.383" style="enable-background:new 0 0 27.203 27.383;"
+            xml:space="preserve">
+
+	        <path class="arrow" d="M13.602,27.383L0,0l13.602,7.834L27.203,0L13.602,27.383z M2.367,2.518l11.234,22.617L24.836,2.518L13.602,8.989
+		L2.367,2.518z"/>
+        </svg>
+    </div>
+</body>
+</html>
