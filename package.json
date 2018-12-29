@@ -1,0 +1,22 @@
+{
+  "name": "note",
+  "version": "1.0.0",
+  "description": "[console各种方法和妙用](https://www.cnblogs.com/mytzq/p/4816992.html)  \r [ie条件注释方式](https://blog.csdn.net/just_do_it_1993/article/details/73481235)  \r [ie10/ie11不支持条件注释的替代方法](http://www.webhek.com/post/conditional-comments-in-ie11-10.html)  \r [github emoji](https://www.webpagefx.com/tools/emoji-cheat-sheet/)  \r [绕过chrome弹窗拦截问题(window.open)](https://www.cnblogs.com/foru/p/3924385.html)\r ### webpack  \r [webpack插件列表归类](https://segmentfault.com/a/1190000016816813)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/btea/note.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/btea/note/issues"
+  },
+  "homepage": "https://github.com/btea/note#readme",
+  "dependencies": {
+    "vconsole": "^3.2.0"
+  }
+}

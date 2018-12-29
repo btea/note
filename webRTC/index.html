@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>webRTC</title>
+    <style>
+        video{
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <video src="" id="video" style="margin: 0 auto;border: 1px solid #000;object-fit: cover;"></video>
+    <button class="btn">start</button>
+    <script src="http://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.2.0"></script>
+    <script>
+        var btn = document.getElementsByClassName('btn')[0];
+        btn.addEventListener('click', function(){
+            navigator.getUserMedia(constraints, onSuccess, onError);
+            new VConsole();
+            getAllSource();
+        })
+
+        function getAllSource(){
+            MediaStreamTrack.getSources(function(sourceInfos){
+                console.log(sourceInfos);
+            })
+        }
+
+        var constraints = {video: true};
+
+        function onSuccess(stream) {
+            var video = document.getElementById("video");
+            if(window.URL){
+                video.src = window.URL.createObjectURL(stream);
+            }else{
+                video.src = stream;
+            }
+            // video.autoplay = true;
+        }
+
+        function onError(error) {
+            console.log("navigator.getUserMedia error: ", error);
+        }
+    </script>
+</body>
+</html>
