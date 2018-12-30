@@ -15,31 +15,64 @@
 <body>
     <video src="" id="video" style="margin: 0 auto;border: 1px solid #000;object-fit: cover;"></video>
     <button class="btn">start</button>
-    <script src="http://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.2.0"></script>
+    <script src="https://cdn.bootcss.com/vConsole/3.2.0/vconsole.min.js"></script>
     <script>
         var btn = document.getElementsByClassName('btn')[0];
         btn.addEventListener('click', function(){
-            navigator.getUserMedia(constraints, onSuccess, onError);
+            
             new VConsole();
             getAllSource();
+            
         })
 
         function getAllSource(){
-            MediaStreamTrack.getSources(function(sourceInfos){
-                console.log(sourceInfos);
+            if(MediaStreamTrack.getSources){
+                MediaStreamTrack.getSources(sources)
+            }else{
+                navigator.mediaDevices.enumerateDevices().then(sources);
+            }
+            
+        }
+        function sources(sourceInfos){
+            console.log(sourceInfos);
+            var id;
+            sourceInfos.length && sourceInfos.forEach(function(source){
+                if(source.kind === 'videoinput'){
+                    id = source.deviceId
+                }
             })
+            console.log(id);
+            console.log(sourceInfos[1].deviceId);
+            // 打不开~~~~~
+            var constraints = {
+                video: {
+                    optional: [{sourceId: id}]
+                },
+                facingMode: { exact: "user" }
+            };
+            // 能打开，但不管id是哪个，都是打开前置
+            // var constraints = {
+            //     video: {
+            //         sourceId: sourceInfos[1].deviceId
+            //     },
+            //     facingMode: { exact: "user" }
+            // };
+            
+            navigator.getUserMedia(constraints, onSuccess, onError);
         }
 
-        var constraints = {video: true};
+       
 
         function onSuccess(stream) {
+            console.log('s');
             var video = document.getElementById("video");
+            // console.log(stream);
             if(window.URL){
                 video.src = window.URL.createObjectURL(stream);
             }else{
                 video.src = stream;
             }
-            // video.autoplay = true;
+            video.autoplay = true;
         }
 
         function onError(error) {
