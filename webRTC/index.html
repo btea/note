@@ -44,19 +44,19 @@
             console.log(id);
             console.log(sourceInfos[1].deviceId);
             // 打不开~~~~~
-            var constraints = {
-                video: {
-                    optional: [{sourceId: id}]
-                },
-                facingMode: { exact: "user" }
-            };
-            // 能打开，但不管id是哪个，都是打开前置
             // var constraints = {
             //     video: {
-            //         sourceId: sourceInfos[1].deviceId
+            //         optional: [{sourceId: id}]
             //     },
             //     facingMode: { exact: "user" }
             // };
+            // 能打开，但不管id是哪个，都是打开前置
+            var constraints = {
+                video: {
+                    sourceId: sourceInfos[1].deviceId
+                },
+                facingMode: { exact: "user" }
+            };
             
             navigator.getUserMedia(constraints, onSuccess, onError);
         }
@@ -66,7 +66,7 @@
         function onSuccess(stream) {
             console.log('s');
             var video = document.getElementById("video");
-            // console.log(stream);
+            console.log(stream);
             if(window.URL){
                 video.src = window.URL.createObjectURL(stream);
             }else{
