@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>通过canvas将图片绘制成九宫格形式</title>
+    <style>
+        .container canvas{
+            margin: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <script>
+        clip('https://avatars0.githubusercontent.com/u/24516654?s=460&v=4');
+        // clip('./map.png');
+        function clip(src){
+            let img = new Image();
+            console.log(src);
+            img.src = src;
+            img.crossOrigin = 'anonymous';
+            img.onload = function(){
+                console.log('height:' + img.height, 'width:' + img.width);
+                createCanvas(img)
+            }
+        }
+
+        function createCanvas(obj){
+            let w = obj.width, h = obj.height;
+            let canvas = document.createElement('canvas'),
+                ctx = canvas.getContext('2d'), area = []
+            ;
+            for(let i = 0; i < 9; i++){
+                area.push({
+                    x1: (Math.floor(i % 3)) * Math.floor(w / 3),
+                    y1: Math.floor(i / 3) * Math.floor(h / 3),
+                    x2: (Math.floor(i % 3) + 1) * Math.floor(w / 3),
+                    y2: (Math.floor(i / 3) + 1) * Math.floor(h / 3),
+                    w: Math.floor(w / 3),
+                    h: Math.floor(h / 3)
+                })
+            }
+            canvas.width = w; canvas.height = h;
+            ctx.drawImage(obj, 0, 0);
+            area.forEach(item => {
+                item.data = ctx.getImageData(item.x1, item.y1, item.x2, item.y2);
+            })
+            let container = document.getElementsByClassName('container')[0];
+            container.style.width = w + 12+ 'px';
+            container.style.height = h + 12 + 'px';
+            drawCanvas(area, container);
+        }
+
+        function drawCanvas(area, container){
+            area.forEach(a => {
+                let canvas = document.createElement('canvas');
+                canvas.width = a.w;
+                canvas.height = a.h;
+                canvas.getContext('2d').putImageData(a.data, 0, 0);
+                container.appendChild(canvas);
+            })
+        }
+    </script>
+</body>
+</html>
