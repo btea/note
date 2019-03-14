@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>stream</title>
+</head>
+<body>
+    <video id="video" autoplay></video>
+
+    <script>
+        // https://juejin.im/post/5c4916c251882524fe52cf5e
+        const videoConstraints = {width: 1366, height: 768};
+        const videoNode = document.querySelector('#video');
+        let stream = await navigator.mediaDevice.getUserMedia({ audio: true, video: videoConstraints });
+        videoNode.src = stream;
+        videoNode.play();
+    </script>
+</body>
+</html>
