@@ -2,9 +2,7 @@ const http = require('http');
 const fs = require('fs');
 
 http.createServer(function(request, response){
-    fs.readFile('./stream.html', function(data){
-        request.setEncoding('utf-8');
-        console.log(data);
+    fs.readFile('./stream.html', 'utf-8',function(err, data){
         response.write(data);
         response.end();
     })

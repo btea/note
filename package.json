@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/btea/note#readme",
   "dependencies": {
+    "nodejs-websocket": "^1.7.2",
     "vconsole": "^3.2.0"
   }
 }
