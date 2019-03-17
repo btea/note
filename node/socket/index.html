@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>socket</title>
+</head>
+<body>
+    <input type="text" class="val">
+    <button id="send">按钮</button>
+    <script>
+        let socket = new WebSocket('ws://localhost:2333');
+        socket.onopen = function(){
+            socket.send('link start');
+        }
+        socket.onmessage = function(event){
+            console.log(event);
+        }
+        send.onclick = function(){
+            let val = document.getElementsByClassName('val')[0].value;
+            socket.send(val);
+        }
+    </script>
+</body>
+</html>
