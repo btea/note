@@ -12,3 +12,5 @@
 
 
 [js运算符](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators)
+### 有符号32位整数
+所有的按位操作符的操作数都会被转成补码形式的有符号32位整数。补码形式是指一个数的负对应值为数值的所有比特位反转后，再加1。
