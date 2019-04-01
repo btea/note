@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ajax</title>
+</head>
+<body>
+    <button class="start">start</button>
+    <button class="cancel">cancel</button>
+    <script>
+        let start = document.getElementsByClassName('start')[0],
+            cancel = document.getElementsByClassName('cancel')[0]
+        ;
+        start.addEventListener('click', function(){
+            request();
+        })
+        function request(){
+            var xhr = new XMLHttpRequest();
+            xhr.open('get','/getContent');
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState === 4 && xhr.status === 200){
+                    console.log(xhr.response);
+                }
+            };
+            // xhr.timeout = 1000;
+            xhr.ontimeout = function(){
+                console.log('请求超时');
+            };
+            xhr.send();
+            bindCancel(xhr);
+        }
+        
+        function bindCancel(xhr){
+            cancel.addEventListener('click', function(){
+                xhr.abort();
+            })
+        }
+    </script>
+</body>
+</html>
