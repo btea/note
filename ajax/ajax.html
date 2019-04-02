@@ -16,8 +16,25 @@
         start.addEventListener('click', function(){
             request();
         })
+        function getXHR(){
+            var xhr = null;
+            if(window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest();
+            } else if (window.ActiveXObject) {
+                try {
+                xhr = new ActiveXObject("Msxml2.XMLHTTP");
+                } catch (e) {
+                try {
+                    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+                } catch (e) { 
+                    alert("您的浏览器暂不支持Ajax!");
+                }
+                }
+            }
+            return xhr;
+        }
         function request(){
-            var xhr = new XMLHttpRequest();
+            var xhr = getXHR();
             xhr.open('get','/getContent');
             xhr.onreadystatechange = function(){
                 if(xhr.readyState === 4 && xhr.status === 200){
@@ -28,12 +45,16 @@
             xhr.ontimeout = function(){
                 console.log('请求超时');
             };
+            xhr.onprogress = function(e){
+                console.log(e);
+            }
             xhr.send();
             bindCancel(xhr);
         }
         
         function bindCancel(xhr){
             cancel.addEventListener('click', function(){
+                // 取消请求
                 xhr.abort();
             })
         }

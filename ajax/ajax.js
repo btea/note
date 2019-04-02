@@ -1,7 +1,8 @@
 // http://louiszhai.github.io/2016/11/02/ajax/
 
 const http = require('http');
-const fs = require('fs');
+const fs = require('fs');;
+
 
 let url;
 http.createServer(function(request, response){
@@ -17,7 +18,11 @@ http.createServer(function(request, response){
         response.end();
     }
     if(/^\/getContent/.test(url)){
-        response.data();
+        let t = Date.now();
+        response.write('23333');
+        while(Date.now() - t > 5000){
+            response.end();
+        }
     }
 
 }).listen(2222);
