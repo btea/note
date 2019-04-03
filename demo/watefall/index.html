@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>waterfall</title>
+</head>
+<body>
+    <script>
+        let _pro = WaterFall.prototype;
+        function WaterFall(num,el = document.body, width){
+            this.el = el;
+            this.itemWidth = width || 100;
+            this.num = num; // 元素总数
+            this.list = []; // 所有元素集合
+            this.arr = []; // 二维数组，每一个元素为一行所有元素
+            this.h = []; // 保存每一列的高度
+            this.margin = 5; // 间隔元素之间的距离
+        };
+        _pro.constructor = WaterFall;
+        _pro.init = function(){
+            this.polyfill();
+            while(this.num--){
+                this.create();
+            }
+            console.log(this.list);
+            this.calculate();
+        };
+        _pro.polyfill = function(){
+            this.getStyle = window.getComputedStyle || function(el){
+                return el.currentStyle;
+            }
+        }
+        _pro.calculate = function(){
+            let w, len = this.num, i, min, minIndex, el = this.el;
+            w = parseInt(this.getStyle(el, null).width,10);
+            this.column = Math.floor(w / (this.itemWidth + this.margin * 2)); // 当前元素视图中可显示的元素列数
+            // this.h = new Array(this.column);
+            this.arr = new Array(Math.ceil(this.num / this.column)).fill([]);
+            len = arr.len
+            for(i = 0; i < len; i++){
+                // 第一行
+                if(!Math.floor(i / this.column)){
+                    this.list[i].style.top = 0;
+                    this.list[i].style.left = (this.itemWidth + this.margin * 2) * i + 'px';
+                    this.h.push(parseInt(this.getStyle(this.list[i],null).height),10);  
+                }else{
+                    min = Math.min(...this.h);
+                    minIndex = this.h.indexOf(min);
+                    list[i].style.left = (this.itemWidth + this.margin * 2) * minIndex + 'px';
+                    list[i].style.top = parseInt(this.getStyle(list[i], null).height,10) + this.margin + 'px';
+                    this.h[minIndex] = this.h[mindeIndex] + parseInt(this.getStyle(list[i], null).height,10);
+                } 
+                this.el.appendChild(this.list[i]);
+                // this.arr[Math.floor(i / this.column)].push(this.list[i]);
+            }
+        }
+        _pro.create = function(){
+            let div = document.createElement('div');
+            div.style.width = this.width;
+            div.style.height = this.random(150,100);
+            div.style.background = `rgb(${this.random(255,150)},${this.random(255,150)},${this.random(255,150)})`;
+            div.style.position = 'absolute';
+            this.list.push(div);
+        };
+        _pro.random = function(max,min){
+            return Math.floor(Math.random(max - min + 1) + min);
+        }
+        let water = new WaterFall(100);
+        
+        // water.polyfill();
+        // while(water.num--){
+        //     water.create();
+        // }
+        // water.calculate();
+        // console.log(water);
+        water.init();
+    </script>
+</body>
+</html>
