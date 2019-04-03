@@ -34,6 +34,9 @@
         }
         _pro.calculate = function(){
             let w, len = this.num, i, min, minIndex, el = this.el;
+            
+            console.log(window.getComputedStyle(el, null).width);
+            console.log(window.getComputedStyle === this.getStyle);
             w = parseInt(this.getStyle(el, null).width,10);
             this.column = Math.floor(w / (this.itemWidth + this.margin * 2)); // 当前元素视图中可显示的元素列数
             // this.h = new Array(this.column);
