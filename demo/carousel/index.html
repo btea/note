@@ -34,6 +34,16 @@
             background: antiquewhite;
             left: 600px;
         }
+
+        #box{
+            margin: 20px auto;
+            width: 200px;
+            height: 150px;
+            overflow: hidden;
+        }
+        #box div{
+            transition: all 1.5s;
+        }
     </style>
 </head>
 <body>
@@ -41,6 +51,12 @@
         <div class="one"></div>
         <div class="two"></div>
         <div class="three"></div>
+    </div>
+    <div id="box">
+        <div class="f"></div>
+        <div class="s"></div>
+        <div class="t"></div>
+        <div class="$f"></div>
     </div>
     <script>
         var con, one, two, three, init = 1;
@@ -52,6 +68,7 @@
         setInterval(function(){
             interval();
         },3000);
+        
 
         function Carouser(el){
             this.element = this.initElement(el);
@@ -62,57 +79,71 @@
             if(typeof el === 'string'){
                 el = document.querySelector(el);
             }
-            type = Object.prototype.toString.call(el).toLowercase();
-            if(!~type.indexOf('element')){
+            type = Object.prototype.toString.call(el);
+            if(!~type.indexOf('Element')){
                 throw Error('the first params agruments must be an element or a string.');
             }
-            if(~type.indexOf('null')){
+            if(~type.indexOf('Null')){
                 throw Error('cannot found the container box.');
             }
             return el;
         };
         Carouser.prototype.initChildren = function(){
-            let num = this.element.children, w, fun_style, postion;
-            if(!num.length){return;}
+            let num = this.element.children.length, w, fun_style, position = [];
+            if(!num){return;}
             if(this.element){
                 fun_style = window.getComputedStyle || function(el){
                     return el.currentStyle();
                 }
-                w = parseInt(fun_style(el, null).width,10) || 0;
+                w = parseInt(fun_style(this.element, null).width,10) || 0;
             }
             this.children = Array.from(this.element.children);
             this.width = w;
-            while(num--){
-                postion.push((num - 1) * w);
+            for(let m = 0; m < num; m++){
+                position.push(m * w);
             }
-            this.element.style.postion = 'relative';
+            
+            this.position = position;
+            this.element.style.position = 'relative';
             this.children.forEach((item,i) => {
+                item.style.position = 'absolute';
+                item.style.width = this.width + 'px';
+                item.style.height = '100%';
                 item.style.top = '0';
-                item.style.left = this.postion[i] + 'px';
+                item.style.left = this.position[i] + 'px';
+                item.style.background = this.color();
                 this.element.appendChild(item);
             })
         }
 
         Carouser.prototype.start = function(t){
             setInterval(() =>{
-                
+                this.elementMove();
             }, t || 5000);
         };
 
         Carouser.prototype.elementMove = function(){
-            let first = this.postion[0];
+            let first = this.position[0], $el;
             if(!first){
-                this.position = this.postion.map(item => {
+                this.position = this.position.map(item => {
                     return item - this.width;
                 })
             }else{
-
+                $el = this.children[0];
+                this.children = this.children.slice(1);
+                this.children.push($el);
             }
             this.children.forEach((item,j) => {
                 item.style.left = this.position[j] + 'px';
             })
-           
         };
+        Carouser.prototype.color = function(){
+            return `rgb(${this.random(255,150)},${this.random(255,150)},${this.random(255,150)})`;
+        };
+        Carouser.prototype.random = function(max,min){
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+        let carousel = new Carouser('#box');
         function interval(){
             let first = con.firstElementChild, left;
             // debugger
