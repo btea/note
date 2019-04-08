@@ -53,6 +53,66 @@
             interval();
         },3000);
 
+        function Carouser(el){
+            this.element = this.initElement(el);
+            this.initChildren();
+        }
+        Carouser.prototype.initElement = function(el){
+            let type;
+            if(typeof el === 'string'){
+                el = document.querySelector(el);
+            }
+            type = Object.prototype.toString.call(el).toLowercase();
+            if(!~type.indexOf('element')){
+                throw Error('the first params agruments must be an element or a string.');
+            }
+            if(~type.indexOf('null')){
+                throw Error('cannot found the container box.');
+            }
+            return el;
+        };
+        Carouser.prototype.initChildren = function(){
+            let num = this.element.children, w, fun_style, postion;
+            if(!num.length){return;}
+            if(this.element){
+                fun_style = window.getComputedStyle || function(el){
+                    return el.currentStyle();
+                }
+                w = parseInt(fun_style(el, null).width,10) || 0;
+            }
+            this.children = Array.from(this.element.children);
+            this.width = w;
+            while(num--){
+                postion.push((num - 1) * w);
+            }
+            this.element.style.postion = 'relative';
+            this.children.forEach((item,i) => {
+                item.style.top = '0';
+                item.style.left = this.postion[i] + 'px';
+                this.element.appendChild(item);
+            })
+        }
+
+        Carouser.prototype.start = function(t){
+            setInterval(() =>{
+                
+            }, t || 5000);
+        };
+
+        Carouser.prototype.elementMove = function(){
+            let first = this.postion[0];
+            if(!first){
+                this.position = this.postion.map(item => {
+                    return item - this.width;
+                })
+            }else{
+
+            }
+            this.children.forEach((item,j) => {
+                item.style.left = this.position[j] + 'px';
+            })
+           
+        };
         function interval(){
             let first = con.firstElementChild, left;
             // debugger
