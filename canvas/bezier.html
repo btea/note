@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas{
+            border: 1px #6cf solid;  
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="500"></canvas>
+    <script type="text/javascript">
+        /**
+        quadraticCurveTo(cp1x, cp1y, x, y);其中cp1x,cp1y是控制点的坐标，x和y是终点坐标
+
+        假如有三个点A、B、C 控制点为B和C的中点，即cp1的坐标点为cp1x = (Bx + Cx) / 2,cp1y = (By + Cy) / 2;
+        **/
+
+
+        
+        let isDown = false;
+        let points = [];
+        let beginPoint = null;
+        const canvas = document.querySelector('#canvas');
+        const ctx = canvas.getContext('2d');
+
+        // 设置线条颜色
+        ctx.strokeStyle = 'red';
+        ctx.lineWidth = 1;
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+
+        canvas.addEventListener('mousedown', down, false);
+        canvas.addEventListener('mousemove', move, false);
+        canvas.addEventListener('mouseup', up, false);
+        canvas.addEventListener('mouseout', up, false);
+
+        function down(evt) {
+            isDown = true;
+            const {x, y} = getPos(evt);
+            beginPoint = getPos(evt);
+            points.push({x,y});
+        }
+
+        function move(evt) {
+            if (!isDown) return;
+            const {x, y} = getPos(evt);
+            points.push({x, y});
+            if(points.length > 3){
+                const lastTwoPoints = points.slice(-2);
+                const controlPoints = lastTwoPoints[0];
+                const endPoint = {
+                    x: (lastTwoPoints[0].x + lastTwoPoints[1].x) / 2,
+                    y: (lastTwoPoints[0].y + lastTwoPoints[1].y) / 2 
+                };
+                drawLine(beginPoint, controlPoints, endPoint);
+                beginPoint = endPoint;
+            }
+        }
+
+        function up(evt) {
+            if (!isDown) return;
+            const { x, y } = getPos(evt);
+            points.push({x, y});
+
+            if (points.length > 3) {
+                const lastTwoPoints = points.slice(-2);
+                const controlPoint = lastTwoPoints[0];
+                const endPoint = lastTwoPoints[1];
+                drawLine(beginPoint, controlPoint, endPoint);
+            }
+            beginPoint = null;
+            isDown = false;
+            points = [];
+        }
+
+        function getPos(evt) {
+            return {
+                x: evt.clientX,
+                y: evt.clientY
+            }
+        }
+
+        function drawLine(beginPoint, controlPoint, endPoint) {
+            ctx.beginPath();
+            ctx.moveTo(beginPoint.x, beginPoint.y);
+            // ctx.lineTo(endPoint.x, endPoint.y);
+            ctx.quadraticCurveTo(controlPoint.x, controlPoint.y, endPoint.x, endPoint.y);
+            ctx.stroke();
+            ctx.closePath();
+        }
+    </script>
+</body>
+</html>
