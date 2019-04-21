@@ -153,9 +153,11 @@
                 move();
             }else{
                 // 将第一个元素放至最后一位,然后所有元素向左移动
+                first.style.zIndex = -1;
                 con.appendChild(first);
                 first.style.left = '600px';
                 move();
+                first.style.zIndex = 0;
             }
         }
         function move(){

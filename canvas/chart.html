@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>besizer curve</title>
+    <style>
+        canvas{
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="600" height="300"></canvas>
+    <script src="./chart.js"></script>
+    <script>
+        let chart;
+        chart = new Chart(document.getElementById('canvas'));
+        chart.initData([
+            // {data: new Array(12).fill(null).map(p => chart.random(280, 0)), type: 'line'},
+            // {data: new Array(12).fill(null).map(p => chart.random(280, 0)), type: 'line', smooth: true},
+            // {data: new Array(12).fill(null).map(p => chart.random(280, 0)), type: 'line', smooth: true},
+            {data: new Array(12).fill(null).map(p => chart.random(280, 0)), type: 'line', smooth: true},
+            // {data: new Array(12).fill(null).map(p => chart.random(280, 0)), type: 'line'}
+        ]);
+    </script>
+</body>
+</html>
