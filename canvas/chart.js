@@ -72,7 +72,9 @@ class Chart{
             controlPoint,
             controlPoint1,
             controlPoint2,
-            direction
+            direction,
+            t = .4,
+            cp
         ;
         if(points.length > 3){
             this.strokeStyle = this.color();
@@ -93,24 +95,21 @@ class Chart{
 
 
             //    三次贝塞尔曲线
+                cp = {
+                    x: (points[i - 1].x + points[i].x) / 2 - (points[i - 1].x - points[i].x) * t,
+                    y: (points[i - 1].y + points[i].y) / 2 - (points[i - 1].y - points[i].y) * t
+                }
                 controlPoint1 = {
-                    x: points[i - 1].x,
-                    y: points[i - 1].y
+                    x: points[i - 1].x + (points[i].x - points[i - 1].x) * t,
+                    y: points[i - 1].y + (points[i].y - points[i - 1].y) * t
                 };
-                if(points[i - 1].y >= points[i].y){
-                    controlPoint1.y += 20;
-                }else{
-                    controlPoint1.y -= 20;
-                }
                 controlPoint2 = {
-                    x: points[i].x,
-                    y: points[i].y
+                    x: points[i + 1].x - (points[i + 1].x - points[i].x) * t,
+                    y: points[i + 1].y - (points[i + 1].y - points[i].y) * t
                 };
-                if(points[i].y >= points[i + 1].y){
-                    controlPoint2.y += 20;
-                }else{
-                    controlPoint2.y -= 20;
-                }
+                debugger
+                console.log(controlPoint1, controlPoint2);
+                console.log(points);                
                 this.ctx.bezierCurveTo(controlPoint1.x, controlPoint1.y, controlPoint2.x, controlPoint2.y, points[i + 1].x, points[i + 1].y);
            }
            this.ctx.stroke();
