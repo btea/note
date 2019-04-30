@@ -68,7 +68,7 @@ class Chart{
     }
     smoothCurve(points){
         let len = points.length, 
-            i = 2, 
+            i = 0, 
             controlPoint,
             controlPoint1,
             controlPoint2,
@@ -76,8 +76,8 @@ class Chart{
             t = .4,
             cp
         ;
-        if(points.length > 3){
-            this.strokeStyle = this.color();
+        if(points.length > 1){
+            this.ctx.strokeStyle = this.color();
             this.ctx.beginPath();
             this.ctx.moveTo(points[0].x, points[0].y);
             /**
@@ -85,7 +85,7 @@ class Chart{
 
                 假如有三个点A、B、C 控制点为B和C的中点，即cp1的坐标点为cp1x = (Bx + Cx) / 2,cp1y = (By + Cy) / 2;
             **/
-           for(; i < len - 2; i++){
+           for(; i < len - 1; i++){
             //    controlPoint = {
             //        x: (points[i - 1].x + points[i].x) / 2,
             //        y: (points[i - 1].y + points[i].y) / 2 + 20
@@ -95,21 +95,18 @@ class Chart{
 
 
             //    三次贝塞尔曲线
-                cp = {
-                    x: (points[i - 1].x + points[i].x) / 2 - (points[i - 1].x - points[i].x) * t,
-                    y: (points[i - 1].y + points[i].y) / 2 - (points[i - 1].y - points[i].y) * t
-                }
+                direction = points[i + 1].y - points[i].y;
+                direction = direction >= 0 ? direction : direction * (-1)
                 controlPoint1 = {
-                    x: points[i - 1].x + (points[i].x - points[i - 1].x) * t,
-                    y: points[i - 1].y + (points[i].y - points[i - 1].y) * t
-                };
+                    x: points[i].x + (points[i + 1].x - points[i].x) / 2 * t,
+                    y: points[i].y + direction / 2 * t, 
+                }
                 controlPoint2 = {
-                    x: points[i + 1].x - (points[i + 1].x - points[i].x) * t,
-                    y: points[i + 1].y - (points[i + 1].y - points[i].y) * t
-                };
-                debugger
-                console.log(controlPoint1, controlPoint2);
-                console.log(points);                
+                    x: points[i + 1].x - (points[i + 1].x - points[i].x) / 2 * t,
+                    y: points[i + 1].y + direction / 2 * t
+                }
+
+                // debugger
                 this.ctx.bezierCurveTo(controlPoint1.x, controlPoint1.y, controlPoint2.x, controlPoint2.y, points[i + 1].x, points[i + 1].y);
            }
            this.ctx.stroke();

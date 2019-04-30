@@ -119,15 +119,16 @@ class Day{
         // 则：阴历日期 = 14Q + 10.6(R + 1) + 年内日期序数 - 29.5n
         // 假设时间为2019-04-23，则年内日期序数为 31 + 28 + 31 + 23
         let year, Q, R, sum;
-        date = new Date();
+        date = new Date(date);
         year = date.getFullYear();
-        Q = Math.floor(year - 1977);
+        Q = Math.floor((year - 1977) / 4);
         R = (year - 1977) % 4;
         sum = 14 * Q + 10.6 * (R + 1) + this.monthSum(date);
         return Math.floor(sum % 29.5);
     }
     monthSum(date){
         let sum , year, month;
+        sum = 0;
         year = date.getFullYear();
         month = date.getMonth();
         // 假如当前是4月，month值为3,只先累积前三个月的总天数，当月到当前时间未知天数额外添加
@@ -246,3 +247,10 @@ class Day{
         return GetLunarDay(yy,mm,dd);
     }
 }
+
+
+
+
+
+
+

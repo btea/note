@@ -14,48 +14,127 @@
             cancel = document.getElementsByClassName('cancel')[0]
         ;
         start.addEventListener('click', function(){
-            request();
-        })
-        function getXHR(){
-            var xhr = null;
-            if(window.XMLHttpRequest) {
-                xhr = new XMLHttpRequest();
-            } else if (window.ActiveXObject) {
-                try {
-                xhr = new ActiveXObject("Msxml2.XMLHTTP");
-                } catch (e) {
-                try {
-                    xhr = new ActiveXObject("Microsoft.XMLHTTP");
-                } catch (e) { 
-                    alert("您的浏览器暂不支持Ajax!");
+            let xhr = new Request();
+            xhr.startRequest({
+                type: 'post',
+                dataType: 'text',
+                url: '/getContent',
+                data: {
+                    name: 'name',
+                    password: '123456'
+                },
+                // timeout: 3000,
+                // timeoutFun: function(){
+                    // console.log('this is timeout');
+                // },
+                abortFun: function(){
+                    console.log('this request is abort!');
                 }
-                }
-            }
-            return xhr;
-        }
-        function request(){
-            var xhr = getXHR();
-            xhr.open('get','/getContent');
-            xhr.onreadystatechange = function(){
-                if(xhr.readyState === 4 && xhr.status === 200){
-                    console.log(xhr.response);
-                }
-            };
-            // xhr.timeout = 1000;
-            xhr.ontimeout = function(){
-                console.log('请求超时');
-            };
-            xhr.onprogress = function(e){
-                console.log(e);
-            }
-            xhr.send();
+            }).then(function(res){
+                console.log(res);
+            });
             bindCancel(xhr);
+        });
+        class Request{
+            constructor(){
+                let xhr = null;
+                if(window.XMLHttpRequest) {
+                    xhr = new XMLHttpRequest();
+                } else if (window.ActiveXObject) {
+                    try {
+                        xhr = new ActiveXObject("Msxml2.XMLHTTP");
+                    } catch (e) {
+                        try {
+                            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+                        } catch (e) { 
+                            alert("您的浏览器暂不支持Ajax!");
+                        }
+                    }
+                };
+                this.xhr = xhr;
+                this.callbacks = {};
+            }
+            startRequest(options){
+                let xhr = this.xhr;
+                let {
+                    type, dataType, data, url,
+                    timeout, timeoutFun,
+                    progressFun, abortFun
+                } = options;
+
+                if(timeout){
+                    xhr.timeout = timeout;
+                    xhr.ontimeout = timeoutFun || function(){};
+                }
+                if(onprogress){
+                    xhr.onprogress = progressFun;
+                }
+                if(abortFun){
+                    xhr.onabort = abortFun;
+                }
+                if(type.toLowerCase() === 'get'){
+                    this.get(
+                        {type, dataType, data, url}
+                    )
+                }
+                if(type.toLowerCase() === 'post'){
+                    this.post(
+                        {type, dataType, data, url}
+                    )
+                }
+                return this;
+            }
+            get(obj){
+                let {type, dataType, data, url, isAsync} = obj;
+                const xhr = this.xhr;
+                const key = this.random();
+                this.key = key;
+                this.callbacks[key] = null;
+                xhr.open(type, url, isAsync || true);
+                xhr.onreadystatechange = function(){
+                    if(xhr.readyState === 4 && xhr.status === 200){
+                        console.log(xhr);
+                        this.callbacks[key](xhr.responseText);
+                    }
+                }.bind(this);
+                xhr.responseType = dataType;
+                xhr.send(this.serialize(data));
+            }
+            post(obj){
+                let  {type, dataType, data, url, isAsync} = obj;
+                const xhr = this.xhr;
+                const key = this.random();
+                this.key = key;
+                this.callbacks[key] = null;
+                xhr.open(type, url, isAsync || true);
+                xhr.onreadystatechange = function(){
+                    if(xhr.readyState === 4 && xhr.status === 200){
+                        this.callbacks[key](xhr.responseText);
+                    }
+                }.bind(this);
+                xhr.setRequestHeader('content-type','application/x-www-urlencoded'  );
+                xhr.send(this.serialize(data));
+            }
+            serialize(obj){
+                if(!obj){return null;}
+                let arr = [];
+                for(let k in obj){
+                    arr.push(k + '=' + obj[k]);
+                }
+                return arr.join('&');
+            }
+            random(){
+                return Math.random().toString(16).slice(2);
+            }
+            then(callback){
+                this.callbacks[this.key] = callback;
+            }
         }
-        
         function bindCancel(xhr){
             cancel.addEventListener('click', function(){
                 // 取消请求
-                xhr.abort();
+                // let xhr = xhr.xhr;
+                xhr.xhr.abort();
             })
         }
     </script>

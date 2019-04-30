@@ -6,7 +6,6 @@ const fs = require('fs');;
 
 let url;
 http.createServer(function(request, response){
-    console.log(request.url);
     url = request.url;
     if(url === '/'){
         fs.readFile('./ajax.html', 'utf-8', function(err, data){
@@ -18,11 +17,20 @@ http.createServer(function(request, response){
         response.end();
     }
     if(/^\/getContent/.test(url)){
+        let str = '';
+        request.on('data', function(chunk){
+            str += chunk;
+        });
+        request.on('end', function(){
+            console.log(str);
+        })
+        
         let t = Date.now();
+        const timer = 5000;
         response.write('23333');
-        while(Date.now() - t > 5000){
+        setTimeout(function(){
             response.end();
-        }
+        }, timer)
     }
 
 }).listen(2222);
