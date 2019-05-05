@@ -32,5 +32,10 @@ http.createServer(function(request, response){
             response.end();
         }, timer)
     }
+    if(/^\/stream/.test(url)){
+        const readStream = fs.createReadStream('./bg6.jpg');
+        response.writeHead(200, {'Content-Type': 'iamge/jpg'});
+        readStream.pipe(response);
+    }
 
 }).listen(2222);

@@ -15,26 +15,36 @@
         ;
         start.addEventListener('click', function(){
             let xhr = new Request();
-            xhr.startRequest({
-                type: 'post',
-                dataType: 'text',
-                url: '/getContent',
-                data: {
-                    name: 'name',
-                    password: '123456'
-                },
-                // timeout: 3000,
-                // timeoutFun: function(){
-                    // console.log('this is timeout');
-                // },
-                abortFun: function(){
-                    console.log('this request is abort!');
-                }
-            }).then(function(res){
-                console.log(res);
-            });
+            stream(xhr);
+            // xhr.startRequest({
+            //     type: 'post',
+            //     dataType: 'text',
+            //     url: '/getContent',
+            //     data: {
+            //         name: 'name',
+            //         password: '123456'
+            //     },
+            //     timeout: 3000,
+            //     timeoutFun: function(){
+            //         console.log('this is timeout');
+            //     },
+            //     abortFun: function(){
+            //         console.log('this request is abort!');
+            //     }
+            // }).then(function(res){
+            //     console.log(res);
+            // });
             bindCancel(xhr);
         });
+        function stream(xhr){
+            xhr.startRequest({
+                type: 'get',
+                dataType: 'blob',
+                url: '/stream',
+            }).then(function(res){
+                console.log(res);
+            })
+        }
         class Request{
             constructor(){
                 let xhr = null;
@@ -47,7 +57,7 @@
                         try {
                             xhr = new ActiveXObject("Microsoft.XMLHTTP");
                         } catch (e) { 
-                            alert("您的浏览器暂不支持Ajax!");
+                            throw Error("您的浏览器暂不支持Ajax!");
                         }
                     }
                 };
@@ -94,7 +104,7 @@
                 xhr.onreadystatechange = function(){
                     if(xhr.readyState === 4 && xhr.status === 200){
                         console.log(xhr);
-                        this.callbacks[key](xhr.responseText);
+                        this.callbacks[key](xhr.response);
                     }
                 }.bind(this);
                 xhr.responseType = dataType;
@@ -109,7 +119,7 @@
                 xhr.open(type, url, isAsync || true);
                 xhr.onreadystatechange = function(){
                     if(xhr.readyState === 4 && xhr.status === 200){
-                        this.callbacks[key](xhr.responseText);
+                        this.callbacks[key](xhr.response);
                     }
                 }.bind(this);
                 xhr.setRequestHeader('content-type','application/x-www-urlencoded'  );
@@ -133,7 +143,6 @@
         function bindCancel(xhr){
             cancel.addEventListener('click', function(){
                 // 取消请求
-                // let xhr = xhr.xhr;
                 xhr.xhr.abort();
             })
         }
