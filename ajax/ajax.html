@@ -122,7 +122,7 @@
                         this.callbacks[key](xhr.response);
                     }
                 }.bind(this);
-                xhr.setRequestHeader('content-type','application/x-www-urlencoded'  );
+                xhr.setRequestHeader('content-type','application/x-www-urlencoded');
                 xhr.send(this.serialize(data));
             }
             serialize(obj){

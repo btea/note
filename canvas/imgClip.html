@@ -14,16 +14,16 @@
 <body>
     <div class="container"></div>
     <script>
-        clip('https://avatars0.githubusercontent.com/u/24516654?s=460&v=4');
+        // clip('https://avatars0.githubusercontent.com/u/24516654?s=460&v=4');
+        clip('https://www.kkkk1000.com/images/bg.jpg');
         // clip('./map.png');
         function clip(src){
             let img = new Image();
-            console.log(src);
             img.src = src;
             img.crossOrigin = 'anonymous';
             img.onload = function(){
                 console.log('height:' + img.height, 'width:' + img.width);
-                createCanvas(img)
+                createCanvas(img);
             }
         }
 
