@@ -94,7 +94,7 @@
                 xhr.onreadystatechange = function(){
                     if(xhr.readyState === 4 && xhr.status === 200){
                         console.log(xhr);
-                        this.callbacks[key](xhr.responseText);
+                        this.callbacks[key](xhr.response);
                     }
                 }.bind(this);
                 xhr.responseType = dataType;
@@ -109,10 +109,10 @@
                 xhr.open(type, url, isAsync || true);
                 xhr.onreadystatechange = function(){
                     if(xhr.readyState === 4 && xhr.status === 200){
-                        this.callbacks[key](xhr.responseText);
+                        this.callbacks[key](xhr.response);
                     }
                 }.bind(this);
-                xhr.setRequestHeader('content-type','application/x-www-urlencoded'  );
+                xhr.setRequestHeader('content-type','application/x-www-urlencoded');
                 xhr.send(this.serialize(data));
             }
             serialize(obj){
