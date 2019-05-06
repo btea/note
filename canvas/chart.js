@@ -40,8 +40,8 @@ class Chart{
             this.drawLine(points, smooth);
         }
         if(type === 'bar'){
-            // this.lineArea(points);
-            this.bar(points);
+            this.lineArea(points); // 面积区域图形
+            // this.bar(points);
         }
     }
 
@@ -62,6 +62,7 @@ class Chart{
     linePoints(points){
         this.ctx.beginPath();
         this.strokeStyle = this.color();
+        this.ctx.lineJoin="round";
         this.lineTo(points);
         this.ctx.strokeStyle = this.color();
         this.ctx.stroke();
@@ -119,16 +120,41 @@ class Chart{
             this.linePoints(points);
         }
     }
+    pointCalac(points){
+        const list = [];
+        let i = 0;
+        
+        for(; i < points.length - 2; i++){
+            list.push({
+                start: points[i],
+                end:  points[i + 1],
+                dot1: {
+                    x: Math.floor((points[i].x + points[i + 1].x) / 2),
+                    y: points[i].y
+                },
+                dot2: {
+                    x: Math.floor((points[i].x + points[i + 1].x) / 2),
+                    y: points[i + 1].y
+                }
+            })
+        }
+        return list;        
+    }
+
+
     bezierCurve(points){
         const list = this.getCurveList(points);
+        // const list = this.pointCalac(points);
         this.ctx.lineWidth = 2;
         this.ctx.beginPath();
         for(let i = 0; i < list.length; i++){
             this.ctx.moveTo(list[i].start.x, list[i].start.y);
             this.ctx.bezierCurveTo(list[i].dot1.x, list[i].dot1.y, list[i].dot2.x, list[i].dot2.y, list[i].end.x, list[i].end.y);
         }
+        
         this.ctx.strokeStyle = this.color(.5);
         this.ctx.stroke();
+
     }
     getCurveList(points){
         const t = 1/3;
@@ -166,7 +192,7 @@ class Chart{
     }
 
     lineArea(points){
-        let first, last, y;
+        let first, last, y, grd;
         y = this.height;
         first = {};
         last = {};
@@ -178,7 +204,10 @@ class Chart{
         points.push(last);
         this.ctx.beginPath();
         this.lineTo(points);
-        this.ctx.fillStyle = this.color(.5);
+        grd = this.ctx.createLinearGradient(this.width / 2, 0, this.width / 2, this.height);
+        grd.addColorStop(0,"#6cf");
+        grd.addColorStop(1,"aqua");
+        this.ctx.fillStyle = grd;
         this.ctx.fill();
         this.ctx.closePath();
     }

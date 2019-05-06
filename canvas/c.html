@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>curve area</title>
+</head>
+<body>
+    <canvas id="c" width="800" height="600"></canvas>
+    <script>
+        const canvas = document.getElementById('c'),
+            ctx = canvas.getContext('2d')
+        ;
+        ctx.beginPath();
+        ctx.lineTo(150,150);
+        ctx.bezierCurveTo(200,150,300,300,400,300);
+        ctx.beginPath();
+        ctx.lineTo(400,300);
+        ctx.moveTo(200,300);
+        ctx.closePath();
+        ctx.strokeStyle = '#6cf';
+        ctx.fillStyle = 'aqua';
+        ctx.stroke();
+        ctx.fill();
+    </script>
+</body>
+</html>
