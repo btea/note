@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/btea/note#readme",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
     "fabric": "^2.7.0",
     "nodejs-websocket": "^1.7.2",
     "vconsole": "^3.2.0",
