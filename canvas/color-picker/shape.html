@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>draw shape</title>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="600"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const speed = 8;
+        canvas.addEventListener('click', function(e){
+            let x = e.layerX, y = e.layerY, width = 0, req;
+            requestAnimationFrame(draw)
+            function draw(){
+                width += speed;
+                if(width > 1000){
+                    cancelAnimationFrame(req);
+                    return;
+                }
+                ctx.rect(x - (width / 2),y - (width / 2), width, width);
+                ctx.strokeStyle = randomColor();
+                ctx.stroke();
+                req = requestAnimationFrame(draw);
+            }
+        });
+        function randomColor(){
+            return `#${random().toString(16)}${random().toString(16)}${random().toString(16)}`;
+        }
+        function random(max = 255, min = 0){
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+    </script>
+</body>
+</html>
