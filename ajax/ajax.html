@@ -42,6 +42,10 @@
                 dataType: 'blob',
                 url: '/stream',
             }).then(function(res){
+                const src = window.URL.createObjectURL(res);
+                const image = new Image();
+                image.src = src;
+                document.body.appendChild(image);
                 console.log(res);
             })
         }

@@ -20,7 +20,7 @@
         var btn = document.getElementsByClassName('btn')[0];
         btn.addEventListener('click', function(){
             
-            new VConsole();
+            // new VConsole();
             getAllSource();
             
         })
@@ -64,11 +64,9 @@
        
 
         function onSuccess(stream) {
-            console.log('s');
             var video = document.getElementById("video");
             console.log(stream);
             if(window.URL){
-                
                 video.src = window.URL.createObjectURL(stream);
             }else{
                 video.src = stream;

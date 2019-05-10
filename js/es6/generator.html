@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>generator function yield</title>
+</head>
+<body>
+    <button>start</button>
+    <script>
+        const ele = document.getElementsByTagName('button')[0];
+        let it;
+        ele.onclick = function(){
+            it = data();
+            it.next();
+        }
+        function *data(){
+            try{
+                let text = yield request(it);
+                console.log(text);
+            }catch(err){
+                console.log(err);
+            }
+        }
+        function request(it){
+            const xhr = new XMLHttpRequest();
+            xhr.open('get', '/getContent');
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState === 4){
+                    if(xhr.status === 200){
+                        it.next(xhr.response);
+                    }else{
+                        it.throw(xhr);
+                    }
+                    
+                }
+            };
+            xhr.send();
+        }
+
+        // generator + promise
+        function run(gen){
+            var args = [].slice.call(arguments, 1), it;
+            it = gen.apply(this, args);
+            return Promise.resolve()
+            .then(function handleNext(value){
+                var next = it.next(value);
+                return (function handleResult(next){
+                    if(next.done){
+                        return next.value;
+                    }else{
+                        return Promise.resolve(next.value)
+                        .then(handleNext, function handleErr(err){
+                            return Promise.resolve(
+                                it.throw(err)
+                            ).then(handleResult)
+                        })
+                    }
+                })(next);
+            })
+        }
+    </script>
+</body>
+</html>
