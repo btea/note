@@ -5,14 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>image color shape</title>
+    <style>
+        canvas{
+            cursor: url('https://www.kkkk1000.com/images/mouse.png') 16 22, auto;
+        }
+    </style>
 </head>
 <body>
-    <canvas id="canvas"></canvas>
-    <script>
-        
+    <script>       
         class ImageDeal{
             constructor(src){
-                this.canvas = document.getElementById('canvas');
+                this.canvas = document.createElement('canvas');
+                document.body.appendChild(this.canvas);
                 this.src = src;
                 this.init(src);
                 this.bindEvent();
@@ -30,6 +34,7 @@
                 }
             }
             /**
+             * https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial/Compositing 各种神奇的组合
              * globalCompositeOperation属性设置或返回一个源（新的）绘制到目标(已有)图像上
              * 源图像 = 你打算放置到画布上的绘图。
              * 目标图像 = 你已经绘制到画布上的绘图。
@@ -58,7 +63,13 @@
                     this.w = 0;
 
                     this.ctx.globalCompositeOperation = "destination-out";
-                    requestAnimationFrame(this.drawLine.bind(this));
+                    let shape = new Image();
+                    shape.crossOrigin = 'anonymous';
+                    shape.onload = () => {
+                        this.shape = shape;
+                        requestAnimationFrame(this.drawLine.bind(this));
+                    }
+                    shape.src = 'https://www.kkkk1000.com/images/clear.png';
                 })
             }
             drawLine(){
@@ -69,7 +80,8 @@
                 }
                 // this.ctx.rect(this.x - (this.w / 2), this.y - (this.w / 2), this.w, this.w);
                 // this.ctx.stroke();
-                this.ctx.drawImage(this.img, this.x - (this.w / 2), this.y - (this.w / 2), this.w, this.w);
+                // this.ctx.drawImage(this.img, this.x - (this.w / 2), this.y - (this.w / 2), this.w, this.w);
+                this.ctx.drawImage(this.shape, this.x - (this.w / 2), this.y - (this.w / 2), this.w, this.w);
                 this.req = requestAnimationFrame(this.drawLine.bind(this));
             }
             // 保存一张彩色，一张黑白，重新开始绘制
@@ -131,7 +143,7 @@
                 return imageData;
             }
         }
-        // new ImageDeal('https://avatars0.githubusercontent.com/u/24516654?s=460&v=4');
+        new ImageDeal('https://avatars0.githubusercontent.com/u/24516654?s=460&v=4');
         new ImageDeal('https://www.kkkk1000.com/images/bg.jpg');
     </script>
 </body>

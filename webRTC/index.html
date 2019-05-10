@@ -68,16 +68,125 @@
             var video = document.getElementById("video");
             console.log(stream);
             if(window.URL){
-                
-                video.src = window.URL.createObjectURL(stream);
+                // video.src = window.URL.createObjectURL(stream);
+                streamSend(stream);
             }else{
                 video.src = stream;
             }
-            video.autoplay = true;
+            // video.autoplay = true;
         }
 
         function onError(error) {
             console.log("navigator.getUserMedia error: ", error);
+        }
+
+        function streamSend(stream){
+            let xhr = new Request();
+            xhr.startRequest({
+                type: 'post',
+                dataType: 'blob',
+                url: '/stream',
+                data: {
+                    stream: stream
+                }
+            }).then(function(res){
+                console.log(res);
+            })
+        }
+        class Request{
+            constructor(){
+                let xhr = null;
+                if(window.XMLHttpRequest) {
+                    xhr = new XMLHttpRequest();
+                } else if (window.ActiveXObject) {
+                    try {
+                        xhr = new ActiveXObject("Msxml2.XMLHTTP");
+                    } catch (e) {
+                        try {
+                            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+                        } catch (e) { 
+                            throw Error("您的浏览器暂不支持Ajax!");
+                        }
+                    }
+                };
+                this.xhr = xhr;
+                this.callbacks = {};
+            }
+            startRequest(options){
+                let xhr = this.xhr;
+                let {
+                    type, dataType, data, url,
+                    timeout, timeoutFun,
+                    progressFun, abortFun
+                } = options;
+
+                if(timeout){
+                    xhr.timeout = timeout;
+                    xhr.ontimeout = timeoutFun || function(){};
+                }
+                if(onprogress){
+                    xhr.onprogress = progressFun;
+                }
+                if(abortFun){
+                    xhr.onabort = abortFun;
+                }
+                if(type.toLowerCase() === 'get'){
+                    this.get(
+                        {type, dataType, data, url}
+                    )
+                }
+                if(type.toLowerCase() === 'post'){
+                    this.post(
+                        {type, dataType, data, url}
+                    )
+                }
+                return this;
+            }
+            get(obj){
+                let {type, dataType, data, url, isAsync} = obj;
+                const xhr = this.xhr;
+                const key = this.random();
+                this.key = key;
+                this.callbacks[key] = null;
+                xhr.open(type, url, isAsync || true);
+                xhr.onreadystatechange = function(){
+                    if(xhr.readyState === 4 && xhr.status === 200){
+                        console.log(xhr);
+                        this.callbacks[key](xhr.response);
+                    }
+                }.bind(this);
+                xhr.responseType = dataType;
+                xhr.send(this.serialize(data));
+            }
+            post(obj){
+                let  {type, dataType, data, url, isAsync} = obj;
+                const xhr = this.xhr;
+                const key = this.random();
+                this.key = key;
+                this.callbacks[key] = null;
+                xhr.open(type, url, isAsync || true);
+                xhr.onreadystatechange = function(){
+                    if(xhr.readyState === 4 && xhr.status === 200){
+                        this.callbacks[key](xhr.response);
+                    }
+                }.bind(this);
+                xhr.setRequestHeader('content-type','application/x-www-urlencoded');
+                xhr.send(this.serialize(data));
+            }
+            serialize(obj){
+                if(!obj){return null;}
+                let arr = [];
+                for(let k in obj){
+                    arr.push(k + '=' + obj[k]);
+                }
+                return arr.join('&');
+            }
+            random(){
+                return Math.random().toString(16).slice(2);
+            }
+            then(callback){
+                this.callbacks[this.key] = callback;
+            }
         }
     </script>
 </body>
