@@ -64,8 +64,6 @@ class Day{
          * */
         // 进制转换可以直接用 toString(n)
 
-
-
         // 默认先实现十进制转换十六进制
         let result, remainder, arr = [],
             obj = {

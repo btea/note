@@ -5,14 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>image color shape</title>
+    <style>
+        canvas{
+            cursor: url('https://www.kkkk1000.com/images/mouse.png') 16 22, auto;
+        }
+    </style>
 </head>
 <body>
-    <canvas id="canvas"></canvas>
-    <script>
-        
+    <script>       
         class ImageDeal{
             constructor(src){
-                this.canvas = document.getElementById('canvas');
+                this.canvas = document.createElement('canvas');
+                document.body.appendChild(this.canvas);
                 this.src = src;
                 this.init(src);
                 this.bindEvent();
@@ -30,6 +34,7 @@
                 }
             }
             /**
+             * https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial/Compositing 各种神奇的组合
              * globalCompositeOperation属性设置或返回一个源（新的）绘制到目标(已有)图像上
              * 源图像 = 你打算放置到画布上的绘图。
              * 目标图像 = 你已经绘制到画布上的绘图。
@@ -58,7 +63,13 @@
                     this.w = 0;
 
                     this.ctx.globalCompositeOperation = "destination-out";
-                    requestAnimationFrame(this.drawLine.bind(this));
+                    let shape = new Image();
+                    shape.crossOrigin = 'anonymous';
+                    shape.onload = () => {
+                        this.shape = shape;
+                        requestAnimationFrame(this.drawLine.bind(this));
+                    }
+                    shape.src = 'https://www.kkkk1000.com/images/clear.png';
                 })
             }
             drawLine(){
@@ -69,7 +80,8 @@
                 }
                 // this.ctx.rect(this.x - (this.w / 2), this.y - (this.w / 2), this.w, this.w);
                 // this.ctx.stroke();
-                this.ctx.drawImage(this.img, this.x - (this.w / 2), this.y - (this.w / 2), this.w, this.w);
+                // this.ctx.drawImage(this.img, this.x - (this.w / 2), this.y - (this.w / 2), this.w, this.w);
+                this.ctx.drawImage(this.shape, this.x - (this.w / 2), this.y - (this.w / 2), this.w, this.w);
                 this.req = requestAnimationFrame(this.drawLine.bind(this));
             }
             // 保存一张彩色，一张黑白，重新开始绘制
@@ -131,8 +143,23 @@
                 return imageData;
             }
         }
-        // new ImageDeal('https://avatars0.githubusercontent.com/u/24516654?s=460&v=4');
-        new ImageDeal('https://www.kkkk1000.com/images/bg.jpg');
+        function start(){
+            new ImageDeal('https://avatars0.githubusercontent.com/u/24516654?s=460&v=4');
+            new ImageDeal('https://www.kkkk1000.com/images/bg.jpg');
+            new ImageDeal('https://i0.hdslb.com/bfs/album/aa3f669c2e0ac2f82e5864db4bb3c463bb3c00ff.jpg');
+            new ImageDeal('https://i0.hdslb.com/bfs/album/cb5bbe2134d31b3b0e622f880121d78dad55ed01.jpg');
+            new ImageDeal('https://i0.hdslb.com/bfs/album/d88d5d89b67339ecdccda03498a1c5b5a128f223.jpg@2000w_1e.webp')
+            new ImageDeal('https://i0.hdslb.com/bfs/album/ab47a5d6a11dc2da573dd38564ceeef5b50a19b2.jpg')
+            new ImageDeal('https://i0.hdslb.com/bfs/album/c78643f6413258f9e48ed0b6298b5b217e82d8ce.jpg');
+            new ImageDeal('https://i0.hdslb.com/bfs/album/d78a52e30ee2495520889723788a78ee2d476d62.jpg');
+            new ImageDeal('https://i0.hdslb.com/bfs/album/b8654ddf2898efc8cb6e8b7abbb39f3283f923a6.png');
+            new ImageDeal('https://i0.hdslb.com/bfs/album/b895c18f9c4a4292cd53a9e78e2913002178b2e1.png');
+            new ImageDeal('https://i0.hdslb.com/bfs/album/badbd6a16efe0d03939e572cdad1ea6a411c1faf.png');
+            new ImageDeal('https://i0.hdslb.com/bfs/album/e78d3f6bbc487a003a3a72677c1975f781ac2090.jpg');
+            new ImageDeal('https://i0.hdslb.com/bfs/album/658ab52e2d631f9d974112e2d5b4cab476e3f61d.jpg');
+            new ImageDeal('https://i0.hdslb.com/bfs/drawyoo/1d78e577dd985bf4ad8e93d1bff57a0a9e4ab560.jpg@2000w_1e.webp');
+        }
+        
     </script>
 </body>
 </html>
