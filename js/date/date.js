@@ -104,11 +104,11 @@ class Day{
             s = date.getSeconds()
         ;
         str = str.replace(/y{4}/,y);
-        str = str.replace(/M{2}/, m > 10 ? m : '0' + m);
-        str = str.replace(/d{2}/, d > 10 ? d : '0' + d);
-        str = str.replace(/h{2}/, h > 10 ? h : '0' + h);
-        str = str.replace(/m{2}/, $m > 10 ? $m : '0' + $m);
-        str = str.replace(/s{2}/, s > 10 ? s : '0' + s);
+        str = str.replace(/M{2}/, m >= 10 ? m : '0' + m);
+        str = str.replace(/d{2}/, d >= 10 ? d : '0' + d);
+        str = str.replace(/h{2}/, h >= 10 ? h : '0' + h);
+        str = str.replace(/m{2}/, $m >= 10 ? $m : '0' + $m);
+        str = str.replace(/s{2}/, s >= 10 ? s : '0' + s);
         return str;
     }
 
