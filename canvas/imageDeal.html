@@ -97,7 +97,7 @@
                 let w, h, img;
                 img = new Image();
                 img.src = src;
-                img.crossOrigin = 'anonymous';
+                img.crossOrigin = 'z';
                 img.onload = () => {
                     w = img.naturalWidth || img.width || 600;
                     h = img.naturalHeight || img.height || 400;
@@ -106,10 +106,13 @@
                     this.ctx = this.canvas.getContext('2d');
                     this.img = img;
                     this.ctx.drawImage(this.img, 0, 0, this.width, this.height);
-                    const data = this.ctx.getImageData(0, 0, this.width, this.height).data;
-                    const $data = this.colorSwtich(data);
-                    this.ctx.putImageData($data, 0, 0);
-                    this.getGrayImage();
+                    setTimeout(() => {
+                        const data = this.ctx.getImageData(0, 0, this.width, this.height).data;
+                        const $data = this.colorSwtich(data);
+                        this.ctx.putImageData($data, 0, 0);
+                        this.getGrayImage();
+                    },500)
+                    
                 }                
             }
             getGrayImage(){
@@ -159,7 +162,7 @@
             new ImageDeal('https://i0.hdslb.com/bfs/album/658ab52e2d631f9d974112e2d5b4cab476e3f61d.jpg');
             new ImageDeal('https://i0.hdslb.com/bfs/drawyoo/1d78e577dd985bf4ad8e93d1bff57a0a9e4ab560.jpg@2000w_1e.webp');
         }
-        
+        start();
     </script>
 </body>
 </html>

@@ -18,3 +18,6 @@
 
 ### webpack  
 [webpack env](https://www.cnblogs.com/tugenhua0707/p/9780621.html)
+
+### Element.requestFullscreen()
+[让元素全屏(f11效果)](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/requestFullScreen)
