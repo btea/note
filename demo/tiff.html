@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>tif file</title>
+    <script src="https://cdn.rawgit.com/seikichi/tiff.js/master/tiff.min.js"></script>
+</head>
+<body>
+    <input type="file" onChange="getFile()"/>
+    <img src="" alt="" id="image">
+    <div onClick="c()">dasfrasfasfsa</div>
+    <script>
+        function c(){
+            console.log(123);
+        }
+        function getFile(e){
+            let el = document.getElementsByTagName('input')[0];
+            let file = el.files;
+            // let data = new Tiff({buffer: file[0]});
+            // img.src = URL.createObjectURL(data); 
+            var fileReader = new FileReader();
+  
+            fileReader.onload = function() {                     // file is now ArrayBuffer:
+                var tiff = new Tiff({buffer: this.result});        // parse and convert
+                var canvas = tiff.toCanvas();                      // convert to canvas
+                console.log(canvas);
+                document.querySelector("div").appendChild(canvas); // show canvas with content
+            };
+            
+            fileReader.readAsArrayBuffer(file[0]);    
+        }
+        
+    </script>
+</body>
+</html>
