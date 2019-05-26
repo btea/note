@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>es5 unicode</title>
+    <style>
+        i{
+            position: relative;
+            width: 32px;
+            font-size: 14px;
+            display: inline-block;
+            text-align: right;
+            margin-right: 10px;
+        }
+        .snow:after{
+            content: '\1d11e';
+        }
+    </style>
+</head>
+<body>
+    <div class="code">'\u2603'</div>
+    <div class="es6"></div>
+    <i class="snow"></i>
+    <script>
+        let code = ele('.code'), code1;
+        code.innerText = '\u2603';
+
+        code1 = ele('.es6');
+        code1.innerText = '\u{1d11e}';
+        function ele(name){
+            return document.querySelector(name);
+        }
+
+        // 获取伪元素信息
+        // https://developer.mozilla.org/zh-CN/docs/Web/API/Window/getComputedStyle
+        // window.getComputedStyle(element, "::before") 当获取普通元素的样式属性时，第二个参数设置为null或者省略，第二个参数用来获取伪元素的样式
+    </script>
+</body>
+</html>

@@ -67,7 +67,7 @@
             var video = document.getElementById("video");
             console.log(stream);
             if(window.URL){
-                // video.src = window.URL.createObjectURL(stream);
+                video.src = window.URL.createObjectURL(stream);
                 streamSend(stream);
             }else{
                 video.src = stream;
