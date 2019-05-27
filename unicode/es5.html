@@ -17,12 +17,20 @@
         .snow:after{
             content: '\1d11e';
         }
+        .five{
+            color: #6cf;
+            font-size: 20px;
+        }
+        .five::after{
+            content: '\2b21';
+        }
     </style>
 </head>
 <body>
     <div class="code">'\u2603'</div>
     <div class="es6"></div>
     <i class="snow"></i>
+    <div class="five"></div>
     <script>
         let code = ele('.code'), code1;
         code.innerText = '\u2603';
