@@ -1,0 +1,1 @@
+[history api](https://javascript.ruanyifeng.com/bom/history.html)
