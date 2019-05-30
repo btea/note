@@ -1,0 +1,1 @@
+[指数对数](https://wenku.baidu.com/view/f10870c552d380eb63946d3c.html)
