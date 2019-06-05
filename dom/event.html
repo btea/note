@@ -32,6 +32,9 @@
         box.addEventListener('click', function(event){
             console.log('click the box');
             event.stopPropagation();
+            createEvent(box, 'zys', function(name){
+                console.log(`点击box触发了zys事件`);
+            })
         })
         document.body.addEventListener('click', function(){
             console.log('click the document body capture.');
@@ -39,6 +42,19 @@
         document.body.addEventListener('click', function(){
             console.log('click the document body bubble.')
         }, false);
+
+        // https://developer.mozilla.org/zh-CN/docs/Web/API/Event/Event
+        // 自定义事件
+        function createEvent(el, name, callback){
+            /**
+                @param el dom需要绑定事件的元素
+                @param name 自定义的事件名
+                @param callback 事件触发时执行的回调函数
+            **/
+            let event = new Event(name);
+            el.addEventListener(name, callback);
+            el.dispatchEvent(event);        
+        }
     </script>
 </body>
 </html>
