@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>dom to image screenshot</title>
+    <style>
+        html,body{
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #box{
+            width: 100%;
+            height: 100%;
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="box">
+        <img src="https://i0.hdslb.com/bfs/album/bd4a5e98d602470df5577f73d4e1d966364e335b.jpg" alt="" style="width: 200px;">
+        <div class="box" style="width: 200px; height: 150px;"></div>
+    </div>
+    <script src="./dom-to-image.js"></script>
+    <script src="./shoot.js"></script>
+    <script src="./drag.js"></script>
+    <script>
+        let drag = new dragElement({
+            element: document.getElementsByClassName('box')[0]
+        });
+        let shoot = new Shoot({el: '#box', width: drag.w, height: drag.h, left: drag.left, top: drag.top});
+        let cal = drag.calcStyle, move = drag.elementMove;
+        drag.calcStyle = (obj = {}) => {
+            cal.call(drag, obj);
+            shootChange();
+            shoot.width = obj.width;
+            shoot.height = obj.height;
+            shoot.left = obj.left;
+            shoot.top = obj.top;
+            shoot.blackBox();
+        }
+        drag.elementMove = (left, top) => {
+            move.call(drag, left, top);
+            shootChange();
+        }
+        function shootChange(){
+            shoot.width = drag.w;
+            shoot.height = drag.h;
+            shoot.left = drag.left;
+            shoot.top = drag.top;
+            shoot.blackBox();
+            // console.log(drag);
+        }
+        console.log(drag);
+        console.log(shoot);
+    </script>
+</body>
+</html>
