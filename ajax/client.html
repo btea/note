@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>fetch practice</title>
+</head>
+<body>
+    <button class="btn">请求</button>
+    <script>
+        let btn = document.getElementsByClassName('btn')[0];
+        btn.addEventListener('click', function(){
+            let list = [
+                '/practice','/practice','/practice','/practice','/practice','/practice','/practice','/practice','/practice','/practice',
+                '/practice','/practice','/practice','/practice','/practice','/practice','/practice','/practice','/practice','/practice'
+            ];
+            let max = 4;
+            sendRequest(list, max, function(){
+                console.log('%c 总请求数：' + list.length, 'color:aqua;');
+                console.log('%c 显示并发数: ' + max, 'color:red;')
+                console.log('%c 请求完成！', 'color: #6cf');
+            })
+        })
+        function sendRequest(urls, max, cb){
+            let total, len, c, i, obj = {i: max}, num = max;
+            c = (res) => {
+                return res.json();
+                total--;
+            }
+            len = urls.length;
+            total = len - 1;
+            if(total <= max){
+                urls.map(item => {
+                    fetch(item).then(c).then(data => {
+                        if(!total)(cb());
+                    })
+                })
+                return ;
+            }
+            Object.defineProperty(obj, 'i', {
+                set: function(n){
+                    console.log(n);
+                    fetch(urls[n]).then(c).then(data => {
+                        if(!total || n === len - 1){
+                            cb();
+                            return;
+                        };
+                        if(num === len - 1){return;}
+                        obj.i = num + 1;
+                        num++;
+                    })
+                }
+            })
+            i = 0;
+            num = max - 1;
+            for(; i < max; i++){
+                fetch(urls[i]).then(c).then(data => {
+                    num++
+                    obj.i = num;
+                })
+            }
+        }    
+    </script>
+</body>
+</html>

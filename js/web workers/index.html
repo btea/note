@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>web workers</title>
+</head>
+<body>
+    <script>
+        // https://developer.mozilla.org/zh-CN/docs/Web/API/Worker
+        if (window.Worker) {
+            let w = new Worker('/worker.js');
+            w.postMessage('the instance post message');
+            w.onerror = err => {
+                console.log('the worker error: ', err);
+            }
+            w.onmessage = e => {
+                let d = e.data;
+                console.log('receive message :' + d);
+            }
+        } else {
+            console.log('Your browser doesn\'t support web workers.')
+        }
+        
+        
+    </script>
+</body>
+</html>
