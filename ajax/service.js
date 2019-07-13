@@ -1,5 +1,6 @@
 const http = require('http');
 const fs = require('fs');
+let time = () => Math.floor(Math.random() * (3 - 1) + 1) * 100;
 http.createServer((request, response) => {
     let url = request.url, i = 0;
     if(url === '/'){
@@ -13,10 +14,10 @@ http.createServer((request, response) => {
     if(url === '/favicon.ico'){
         response.end();
     }
-    if(url === '/particle'){
+    if(url === '/practice'){
         setTimeout(function(){
             i++;
             response.end(JSON.stringify({num: i}));
-        }, 2000);
+        }, time());
     }
 }).listen('2233');
