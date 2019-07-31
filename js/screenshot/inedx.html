@@ -35,11 +35,11 @@
         let cal = drag.calcStyle, move = drag.elementMove;
         drag.calcStyle = (obj = {}) => {
             cal.call(drag, obj);
-            shootChange();
-            shoot.width = obj.width;
-            shoot.height = obj.height;
-            shoot.left = obj.left;
-            shoot.top = obj.top;
+            // shootChange();
+            shoot.width = obj.width || drag.w;
+            shoot.height = obj.height || drag.h;
+            shoot.left = obj.left || drag.left;
+            shoot.top = obj.top || drag.top;
             shoot.blackBox();
         }
         drag.elementMove = (left, top) => {

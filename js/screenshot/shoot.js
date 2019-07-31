@@ -13,6 +13,8 @@ class Shoot{
             this.left = options.left || this.w / 2;
             this.top = options.top || this.h / 2;
             this.init();
+            console.log('%c ctrl+z开始截图', 'color:red');
+            console.log('%c ctrl+c确定下载截图','color: aqua');
         }
     }
     init(){
