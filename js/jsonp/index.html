@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>jsonp</title>
+</head>
+<body>
+    <button class="btn">请求</button>
+    <script>
+        let ele = document.getElementsByClassName('btn')[0];
+        ele.addEventListener('click', function(){
+            let s = document.createElement('script');
+            s.src = '/getData?callback=zys';
+            document.body.appendChild(s);
+        });
+        function zys(data){
+            let arr = data.data;
+            for(let i = 0; i < arr.length; i++){
+                let ele = document.createElement('div');
+                ele.innerText = arr[i];
+                document.body.appendChild(ele);
+            }
+        }
+    </script>
+</body>
+</html>
