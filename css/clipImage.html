@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .clip-img-x {
+            display: inline-block;
+            overflow: hidden;
+            position: relative;
+        }
+        .clip-img {
+            display: block;
+        }
+        .clip-shape {
+            width: 150px; height: 150px;
+            outline: 9999px solid rgba(0,0,0,.5);
+            position: absolute;
+            left: 0; right: 0; top: 0; bottom: 0;
+            margin: auto;
+            cursor: move;
+        }
+    </style>
+</head>
+<body>
+    <a href="https://www.zhangxinxu.com/wordpress/2019/06/cssconf-css-idea/">css创意</a>
+    <div class="clip-img-x">
+        <div class="clip-shape"></div>
+        <img class="clip-img" src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1565317691&di=e4ec530ea6f96d34681105723b4de801&src=http://pic166.nipic.com/file/20180527/11949215_140246196000_2.jpg" alt="">
+    </div>
+</body>
+</html>
