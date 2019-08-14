@@ -11,7 +11,7 @@ http.createServer((request, response) => {
     if(~url.indexOf('getData')){
         let n, str;
         n = url.split('?')[1].split('=')[1];
-        str = `${n}({data: [1,2,3,4,5,6]})`;
+        str = `;${n}({data: [1,2,3,4,5,6]})`;
         response.end(str);
     }
 }).listen(2233);

@@ -12,10 +12,10 @@
         let ele = document.getElementsByClassName('btn')[0];
         ele.addEventListener('click', function(){
             let s = document.createElement('script');
-            s.src = '/getData?callback=zys';
+            s.src = '/getData?callback=zysFn';
             document.body.appendChild(s);
         });
-        function zys(data){
+        function zysFn(data){
             let arr = data.data;
             for(let i = 0; i < arr.length; i++){
                 let ele = document.createElement('div');

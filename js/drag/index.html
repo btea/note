@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #move{
+            width: 300px;
+            height: 200px;
+            border: 1px solid #6cf;
+            cursor: pointer;
+        }
+        h2{
+            margin: 0;
+            padding: 5px 10px;
+            font-size: 16px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            vertical-align: middle;
+            outline: 1px solid aqua;
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <button id="add">add</button>
+
+    <div id="move">
+        <h2>头部拖拽</h2>
+    </div>
+
+    <script>
+        add.onclick = function(){
+            var xhr = new XMLHttpRequest();
+            xhr.open('post', '/add');
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState === 4 && xhr.status === 200){
+                    console.log(xhr.response);
+                }
+            };
+            xhr.send('a=10');
+        }
+        class Drag{
+            constructor(el, point){
+                /**
+                 * @params el 需要拖拽移动的元素
+                 * @params point 只允许拖拽的区域，若未传有效值，则整个元素均为可拖拽区域
+                 * 
+                */
+                this.status = false;
+                this.x = 0; // mousedown事件触发时初始x值
+                this.y = 0; 
+                this.tx = 0; // 元素目前已经移动的x轴方向距离
+                this.ty = 0; 
+                this.vx = 0; // mousemove事件触发时x轴方向的移动的真实值
+                this.vy = 0;
+                this.pro = Object.prototype;
+                this.initElement(el, point);
+            }
+            initElement(el, point){
+                this.el = this.getElement(el);
+                this.point = this.getElement(point);
+                this.elementEvent();
+            }
+            getElement(el){
+                if(!el){return}
+                if(this.pro.toString.call(el).includes('Element')){
+                    return el;
+                }
+                if(typeof el === 'string'){
+                    return document.querySelectorAll(el)[0];
+                }
+                if(this.pro.toString.call(el).includes('Collection')){
+                    return this.getElement(el[0]);
+                }
+                return void 0;
+            }
+            elementEvent(){
+                let el;
+                el = this.point || this.el;
+                el.addEventListener('mousedown', (e) => {
+                    this.x = e.pageX;
+                    this.y = e.pageY;
+                    this.status = true;
+                });
+                document.addEventListener('mouseup', () => {
+                    this.status = false;
+                    this.tx = this.vx;
+                    this.ty = this.vy;
+                });
+                el.addEventListener('mousemove', (e) => {
+                    if(this.status){
+                        let $x = e.pageX;
+                        let $y = e.pageY;
+                        this.vx = this.tx + $x - this.x;
+                        this.vy = this.ty + $y - this.y;
+                        this.el.style.transform = `translateX(${this.vx}px) translateY(${this.vy}px)`;
+                    }
+                })
+            }
+        }
+        let e = document.getElementById('move');
+        let h2 = document.getElementsByTagName('h2');
+        let move = new Drag(e, h2);
+        // let move = new Drag('#move', 'h2');
+    </script>
+</body>
+</html>
