@@ -18,6 +18,7 @@
             this.h = []; // 保存每一列的高度
             this.margin = 5; // 间隔元素之间的距离
             this.allHeight = [];
+            this.i = 1;
         };
         _pro.init = function(){
             let num = this.num;
@@ -60,10 +61,22 @@
             let div = document.createElement('div'), h = this.random(300,240);
             div.style.width = this.itemWidth + 'px';
             div.style.height = h+ 'px';
+            div.innerText = this.i;
+            this.i++;
             this.allHeight.push(h);
-            div.style.background = `rgb(${this.random(255,150)},${this.random(255,150)},${this.random(255,150)})`;
+            // div.style.background = `rgb(${this.random(255,150)},${this.random(255,150)},${this.random(255,150)})`;
+            div.style.background = this.randomColor();
             div.style.position = 'absolute';
             this.list.push(div);
+        };
+        _pro.randomColor = function(){
+            let str = '0123456789abcdef';
+            let c = '#', n = 6;
+            while(n){
+                c += str[this.random(15, 0)];
+                n--
+            }
+            return c;
         };
         _pro.random = function(max,min){
             return Math.floor(Math.random() * (max - min + 1) + min);

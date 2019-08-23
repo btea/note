@@ -64,6 +64,7 @@
         node.async = true;
         node.type = 'text/javascript';
         node.onload = function(){
+            requireJs.depNum--;
             if(callback){
                 callback();
             }
@@ -109,6 +110,7 @@
                 modules[basepath] = callback();
             }
             deps.map(name => {
+                requireJs.depNum++;
                 let id = this._getScriptId(name);
                 requireJs._loadJs(id, callback);
                 // this.modules[id] = {
@@ -122,8 +124,11 @@
     };
 
     requireJs.define = function(deps, callback){
-
-
+        if(Array.isArray(deps)){
+            deps.map(name => {
+                requireJs.depNum++;
+            })
+        }
         if(typeof deps === 'function'){
             callback = deps;
             modules[basepath] = callback();
