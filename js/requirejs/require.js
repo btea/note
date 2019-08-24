@@ -17,8 +17,27 @@
 	*/
 	//requireJs的目录, basepath+模块名+'.js'为各个模块js文件路径	
 	//程序入口函数所在的js文件
-	var basepath = '',  init = false, num = 0;
-
+    var basepath = '',  init = false, num = 0;
+    Array.prototype.last = function(i){
+        var len = this.length;
+        return this[len + i];
+    }
+    function Modlue(deps, callback){
+        var name = basepath.split('/');
+        if(!name.last(-1)){
+            throw Error('this basepath is error');
+        }
+        if(/\./.test(name.last(-1))){
+            name = name.split('.')[0];
+        }else{
+            name = name.last(-1);
+        }
+        this.id = basepath;
+        this.name = name;
+        this.src = basepath;
+        this.dep = deps;
+        this.cb = callback;
+    }
 
     var requireJs = {
         // 当define函数是在指定入口调用时，basepath是当前requirejs所在的目录
@@ -105,6 +124,7 @@
             requireJs.mainEntryCallback = callback;
             init = true;
         }
+        
         if(Array.isArray(deps)){
             if(!deps.length){
                 modules[basepath] = callback();
@@ -124,16 +144,25 @@
     };
 
     requireJs.define = function(deps, callback){
-        if(Array.isArray(deps)){
-            deps.map(name => {
-                requireJs.depNum++;
-            })
-        }
+        // 定义的模块不依赖任何模块
         if(typeof deps === 'function'){
             callback = deps;
-            modules[basepath] = callback();
+            deps = void 0;
+            modules[basepath] = new Modlue(void 0, callback);
         }
+        if(Array.isArray(deps)){
+            var $deps = requireJs.moduleModel(deps);
+            modules[basepath] = new Modlue($deps, callback);
+        }
+        
 
+    }
+
+    requireJs.moduleModel = function(deps){
+        var arr = [];
+        deps.map(dep => {
+
+        })
     }
 
     //Module.id       // 模块id
