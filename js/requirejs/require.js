@@ -24,9 +24,9 @@
     }
     function Modlue(deps, callback){
         var name = basepath.split('/');
-        if(!name.last(-1)){
-            throw Error('this basepath is error');
-        }
+        // if(!name.last(-1)){
+        //     throw Error('this basepath is error');
+        // }
         if(/\./.test(name.last(-1))){
             name = name.split('.')[0];
         }else{
@@ -56,6 +56,8 @@
         set: function(v){
             num = v;
             if(!num){
+                debugger
+                console.log(modules);
                 requireJs.mainEntryCallback();
             }
         },
@@ -83,10 +85,7 @@
         node.async = true;
         node.type = 'text/javascript';
         node.onload = function(){
-            requireJs.depNum--;
-            if(callback){
-                callback();
-            }
+            modules[url] = new modules(void 0, callback);
         };
         node.onerror = function(){
             throw Error('load script: ' + url + 'failed !');
@@ -111,27 +110,31 @@
         }
         if(/^\.{2}\//.test(name)){
             // 相对路径 以../开头
-            let names = path.split('/');
+            let names = basepath.split('/');
             names.splice(names.length - 1, 1);
             return names.join('/') + name;
         }else{
+            if(/^\.\//.test(name)){
+                return basepath + name.slice(2);
+            }
             return basepath + name;
         }
     };
 
     requireJs.require = function(deps, callback){
         if(!init){
+            // 主入口
             requireJs.mainEntryCallback = callback;
             init = true;
         }
-        
         if(Array.isArray(deps)){
             if(!deps.length){
                 modules[basepath] = callback();
             }
+            let path = basepath;
             deps.map(name => {
                 requireJs.depNum++;
-                let id = this._getScriptId(name);
+                let id = requireJs._getScriptId(name);
                 requireJs._loadJs(id, callback);
                 // this.modules[id] = {
                 //     id: id,
@@ -148,9 +151,12 @@
         if(typeof deps === 'function'){
             callback = deps;
             deps = void 0;
-            modules[basepath] = new Modlue(void 0, callback);
+            modules[basepath].deps = deps;
+            modules[basepath].cb = callback;
         }
         if(Array.isArray(deps)){
+            basepath = requireJs._getScriptId(deps);
+
             var $deps = requireJs.moduleModel(deps);
             modules[basepath] = new Modlue($deps, callback);
         }
@@ -161,7 +167,9 @@
     requireJs.moduleModel = function(deps){
         var arr = [];
         deps.map(dep => {
-
+            arr.push({
+                // new Modlue()
+            })
         })
     }
 

@@ -1,6 +1,7 @@
 require([
-    
-], function(require, factory) {
+    './a.js'
+], function(a) {
     'use strict';
     console.log('start');
+    a();
 });
