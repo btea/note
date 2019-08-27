@@ -7,6 +7,11 @@
     let loadings = [];
     let colorbase = 1;
 
+	Array.prototype.last = function(i){
+        var len = this.length;
+        return this[len + i];
+    }
+
     reqJs.loadJs = function(url, callback){
         let script = document.createElement('script');
         script.charset = 'utf-8';
@@ -29,8 +34,8 @@
 
     reqJs.init = function(){
         let basepath = reqJs.getScript().replace(/[^\/]+\.js/i,'');
-        let entry = document.currentScript.getAttribute('data-main');
-        basepath = basepath;
+		let entry = document.currentScript.getAttribute('data-main');
+
         this.loadJs(entry);
     }
 
@@ -117,7 +122,7 @@
 
 			//如果所有模块已经加载完成
 			if(allloaded){
-				loadings.splice(i,1); //从loadings列表中移除已经加载完成的模块							
+				loadings.splice(i, 1); //从loadings列表中移除已经加载完成的模块							
 				//执行模块的callback函数
 				reqJs.fireFactory(obj.id, obj.deps, obj.callback);
 				//该模块执行完成后可能使其他模块也满足执行条件了，继续检查，直到没有模块满足allloaded条件
@@ -153,7 +158,7 @@
  			params.push(modules[d].exports);
 		};
 		//在context对象上调用callback方法
-		var ret = callback.apply(global,params);	
+		var ret = callback.apply(global, params);	
 		//记录模块的返回结果，本模块的返回结果可能作为依赖该模块的其他模块的回调函数的参数
 		if(ret != void 0){
 			modules[id].exports = ret;
@@ -165,7 +170,7 @@
     reqJs.getScriptId = function(basepath, name){
         if(!basepath || !name){
             return '';
-        }
+		}
         basepath = basepath.replace(/[^\/]+\.js/i, '');
         if(typeof name !== 'string'){
             throw TypeError('this arguments name is must be a string');
@@ -179,17 +184,18 @@
             let list = name.split(reg);
             n = list.length; // basepath结尾为/,下面要切割的部分比../的数量多1
             let names = name.split('/');
-            name = names[-1];
+            name = names.last(-1);
         }
         if(/^\.\//.test(name)){
             name = name.replace(/\.\//,'');
         }
-        let paths = basepath.split(reg);
+        let paths = basepath.split('/');
         if(n){
             paths.splice(-n);
-            basepath = paths.join('/');
-        }
-        // basepath += '/';
+			basepath = paths.join('/');
+			basepath += '/';
+		}
+		
         return basepath + name;
     };
 

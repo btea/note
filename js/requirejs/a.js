@@ -1,7 +1,6 @@
-define(['./c.js'], function(c) {
+define(['./c.js','../z.js'], function(c, z) {
     'use strict';
     console.log(c.timeList);
-
 
     function createDate(){
         let app = document.getElementById('app');
@@ -30,8 +29,6 @@ define(['./c.js'], function(c) {
             body.appendChild(li);
         }
         app.appendChild(body);
-
-
     }
     createDate();
 
@@ -40,5 +37,7 @@ define(['./c.js'], function(c) {
         console.log('a');
         console.log(c);
         c.say();
+        console.log(z);
+        z.say();
     }
 });
