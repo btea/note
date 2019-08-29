@@ -1,7 +1,7 @@
-define(['./c.js','../z.js'], function(c, z) {
+define(['./c.js', '../z.js'], function(c, z) {
     'use strict';
     console.log(c.timeList);
-
+    console.log(z);
     function createDate(){
         let app = document.getElementById('app');
         let time = c.timeList;

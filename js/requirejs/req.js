@@ -7,11 +7,6 @@
     let loadings = [];
     let colorbase = 1;
 
-	Array.prototype.last = function(i){
-        var len = this.length;
-        return this[len + i];
-    }
-
     reqJs.loadJs = function(url, callback){
         let script = document.createElement('script');
         script.charset = 'utf-8';
@@ -34,8 +29,8 @@
 
     reqJs.init = function(){
         let basepath = reqJs.getScript().replace(/[^\/]+\.js/i,'');
-		let entry = document.currentScript.getAttribute('data-main');
-
+        let entry = document.currentScript.getAttribute('data-main');
+        basepath = basepath;
         this.loadJs(entry);
     }
 
@@ -105,7 +100,7 @@
 			}
 		});
     };	
-    
+
     reqJs.checkDeps = function(){
         //遍历加载列表
 		for(var i = loadings.length, id; id = loadings[--i];){
@@ -158,7 +153,7 @@
  			params.push(modules[d].exports);
 		};
 		//在context对象上调用callback方法
-		var ret = callback.apply(global, params);	
+		var ret = callback.apply(global,params);	
 		//记录模块的返回结果，本模块的返回结果可能作为依赖该模块的其他模块的回调函数的参数
 		if(ret != void 0){
 			modules[id].exports = ret;
@@ -170,7 +165,7 @@
     reqJs.getScriptId = function(basepath, name){
         if(!basepath || !name){
             return '';
-		}
+        }
         basepath = basepath.replace(/[^\/]+\.js/i, '');
         if(typeof name !== 'string'){
             throw TypeError('this arguments name is must be a string');
@@ -184,18 +179,18 @@
             let list = name.split(reg);
             n = list.length; // basepath结尾为/,下面要切割的部分比../的数量多1
             let names = name.split('/');
-            name = names.last(-1);
+            name = names.slice(-1)[0];
         }
         if(/^\.\//.test(name)){
             name = name.replace(/\.\//,'');
         }
-        let paths = basepath.split('/');
+		let paths = basepath.split('/');
+		
         if(n){
             paths.splice(-n);
-			basepath = paths.join('/');
-			basepath += '/';
+            basepath = paths.join('/') + '/';
 		}
-		
+        // basepath += '/';
         return basepath + name;
     };
 
@@ -204,4 +199,4 @@
 
     global.define = reqJs.define;
     global.require = reqJs.require;
-})(this);
+})(this); 
