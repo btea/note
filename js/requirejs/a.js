@@ -2,6 +2,19 @@ define(['./c.js', '../z.js'], function(c, z) {
     'use strict';
     console.log(c.timeList);
     console.log(z);
+
+
+    function day(time){
+        var t = new Date(time);
+        var month = t.getMonth() + 1;
+        var total = 0, year = t.getFullYear();
+        for(var i = 1; i < month; i++){
+            total += new Date(year, i, 0).getDate();
+        }
+        total += t.getDate();
+        var text = '今天是' + year + '年的第' + total + '天';
+        return text;
+    }
     function createDate(){
         let app = document.getElementById('app');
         let time = c.timeList;
@@ -16,6 +29,10 @@ define(['./c.js', '../z.js'], function(c, z) {
             li.innerText = headText[i];
             head.appendChild(li);
         }
+
+        let text = document.createElement('div');
+        text.innerText = day(new Date());
+        app.appendChild(text);
         app.appendChild(head);
 
         for(let j = 0; j < time.length; j++){
