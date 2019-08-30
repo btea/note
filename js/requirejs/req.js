@@ -91,7 +91,7 @@
 			if(!modules[el]){
 				reqJs.loadJs(el,function(){
 					//模块开始加载时，放入加载队列，以便检测加载情况
-					loadings.unshift(el);						
+					loadings.unshift(el);	
 					//递归的调用loadModule函数加载依赖模块
 			        reqJs.loadDepsModule(el);
 					//加载完成后执行依赖检查，如果依赖全部加载完成就执行callback函数

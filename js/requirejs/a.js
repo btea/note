@@ -3,7 +3,7 @@ define(['./c.js', '../z.js'], function(c, z) {
     console.log(c.timeList);
     console.log(z);
 
-
+    
     function day(time){
         var t = new Date(time);
         var month = t.getMonth() + 1;

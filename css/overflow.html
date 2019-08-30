@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>多行省略 兼容处理</title>
+    <style>
+        .box{
+            width: 135px;
+            /* height: 65px; */
+            /* overflow: hidden; */
+        }
+        .hide{
+            overflow: hidden;
+            position: relative;
+            line-height: 20px;
+        }
+        .hide::after{
+            content: '...';
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            height: 1.5em;
+            width: 40px;
+            text-align: right;
+            background: linear-gradient(to right, rgba(255, 255, 255, .5), rgba(255, 255, 255, 1));
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        这是一段中文加上应为 this is a list of word 这是一段中文加上应为 this is a list of word这是一段中文加上应为 this is a list of word这是一段中文加上应为 this is a list of word这是一段中文加上应为 this is a list of word
+    </div>
+
+    <script>
+        var box = document.getElementsByClassName('box')[0];
+        var h = 60;
+        if(box.offsetHeight > h){
+            box.className = 'box hide';
+            box.style.height = h + 'px';
+        }
+    </script>
+</body>
+</html>
