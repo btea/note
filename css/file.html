@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>file upload btn</title>
+    <style>
+        .box{
+            position: relative;
+            width: 200px;
+            height: 200px;
+        }
+        #preview{
+            display: block;
+            width: 100%;
+            height: 100%;
+            background-color: #f4f7fc;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            color: #999;
+            z-index: 1;
+        }
+        #preview::after{
+            content: "请选择照片";
+            position: absolute;
+            top: 50%;
+            left: 0px;
+            width: 100%;
+            margin-top: -0.5em;
+            text-align: center;
+            font: 36px/1 Arial, 微软雅黑;
+        }
+        #upload{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <label for="upload" id="preview"></label>
+        <input type="file" id="upload">
+    </div>
+</body>
+</html>
