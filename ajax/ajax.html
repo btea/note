@@ -41,6 +41,9 @@
                 type: 'get',
                 dataType: 'blob',
                 url: '/stream',
+                progressFun: function(e){
+                    console.log(e);
+                }
             }).then(function(res){
                 const src = window.URL.createObjectURL(res);
                 const image = new Image();
@@ -80,7 +83,7 @@
                     xhr.timeout = timeout;
                     xhr.ontimeout = timeoutFun || function(){};
                 }
-                if(onprogress){
+                if(progressFun){
                     xhr.onprogress = progressFun;
                 }
                 if(abortFun){
