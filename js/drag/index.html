@@ -91,15 +91,29 @@
                     this.tx = this.vx;
                     this.ty = this.vy;
                 });
-                el.addEventListener('mousemove', (e) => {
+                document.addEventListener('mousemove', (e) => {
                     if(this.status){
-                        let $x = e.pageX;
-                        let $y = e.pageY;
-                        this.vx = this.tx + $x - this.x;
-                        this.vy = this.ty + $y - this.y;
-                        this.el.style.transform = `translateX(${this.vx}px) translateY(${this.vy}px)`;
+                        this.throttle(this.elementMove, 100, e)();
                     }
                 })
+            }
+            elementMove(e){
+                let $x = e.pageX;
+                let $y = e.pageY;
+                this.vx = this.tx + $x - this.x;
+                this.vy = this.ty + $y - this.y;
+                this.el.style.transform = `translateX(${this.vx}px) translateY(${this.vy}px)`;
+            }
+            throttle(fn, t, e){
+                let timer;
+                return () => {
+                    if(timer){
+                        clearTimeout(timer);
+                    }
+                    timer = setTimeout(() => {
+                        fn.call(this, e)
+                    }, t);
+                }
             }
         }
         let e = document.getElementById('move');

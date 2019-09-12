@@ -61,13 +61,13 @@ class Chart{
     }
     linePoints(points){
         this.ctx.beginPath();
-        this.strokeStyle = this.color();
+        this.ctx.strokeStyle = this.color();
         this.ctx.lineJoin="round";
         this.lineTo(points);
-        this.ctx.strokeStyle = this.color();
-        this.ctx.stroke();
-        this.ctx.globalCompositeOperation = 'source-over';
-        this.ctx.closePath();
+        // this.ctx.strokeStyle = this.color();
+        // this.ctx.stroke();
+        // this.ctx.globalCompositeOperation = 'source-over';
+        // this.ctx.closePath();
     }
     smoothCurve(points){
         let len = points.length, 
@@ -214,9 +214,16 @@ class Chart{
     lineTo(points){
         this.ctx.moveTo(points[0].x + 15, points[0].y);
         points.slice(1).map(p => {
-            this.ctx.lineTo(p.x + 15, p.y);
+            // setTimeout(() => {
+                this.ctx.lineTo(p.x + 15, p.y);
+            // }, 50)
         });
+        setTimeout(() => {}, points.length * )
 
+        
+        this.ctx.stroke();
+        this.ctx.globalCompositeOperation = 'source-over';
+        this.ctx.closePath();
     }
     bar(points){
         let rect, w;
