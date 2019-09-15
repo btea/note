@@ -88,32 +88,32 @@ class Chart{
 
                 假如有三个点A、B、C 控制点为B和C的中点，即cp1的坐标点为cp1x = (Bx + Cx) / 2,cp1y = (By + Cy) / 2;
             **/
-        //    for(; i < len - 1; i++){
+           for(; i < len - 1; i++){
             //    由于二次贝塞尔曲线只有一个控制点，所以它永远只能画向一个方向弯曲的弧线，画不出s形曲线。要绘制s型曲线，需要使用三次贝塞尔曲线。
             //    this.ctx.quadraticCurveTo(controlPoint.x, controlPoint.y, points[i].x, points[i].y);
 
 
             //    三次贝塞尔曲线
-        //         direction = points[i + 1].y - points[i].y;
-        //         direction = direction >= 0 ? direction : direction * (-1)
-        //         controlPoint1 = {
-        //             x: points[i].x + (points[i + 1].x - points[i].x) / 2 * t,
-        //             y: points[i].y + direction / 2 * t, 
-        //         }
-        //         controlPoint2 = {
-        //             x: points[i + 1].x - (points[i + 1].x - points[i].x) / 2 * t,
-        //             y: points[i + 1].y + direction / 2 * t
-        //         }
+                direction = points[i + 1].y - points[i].y;
+                direction = direction >= 0 ? direction : direction * (-1)
+                controlPoint1 = {
+                    x: points[i].x + (points[i + 1].x - points[i].x) / 2 * t,
+                    y: points[i].y + direction / 2 * t, 
+                }
+                controlPoint2 = {
+                    x: points[i + 1].x - (points[i + 1].x - points[i].x) / 2 * t,
+                    y: points[i + 1].y + direction / 2 * t
+                }
 
-        //         // debugger
-        //         this.ctx.bezierCurveTo(controlPoint1.x, controlPoint1.y, controlPoint2.x, controlPoint2.y, points[i + 1].x, points[i + 1].y);
-        //    }
-            for(;i < len - 2; i++){
-                controlPoint.x = (points[i].x + points[i + 1].x) / 2;
-                controlPoint.y = (points[i].y + points[i + 1].y) / 2;
-                this.ctx.quadraticCurveTo(points[i].x, points[i].y, controlPoint.x, controlPoint.y);
-            }
-            this.ctx.quadraticCurveTo(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
+                // debugger
+                this.ctx.bezierCurveTo(controlPoint1.x, controlPoint1.y, controlPoint2.x, controlPoint2.y, points[i + 1].x, points[i + 1].y);
+           }
+            // for(;i < len - 2; i++){
+            //     controlPoint.x = (points[i].x + points[i + 1].x) / 2;
+            //     controlPoint.y = (points[i].y + points[i + 1].y) / 2;
+            //     this.ctx.quadraticCurveTo(points[i].x, points[i].y, controlPoint.x, controlPoint.y);
+            // }
+            // this.ctx.quadraticCurveTo(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
             this.ctx.stroke();
             this.ctx.closePath();
         }else{
@@ -192,17 +192,33 @@ class Chart{
     }
 
     lineArea(points){
-        let first, last, y, grd;
+        let first, y;
         y = this.height;
         first = {};
-        last = {};
         first.x = points[0].x;
         first.y = y;
         points.unshift(first);
-        last.x = points[points.length - 1].x;
-        last.y = y;
-        points.push(last);
+        this.pointLength = points.length + 1;
+        
+        // this.drawLinePoint(points);
+        this.intervalDraw(points);
+        
+    }
+    drawLinePoint(points){
+        let n = 1, timer;
+        timer = setInterval(() => {
+            if(n >= this.pointLength){
+                clearInterval(timer);
+            }
+            n++
+            this.intervalDraw(points.slice(0, n));
+        }, 17 * n);
+    }
+    intervalDraw(points){
+        let grd;
+        // this.ctx.clearRect(0, 0, this.width, this.height);
         this.ctx.beginPath();
+        this.lastPoint(points);
         this.lineTo(points);
         grd = this.ctx.createLinearGradient(this.width / 2, 0, this.width / 2, this.height);
         grd.addColorStop(0,"#6cf");
@@ -211,15 +227,22 @@ class Chart{
         this.ctx.fill();
         this.ctx.closePath();
     }
+    lastPoint(points){
+        let last, y;
+        last = {};
+        last.x = points[points.length - 1].x;
+        last.y = y = this.height;
+        points.push(last);
+    }
     lineTo(points){
+        let n = points.length;
         this.ctx.moveTo(points[0].x + 15, points[0].y);
         points.slice(1).map(p => {
             // setTimeout(() => {
                 this.ctx.lineTo(p.x + 15, p.y);
             // }, 50)
         });
-        setTimeout(() => {}, points.length * )
-
+        
         
         this.ctx.stroke();
         this.ctx.globalCompositeOperation = 'source-over';
