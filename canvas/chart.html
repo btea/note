@@ -9,18 +9,24 @@
         canvas{
             margin: 0 auto;
         }
+        .container-box{
+            position: relative;
+        }
     </style>
 </head>
 <body>
-    <canvas id="canvas" width="600" height="300"></canvas>
+    <div class="container-box">
+        <canvas id="canvas" width="600" height="300"></canvas>
+    </div>
     <script src="./chart.js"></script>
     <script>
         let chart;
         chart = new Chart(document.getElementById('canvas'));
         chart.initData([
-            // {data: new Array(12).fill(null).map(p => chart.random(280, 0)), type: 'line'},
+            {data: new Array(12).fill(null).map(p => chart.random(280, 0)), type: 'line'},
             // {data: new Array(12).fill(null).map(p => chart.random(280, 0)), type: 'line', smooth: true},
             // {data: new Array(20).fill(null).map(p => chart.random(280, 100)), type: 'line', smooth: true},
+            {data: new Array(12).fill(null).map(p => chart.random(280, 100)), type: 'area'},
             {data: new Array(12).fill(null).map(p => chart.random(280, 0)), type: 'bar'},
             // {data: new Array(12).fill(null).map(p => chart.random(280, 0)), type: 'line', smooth: true},
         ]);

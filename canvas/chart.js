@@ -39,9 +39,11 @@ class Chart{
         if(type === 'line'){
             this.drawLine(points, smooth);
         }
-        if(type === 'bar'){
+        if(type === 'area'){
             this.lineArea(points); // 面积区域图形
-            // this.bar(points);
+        }
+        if(type === 'bar'){
+            this.bar(points);
         }
     }
 
@@ -200,32 +202,60 @@ class Chart{
         points.unshift(first);
         this.pointLength = points.length + 1;
         
-        // this.drawLinePoint(points);
-        this.intervalDraw(points);
+        this.drawLinePoint(points);
+        // this.intervalDraw(points);
         
     }
     drawLinePoint(points){
         let n = 1, timer;
+        this.anotherCanvas();
         timer = setInterval(() => {
             if(n >= this.pointLength){
                 clearInterval(timer);
+                this.lineTo(points);
             }
             n++
             this.intervalDraw(points.slice(0, n));
-        }, 17 * n);
+        }, 17 * 2 * n);
     }
     intervalDraw(points){
         let grd;
-        // this.ctx.clearRect(0, 0, this.width, this.height);
-        this.ctx.beginPath();
+        this.anotherCtx.clearRect(0, 0, this.width, this.height);
+        this.anotherCtx.beginPath();
         this.lastPoint(points);
-        this.lineTo(points);
-        grd = this.ctx.createLinearGradient(this.width / 2, 0, this.width / 2, this.height);
-        grd.addColorStop(0,"#6cf");
-        grd.addColorStop(1,"aqua");
-        this.ctx.fillStyle = grd;
-        this.ctx.fill();
-        this.ctx.closePath();
+
+        this.anotherLineTo(points);
+        // this.lineTo(points);
+        grd = this.anotherCtx.createLinearGradient(this.width / 2, 0, this.width / 2, this.height);
+        grd.addColorStop(0,"rgba(102, 204, 255, .2)");
+        grd.addColorStop(1,"rgba(0, 255, 255, .2)");
+        this.anotherCtx.fillStyle = grd;
+        this.anotherCtx.fill();
+        this.anotherCtx.closePath();
+    }
+    anotherLineTo(points){
+        let n = points.length;
+        this.anotherCtx.moveTo(points[0].x + 15, points[0].y);
+        points.slice(1).map(p => {
+            this.anotherCtx.lineTo(p.x + 15, p.y);
+        });
+        
+        this.anotherCtx.stroke();
+        this.anotherCtx.globalCompositeOperation = 'source-over';
+        this.anotherCtx.closePath();
+    }
+    anotherCanvas(){
+        let ctx, ele;
+        let canvas = document.createElement('canvas');
+        canvas.width = this.width;
+        canvas.height = this.height;
+        canvas.style.position = 'absolute';
+        canvas.style.left = '0';
+        canvas.style.top = '0';
+        this.anotherCanvas = ele = this.ele.parentNode;
+        ele.appendChild(canvas);
+        ctx = canvas.getContext('2d');
+        this.anotherCtx = ctx;
     }
     lastPoint(points){
         let last, y;
@@ -235,17 +265,24 @@ class Chart{
         points.push(last);
     }
     lineTo(points){
-        let n = points.length;
+        let n = points.length, grd;
+        this.ctx.beginPath();
+        this.lastPoint(points);
+
         this.ctx.moveTo(points[0].x + 15, points[0].y);
         points.slice(1).map(p => {
-            // setTimeout(() => {
-                this.ctx.lineTo(p.x + 15, p.y);
-            // }, 50)
+            this.ctx.lineTo(p.x + 15, p.y);
         });
-        
         
         this.ctx.stroke();
         this.ctx.globalCompositeOperation = 'source-over';
+        this.ctx.closePath();
+
+        grd = this.ctx.createLinearGradient(this.width / 2, 0, this.width / 2, this.height);
+        grd.addColorStop(0,"rgba(102, 204, 255, .2)");
+        grd.addColorStop(1,"rgba(0, 255, 255, .2)");
+        this.ctx.fillStyle = grd;
+        this.ctx.fill();
         this.ctx.closePath();
     }
     bar(points){
