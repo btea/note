@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style style="display: block;">
+        .edit{
+            width: 400px;
+            height: 300px;
+            margin: 20px;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <div contenteditable="true" class="edit">字这是一段文字</div>
+    <div contenteditable="true" class="edit"></div>
+
+    <div class="button">
+        <button class="copy">copy</button>
+    </div>
+    <script>
+        let copy = document.getElementsByClassName('copy')[0];
+        copy.onclick = function(){
+            let status;
+            status = document.execCommand('copy', null, '123');
+            console.log(status);
+        }
+    </script>
+</body>
+</html>
