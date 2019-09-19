@@ -1,0 +1,1 @@
+[canvas globalCompositeOperation目标图像和源图像的显示状态](https://www.w3school.com.cn/tags/canvas_globalcompositeoperation.asp)

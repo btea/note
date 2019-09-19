@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>canvas</title>
+    <style>
+        .box{
+            width: 600px;
+            height: 400px;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <canvas class="canvas"></canvas>
+    </div>
+    <script src="./j.js"></script>
+    <script>
+        let j = new Judgment({
+            el: document.getElementsByClassName('canvas')[0],
+            width: 600,
+            height: 400
+        });
+        j.drawRect({
+            left: 100 + 0.5,
+            top: 100 + 0.5,
+            w: 200 + 0.5,
+            h: 200 + 0.5
+        });
+        j.drawLine([[10,10],[120,30],[210,57],[160,80],[300,200]])
+    </script>
+</body>
+</html>
