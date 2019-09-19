@@ -1,0 +1,1 @@
+[requirejs用法及相关参数配置](http://www.ruanyifeng.com/blog/2012/11/require_js.html)  
