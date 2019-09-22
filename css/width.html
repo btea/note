@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>width</title>
+    <style>
+        .box{
+            width: 115px;
+            text-align: center;
+        }
+        .content{
+            display: inline-block;
+            text-align: left;
+            outline: red solid 1px;
+        }
+        .ao,.tu{
+            width: 0;
+            display: inline-block;
+        }
+        .ao:after{
+            content: 'love 你 love';
+            outline: 2px solid #cd0000;
+            color: transparent;
+        }
+        .tu{
+            margin-left: 70px;
+        }
+        .tu::after{
+            content: '你  love  你';
+            outline: 2px solid #cd0000;
+            color: transparent;
+        }
+        .ao1{
+            display:inline-block;
+            width: 0;
+        }
+        .ao1 span{
+            outline: 2px solid #cd0000;
+            font-size: 80px;
+            /* color: transparent; */
+        }
+        .tu1{
+            display: inline-block;
+            width: 0;
+        }
+        .tu1 span{
+            outline: 2px solid #6cf;
+            /* color: transparent; */
+            direction: rtl;
+            margin-left: 35px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <p class="content">这是一段文字</p><br>
+        <p class="content">这是一段文字文字文字</p>
+    </div>
+    <div class="ao"></div>
+    <div class="tu"></div>
+    <br><br>
+    <div class="ao1">
+        <span>love你love</span>
+    </div>
+    <br><br>
+    <div class="tu1">
+        <span>你love你</span>
+    </div>
+    
+</body>
+</html>
