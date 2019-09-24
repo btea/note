@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .container{
+            margin: 0 10%;
+        }
+        .list,.item{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .title{
+            display: inline-block;
+            cursor: pointer;
+            margin: 5px 10px;
+            border-radius: 20px;
+            height: 25px;
+            line-height: 25px;
+            padding: 0 5px;
+        }
+        .title.active{
+            color: aqua;
+        }
+        .title:hover{
+            background: #999999;
+        }
+        .items,.msg{
+            margin: 0;        
+            padding: 0;
+            list-style: none;
+        }
+        .items{
+            padding: 0 10px;
+        }
+        .msg, .msg .num, .msg .link{
+            height: 40px;
+            line-height: 40px;
+        }
+        .msg{
+            display: flex;
+        }
+        .num, .link{
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .num{
+            width: 30px;
+        }
+        .msg + li{
+            border-top: 1px solid #999;
+        }
+        .msg .link{
+            color: #99999980;
+            text-decoration: none;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .msg .link::first-letter{
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <ul class="list">
+
+        </ul>
+        <div class="news-list">
+            <ul class="items">
+
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        let list = [
+            {"key":"1","text":"知乎"},{"key":"2","text":"虎扑"},
+            {"key":"59","text":"V2EX"},{"key":"58","text":"微博"},
+            {"key":"11","text":"微信"},{"key":"7","text":"知乎日报"},
+            {"key":"6","text":"天涯"},{"key":"9","text":"水木社区"},
+            {"key":"85","text":"GitHub"},{"key":"111","text":"煎蛋"},
+            {"key":"112","text":"IT之家"},{"key":"10","text":"网易新闻"},
+            {"key":"113","text":"涨姿势"},{"key":"110","text":"抽屉"},
+            {"key":"57","text":"豆瓣"},{"key":"60","text":"Segmentfault"},
+            {"key":"12","text":"36Kr"},{"key":"56","text":"贴吧"},
+            {"key":"62","text":"黑客派"},{"key":"83","text":"百度热搜"},
+            {"key":"61","text":"好奇心日报"},{"key":"108","text":"猫扑"},
+            {"key":"86","text":"果壳"},{"key":"106","text":"NGA"},
+            {"key":"109","text":"Chiphell"},{"key":"8","text":"虎嗅"},
+            {"key":"105","text":"凯迪"},{"key":"115","text":"Bilibili"},
+            {"key":"114","text":"开源中国"},{"key":"117","text":"张大妈"},
+            {"key":"116","text":"少数派"},{"key":"104","text":"CSDN"},
+            {"key":"118","text":"媳妇当车模"},{"key":"125","text":"吾爱破解"},
+            {"key":"127","text":"腾讯科技"},{"key":"128","text":"界面新闻"},
+            {"key":"120","text":"澎湃新闻"},{"key":"119","text":"雷科技"},
+            {"key":"122","text":"篝火"},{"key":"123","text":"观察者"},
+            {"key":"124","text":"CbnData"},{"key":"126","text":"凤凰网"},
+            {"key":"121","text":"亿欧"},{"key":"129","text":"机核"},
+            {"key":"130","text":"马蜂窝"},{"key":"101","text":"反馈建议"},
+            {"key":"133","text":"极客公园"},{"key":"132","text":"数字尾巴"},
+            {"key":"131","text":"投资界"},{"key":"134","text":"时光网"},
+            {"key":"135","text":"沙雕图"}
+        ];
+        let box = document.getElementsByClassName('list')[0];
+
+        class News{
+            constructor(el){
+                this.el = el;
+                this.list = list;
+                this.newsEle = document.getElementsByClassName('items')[0];
+                this.index = 0;
+                this.typeList = [];
+                this.titleList();
+            }
+            createEle(name){
+                return document.createElement(name);
+            }
+            titleList(){
+                let frag = document.createDocumentFragment();
+                for(let i = 0; i < this.list.length; i++){
+                    let li = this.createEle('li');
+                    li.className = 'item title';
+                    li.setAttribute('data-id', this.list[i].key);
+                    li.innerText = this.list[i].text;
+                    li.addEventListener('click', () => {
+                        let id = li.dataset.id;
+                        this.request(id, i);
+                    });
+                    this.typeList.push(li);
+                    frag.appendChild(li);
+                }
+                this.el.appendChild(frag);
+
+                // this.typeList[0].click();
+            }
+            request(id, i){
+                this.titleStaus(i);
+                let xhr = new XMLHttpRequest();
+                xhr.open('get', '/news?id=' + id);
+                xhr.onreadystatechange = () => {
+                    if(xhr.readyState === 4 && xhr.status === 200){
+                        this.newsListDeal(xhr.response, i);
+                    }
+                };
+                xhr.send();  
+            }
+            newsListDeal(data){
+                let list = JSON.parse(data);
+                if(list){
+                    let arr = list.Data || [];
+                    let frag = document.createDocumentFragment();
+                    arr.map((item, i) => {
+                        let li = this.createEle('li');
+                        li.className = 'msg';
+                        li.innerHTML = `<span class="num">${i+1}、</span><a class="link" href="${item.url}" target="_blank">${item.title}</a>`;
+                        frag.appendChild(li);
+                    });
+                    this.newsEle.innerHTML = '';
+                    this.newsEle.appendChild(frag);
+                }
+            }
+            titleStaus(i){
+                let el = this.typeList[this.index];
+                el.classList.remove('active');
+                this.index = i;
+                this.typeList[this.index].classList.add('active');
+            }
+        }
+        
+        new News(box);
+        
+
+          
+    </script>
+</body>
+</html>
