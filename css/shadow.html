@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /* x偏移量 | y偏移量 | 阴影模糊半径 | 阴影扩散半径 | 阴影颜色 */
+        /* box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2); */
+
+        /* 插页(阴影向内) | x偏移量 | y偏移量 | 阴影颜色 */
+        /* box-shadow: inset 5em 1em gold; */
+        .box{
+            width: 400px;
+            height: 300px;
+            font-size: 20px;
+            text-shadow: 5px 5px 3px aqua;
+            box-shadow: 0px 0px 15px 3px #00000055, 0px 0px 15px -2px #00000055;
+        }
+        .brightness{
+            width: 100px;
+            filter: brightness(1.5);
+        }
+        .avatar{
+            width: 100px;
+            filter: hue-rotate(45deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        这是一段文字
+    </div>
+    <br><br>
+    <img src="https://interactive-examples.mdn.mozilla.net/media/examples/firefox-logo.svg" alt="" class="brightness">
+    <img src="https://avatars0.githubusercontent.com/u/24516654?s=460&v=4" alt="" class="avatar">
+</body>
+</html>
