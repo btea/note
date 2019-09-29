@@ -268,6 +268,10 @@ class Chart{
         let n = points.length, grd;
         this.ctx.beginPath();
         this.lastPoint(points);
+        grd = this.ctx.createLinearGradient(this.width / 2, 0, this.width / 2, this.height);
+        grd.addColorStop(0,"rgba(102, 204, 255, .2)");
+        grd.addColorStop(1,"rgba(0, 255, 255, .2)");
+
 
         this.ctx.moveTo(points[0].x + 15, points[0].y);
         points.slice(1).map(p => {
@@ -277,14 +281,30 @@ class Chart{
         this.ctx.stroke();
         this.ctx.globalCompositeOperation = 'source-over';
         this.ctx.closePath();
-
-        grd = this.ctx.createLinearGradient(this.width / 2, 0, this.width / 2, this.height);
-        grd.addColorStop(0,"rgba(102, 204, 255, .2)");
-        grd.addColorStop(1,"rgba(0, 255, 255, .2)");
+        
         this.ctx.fillStyle = grd;
         this.ctx.fill();
         this.ctx.closePath();
-    }
+        
+        setTimeout(() => {
+            this.anotherCtx.clearRect(0, 0, this.width, this.height);
+            this.ctx.clearRect(points[0].x + 15, points[1].y, 1, points[0].y - points[1].y);
+            this.ctx.clearRect(points[n - 1].x + 15, points[n - 1].y, 1, points[n - 1].y - points[n - 2].y);
+    
+            this.ctx.beginPath();
+            this.ctx.strokeStyle = grd;
+            this.ctx.moveTo(points[0].x + 15, points[0].y);
+            this.ctx.lineTo(points[1].x + 15, points[1].y);
+            this.ctx.stroke();
+    
+            this.ctx.beginPath();
+            this.ctx.moveTo(points[n - 2].x + 15, points[n - 2].y);
+            this.ctx.lineTo(points[n - 1].x + 15, points[n - 1].y);
+            this.ctx.stroke();
+        }, 100);
+
+        
+    } 
     bar(points){
         let rect, w;
         rect = [];
