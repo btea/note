@@ -64,6 +64,7 @@
 			//将主模块main依赖中的name转换为id，id其实是模块的对应javascript文件的全路径
 			var depsId = []; 
 			deps.map(function(name){
+				console.log(reqJs.require[name]);
 				depsId.push(reqJs.getScriptId(id, name));
 			});
 
@@ -198,5 +199,12 @@
     reqJs.init();
 
     global.define = reqJs.define;
-    global.require = reqJs.require;
+	global.require = reqJs.require;
+	global.require.config = function(object){
+		if(obj.paths){
+			Object.keys(obj.paths).forEach(path => {
+				reqJs.require[path] = obj.paths[path];
+			})
+		}
+	}
 })(this); 

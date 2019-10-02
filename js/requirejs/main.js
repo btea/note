@@ -1,3 +1,13 @@
+require.config({
+    paths: {
+        'jquery': '',
+        'lodash': '',
+        
+    }
+})
+
+
+
 require([
     './a.js'
 ], function(a) {
