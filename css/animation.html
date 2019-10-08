@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>max-height transition</title>
+    <style style="display: block;">
+        .banner{
+            display: inline-block;
+            cursor: pointer;
+        }
+        .box{
+            width: 100px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 100ms;
+        }
+        .box.active{
+            max-height: 810px;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">切换</div>
+    <div class="box active" onClick="console.log('click')">
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda sequi quisquam magni labore tempore iste fugit, repellendus quis perferendis voluptatem odio. Inventore molestias voluptatum consectetur! Incidunt nesciunt cum natus repellendus.
+    </div>
+    <div>待到秋来九月八，我花开后百花杀</div>
+    <script>
+        let btn = document.getElementsByClassName('banner')[0];
+        let box = document.getElementsByClassName('box')[0];
+        btn.onclick = function(){
+            let c = box.classList;
+            c.toggle('active');
+        }
+    </script>
+</body>
+</html>
