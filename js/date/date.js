@@ -27,6 +27,28 @@ class Day{
         return num + d;
     }
 
+    monthSum(date){
+        let sum , year, month;
+        sum = 0;
+        year = date.getFullYear();
+        month = date.getMonth();
+        // 假如当前是4月，month值为3,只先累积前三个月的总天数，当月到当前时间未知天数额外添加
+        while(month){
+            sum += this.getMonth(year, month);
+            month--;
+        }
+        sum += date.getDate();
+        return sum;
+    }
+
+    isLeapYear(y){
+        return new Date(y, 2, 0).getDate() === 29;
+    }
+
+    leapyear(yr){
+        return (yr % 4 === 0 && yr % 100 !== 0) || yr % 400 === 0;
+    }
+
     monthNext(n, date){
         /**
          * @param n,表示根据日期往后推算的月数
@@ -141,21 +163,7 @@ class Day{
         sum = 14 * Q + 10.6 * (R + 1) + this.monthSum(date);
         return Math.floor(sum % 29.5);
     }
-    monthSum(date){
-        let sum , year, month;
-        sum = 0;
-        year = date.getFullYear();
-        month = date.getMonth();
-        // 假如当前是4月，month值为3,只先累积前三个月的总天数，当月到当前时间未知天数额外添加
-        while(month){
-            sum += this.getMonth(year, month);
-            month--;
-        }
-        sum += date.getDate();
-        return sum;
-    }
-
-
+    
 
     // 农历日期获取
     lunar(){
