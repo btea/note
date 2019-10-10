@@ -30,3 +30,5 @@
 
 ### cs(computer science)相关概念
 [操作系统概述](https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%20-%20%E6%A6%82%E8%BF%B0)
+
+### [game](https://github.blog/2019-10-08-js13k-2019-highlights/)
