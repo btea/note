@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>linear-gradient radial-gradient chrome</title>
+    <style>
+        .chrome{
+            width: 150px;
+            height: 150px;
+            background: 
+                radial-gradient(#419af6 26%, white 0, white 30%, transparent 0), 
+                linear-gradient(120deg, #5dd52f 50%, transparent 0) 0 100% / 115% 44%, 
+                linear-gradient(60deg, #5dd533 50%, transparent 0) 0 0/ 35% 70%, 
+                linear-gradient(120deg, #ff0000 50%, transparent 0) 0 0 / 50% 197%, 
+                linear-gradient(red, red) 0 0 / 100% 29%, 
+                linear-gradient(#fdeb35, #fce72a);
+            background-repeat: no-repeat;
+            border-radius: 100%;
+            border: 8px solid white;
+        }
+        .box{
+            width: 150px;
+            height: 150px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="chrome"></div>
+    <div class="box"></div>
+
+    
+</body>
+</html>

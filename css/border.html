@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>dynamic border</title>
+    <style>
+        .dynamic-border {
+            width: 200px;
+            height: 80px;
+            background: linear-gradient(0, red 2px, red 2px) no-repeat left top/0 2px,
+                linear-gradient(-90deg, red 2px, red 2px) no-repeat right top/2px 0,
+                linear-gradient(-180deg, red 2px, red 2px) no-repeat right bottom/0 2px,
+                linear-gradient(-270deg, red 2px, red 2px) no-repeat left bottom/2px 0;
+            cursor: pointer;
+            line-height: 80px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 50px;
+            color: red;
+            transition: all 300ms;
+        }
+        .dynamic-border:hover {
+            background-size: 100% 2px, 2px 100%, 100% 2px, 2px 100%;
+        }
+
+
+        .snakelike-border {
+            position: relative;
+            width: 190px;
+            height: 190px;
+            background-color: rgb(102, 255, 191);
+        }
+        .snakelike-border::after,.snakelike-border::before{
+            position: absolute;
+            left: -5px;
+            right: -5px;
+            top: -5px;
+            bottom: -5px;
+            border: 5px solid;
+            content: "";
+            animation: move 5s linear infinite;
+        }
+        .snakelike-border::before{
+            border-color: #6cf;
+        }
+        .snakelike-border::after{
+            border-color: aqua;
+            animation-delay: -2.5s;
+        }
+        @keyframes move {
+            0%,
+            100% {
+                clip: rect(0 200px 5px 0);
+            }
+            25% {
+                clip: rect(0 200px 200px 195px);
+            }
+            50% {
+                clip: rect(195px 200px 200px 0);
+            }
+            75% {
+                clip: rect(0 5px 200px 0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bruce flex-ct-x">
+        <div class="dynamic-border">iCSS</div>
+    </div>
+
+
+    <div class="bruce flex-ct-x">
+        <div class="snakelike-border"></div>
+    </div>
+</body>
+</html>
