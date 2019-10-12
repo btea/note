@@ -40,14 +40,23 @@
             bottom: -5px;
             border: 5px solid;
             content: "";
-            animation: move 5s linear infinite;
+            /* animation: move 5s linear infinite; */
         }
         .snakelike-border::before{
-            border-color: #6cf;
+            animation: move 5s linear infinite;
+            /* border-color: #6cf; */
+            border-image: linear-gradient(rgb(102, 112, 255), rgb(102, 207, 255), rgb(102, 255, 230),rgb(102, 255, 127),rgb(209, 255, 102)) 5;
         }
         .snakelike-border::after{
+            animation: reverseMove 5s linear infinite;
             border-color: aqua;
             animation-delay: -2.5s;
+        }
+        .snakelike-border:hover::after{
+            animation-play-state: paused;
+        }
+        .snakelike-border:hover::before{
+            animation-play-state: paused;
         }
         @keyframes move {
             0%,
@@ -64,6 +73,57 @@
                 clip: rect(0 5px 200px 0);
             }
         }
+        @keyframes reverseMove{
+            0%, 100%{
+                clip: rect(0 200px 5px 0);
+            }
+            25%{
+                clip: rect(0, 5px, 200px, 0);
+            }
+            50%{
+                clip: rect(195px  200px 200px 0);
+            }
+            75%{
+                clip: rect(0 200px 200px 195px);
+            }
+        }
+
+        .test-box{
+            margin-top: 50px;
+            width: 200px;
+            height: 200px;
+            background: rgb(163, 255, 102);
+            position: absolute; /**clip属性只适用于position: absolute的元素，改属性已被废弃，可用clip-path替换 */
+            animation: reverseMove 5s linear infinite;
+        }
+
+        .border-change{
+            position: relative;
+            width: 190px;
+            height: 190px;
+            background-color: rgb(102, 255, 191);
+            top: 260px;
+        }
+        .border-change::after,.border-change::before{
+            content: '';
+            position: absolute;
+            left: -5px;
+            top: -5px;
+            right: -5px;
+            bottom: -5px;
+            animation: move 5s linear infinite;
+            z-index: -1;
+        }
+        .border-change::after{
+            background: aqua;
+        }
+        .border-change::before{
+            background: cadetblue;
+            animation-delay: -3.5s;
+        }
+        .border-change:hover::after{
+            animation-play-state: paused;
+        }
     </style>
 </head>
 <body>
@@ -75,5 +135,10 @@
     <div class="bruce flex-ct-x">
         <div class="snakelike-border"></div>
     </div>
+
+    <div class="test-box"></div>
+
+    <br><br>
+    <div class="border-change"></div>
 </body>
 </html>

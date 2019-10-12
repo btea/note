@@ -14,7 +14,6 @@
     </style>
 </head>
 <body>
-    <img id="clipped" src="https://mdn.mozillademos.org/files/12668/MDN.svg" alt="MDN logo">
     <svg height="0" width="0">
         <defs>
             <clipPath id="cross">
@@ -38,9 +37,9 @@
     <div class="clip-box"></div>
     <script>
         let se = document.getElementById('clipPath');
-        let img = document.getElementById('clipped');
+        let box = document.getElementsByClassName('clip-box')[0];
         se.onchange = function(e){
-            img.style.clipPath = e.target.value;
+            box.style.clipPath = e.target.value;
         }
     </script>
 </body>
