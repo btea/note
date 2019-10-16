@@ -195,16 +195,22 @@
         return basepath + name;
     };
 
+	reqJs.require.config = function(config){
+		return initConfig(config);
+	}
 
-    reqJs.init();
+	function initConfig(config){
+		if(Object.prototype.toString.call(config) !== '[object Object]'){
+			throw Error(`the config method first parameter is not object!`);
+		}
+		if(config.paths){
+			reqJs.paths = config.paths;
+		}
+	}
+	
+	reqJs.init();
+	
 
     global.define = reqJs.define;
 	global.require = reqJs.require;
-	global.require.config = function(object){
-		if(obj.paths){
-			Object.keys(obj.paths).forEach(path => {
-				reqJs.require[path] = obj.paths[path];
-			})
-		}
-	}
 })(this); 

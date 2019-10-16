@@ -1,8 +1,7 @@
 require.config({
     paths: {
         'jquery': '',
-        'lodash': '',
-        
+        'lodash': './lib/lodash.js',      
     }
 })
 

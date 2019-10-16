@@ -93,7 +93,8 @@
                 });
                 document.addEventListener('mousemove', (e) => {
                     if(this.status){
-                        this.throttle(this.elementMove, 100, e)();
+                        this.elementMove(e);
+                        // this.throttle(this.elementMove, 100, e)();
                     }
                 })
             }
