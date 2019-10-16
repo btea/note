@@ -42,6 +42,9 @@
             callback = deps;
         }else{
             deps.map(function(name){
+				if(reqJs.paths[name]){
+					name = reqJs.paths[name];
+				}
                 depsId.push(reqJs.getScriptId(id, name));
             });
         }
@@ -64,7 +67,9 @@
 			//将主模块main依赖中的name转换为id，id其实是模块的对应javascript文件的全路径
 			var depsId = []; 
 			deps.map(function(name){
-				console.log(reqJs.require[name]);
+				if(reqJs.paths[name]){
+					name = reqJs.paths[name];
+				}
 				depsId.push(reqJs.getScriptId(id, name));
 			});
 

@@ -9,4 +9,5 @@ define(function() {
       return arr instanceof Array;
     }
   })();
+  return _;
 });
