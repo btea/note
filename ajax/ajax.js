@@ -34,8 +34,13 @@ http.createServer(function(request, response){
     }
     if(/^\/stream/.test(url)){
         const readStream = fs.createReadStream('./bg6.jpg');
-        response.writeHead(200, {'Content-Type': 'iamge/jpg'});
-        readStream.pipe(response);
+        fs.stat('./bg6.jpg', function(err, stat){
+            if(err){
+                throw Error(err);
+            }
+            response.writeHead(200, {'Content-Type': 'iamge/jpg', 'Content-Length': stat.size});
+            readStream.pipe(response);
+        })
     }
 
-}).listen(2222);
+}).listen(2233);

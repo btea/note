@@ -42,7 +42,11 @@
                 dataType: 'blob',
                 url: '/stream',
                 progressFun: function(e){
-                    console.log(e);
+                    if(e.lengthComputable){
+                        let per = e.loaded / e.total;
+                        per = per * 100;
+                        console.log(`${per.toFixed(2)}%`);
+                    }
                 }
             }).then(function(res){
                 const src = window.URL.createObjectURL(res);

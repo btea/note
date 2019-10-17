@@ -1,8 +1,9 @@
-define(['./c.js', '../z.js'], function(c, z) {
+define(['./c.js', '../z.js', 'lodash'], function(c, z, _) {
     'use strict';
     console.log(c.timeList);
     console.log(z);
 
+    console.log(_);
     
     function day(time){
         var t = new Date(time);

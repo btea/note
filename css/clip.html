@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>clip-path</title>
+    <style>
+        .clip-box{
+            width: 300px;
+            height: 200px;
+            background: #6cf;
+        }
+    </style>
+</head>
+<body>
+    <svg height="0" width="0">
+        <defs>
+            <clipPath id="cross">
+                <rect y="110" x="137" width="90" height="90"/>
+                <rect x="0" y="110" width="90" height="90"/>
+                <rect x="137" y="0" width="90" height="90"/>
+                <rect x="0" y="0" width="90" height="90"/>
+            </clipPath>
+        </defs>
+    </svg>
+
+    <select id="clipPath">
+        <option value="none" selected>none</option>
+        <option value="circle(100px at 110px 100px)">circle</option>
+        <option value="url(#cross)">cross</option>
+        <option value="inset(20px round 20px)">inset</option>
+        <option value="path('M 0 200 L 0,110 A 110,90 0,0,1 240,100 L 200 340 z')">path</option>
+    </select>
+
+    <br><br>
+    <div class="clip-box"></div>
+    <script>
+        let se = document.getElementById('clipPath');
+        let box = document.getElementsByClassName('clip-box')[0];
+        se.onchange = function(e){
+            box.style.clipPath = e.target.value;
+        }
+    </script>
+</body>
+</html>

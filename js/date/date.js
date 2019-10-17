@@ -1,13 +1,52 @@
 class Day{
 
     // 通过年月获取该月份天数
-    getMonth(year, month){
+    getMonthNum(year, month){
         /**
          * @param year,想要查询的年份，可以是数字也可以是字符串
-         * @param month,要获取天数分月份，按常规默认从0开始，但在此方法中从1开始，1则表示一月   
+         * @param month,要获取天数的月份，按常规默认从0开始，但在此方法中从1开始，1则表示一月   
          *  
          * */
         return new Date(year, month, 0).getDate();
+    }
+
+    // 获取当天/指定日期是该年的第几天
+    getDayNum(time){
+        if(!time){
+            time = new Date();
+        }
+        let num = 0;
+        let y = new Date(time).getFullYear();
+        let m = new Date(time).getMonth();
+        let d = new Date(time).getDate();
+        while(m){
+            num += this.getMonthNum(y, m);
+            m--;
+        }
+        console.log(`${this.format.bind(time)('yyyy-MM-dd')}是%c${y}年第%c${num + d}天！`, 'color: red;', 'color: aqua;');
+        return num + d;
+    }
+
+    monthSum(date){
+        let sum , year, month;
+        sum = 0;
+        year = date.getFullYear();
+        month = date.getMonth();
+        // 假如当前是4月，month值为3,只先累积前三个月的总天数，当月到当前时间未知天数额外添加
+        while(month){
+            sum += this.getMonth(year, month);
+            month--;
+        }
+        sum += date.getDate();
+        return sum;
+    }
+
+    isLeapYear(y){
+        return new Date(y, 2, 0).getDate() === 29;
+    }
+
+    leapyear(yr){
+        return (yr % 4 === 0 && yr % 100 !== 0) || yr % 400 === 0;
     }
 
     monthNext(n, date){
@@ -103,12 +142,12 @@ class Day{
             $m = date.getMinutes(),
             s = date.getSeconds()
         ;
-        str = str.replace(/y{4}/,y);
-        str = str.replace(/M{2}/, m >= 10 ? m : '0' + m);
-        str = str.replace(/d{2}/, d >= 10 ? d : '0' + d);
-        str = str.replace(/h{2}/, h >= 10 ? h : '0' + h);
-        str = str.replace(/m{2}/, $m >= 10 ? $m : '0' + $m);
-        str = str.replace(/s{2}/, s >= 10 ? s : '0' + s);
+        str = str.replace(/y+/, y);
+        str = str.replace(/M+/, m >= 10 ? m : '0' + m);
+        str = str.replace(/d+/, d >= 10 ? d : '0' + d);
+        str = str.replace(/H+/, h >= 10 ? h : '0' + h);
+        str = str.replace(/m+/, $m >= 10 ? $m : '0' + $m);
+        str = str.replace(/s+/, s >= 10 ? s : '0' + s);
         return str;
     }
 
@@ -124,21 +163,7 @@ class Day{
         sum = 14 * Q + 10.6 * (R + 1) + this.monthSum(date);
         return Math.floor(sum % 29.5);
     }
-    monthSum(date){
-        let sum , year, month;
-        sum = 0;
-        year = date.getFullYear();
-        month = date.getMonth();
-        // 假如当前是4月，month值为3,只先累积前三个月的总天数，当月到当前时间未知天数额外添加
-        while(month){
-            sum += this.getMonth(year, month);
-            month--;
-        }
-        sum += date.getDate();
-        return sum;
-    }
-
-
+    
 
     // 农历日期获取
     lunar(){

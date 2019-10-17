@@ -42,6 +42,9 @@
             callback = deps;
         }else{
             deps.map(function(name){
+				if(reqJs.paths[name]){
+					name = reqJs.paths[name];
+				}
                 depsId.push(reqJs.getScriptId(id, name));
             });
         }
@@ -64,7 +67,9 @@
 			//将主模块main依赖中的name转换为id，id其实是模块的对应javascript文件的全路径
 			var depsId = []; 
 			deps.map(function(name){
-				console.log(reqJs.require[name]);
+				if(reqJs.paths[name]){
+					name = reqJs.paths[name];
+				}
 				depsId.push(reqJs.getScriptId(id, name));
 			});
 
@@ -195,16 +200,22 @@
         return basepath + name;
     };
 
+	reqJs.require.config = function(config){
+		return initConfig(config);
+	}
 
-    reqJs.init();
+	function initConfig(config){
+		if(Object.prototype.toString.call(config) !== '[object Object]'){
+			throw Error(`the config method first parameter is not object!`);
+		}
+		if(config.paths){
+			reqJs.paths = config.paths;
+		}
+	}
+	
+	reqJs.init();
+	
 
     global.define = reqJs.define;
 	global.require = reqJs.require;
-	global.require.config = function(object){
-		if(obj.paths){
-			Object.keys(obj.paths).forEach(path => {
-				reqJs.require[path] = obj.paths[path];
-			})
-		}
-	}
 })(this); 
