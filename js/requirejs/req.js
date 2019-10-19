@@ -7,7 +7,38 @@
     let loadings = [];
     let colorbase = 1;
 
+	reqJs.loadText = function(url, callback){
+		if(/^text/.test(url)){
+			url = url.replace(/text!/, '');
+		}
+		fetch(url).then(res => {
+			return res.text();
+		}).then(text => {
+			console.log(text);
+			callback();
+		})
+	}
+
+	reqJs.loadImage = function(url, callback){
+		let img = new Image(url);
+		img.onload = function(){
+			callback();
+		};
+		img.onerror = function(){
+			throw Error('load image ' + url + 'failed!');
+		};
+		img.src = url;
+	}
+
     reqJs.loadJs = function(url, callback){
+		// if(/^text!/.test(url)){
+		// 	reqJs.loadText(url, callback);
+		// 	return
+		// }
+		// if(/^image!/.test(url)){
+		// 	reqJs.loadImage(url, callback);
+		// 	return;
+		// }
         let script = document.createElement('script');
         script.charset = 'utf-8';
         script.async = true;

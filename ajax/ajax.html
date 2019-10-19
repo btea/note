@@ -190,6 +190,22 @@
             console.log('There has been a problem with your fetch operation:', err.message);
         })
 
+        // 自定义请求对象
+        let myHeader = new Headers();
+        let myInit = {
+            method: 'GET',
+            headers: myHeader,
+            mode: 'cors',
+            cache: 'default'
+        };
+        let myRequest = new Request('flowers.jpg', myInit);
+        fetch(myInit).then(res => {
+            return res.blob();
+        }).then(blob => {
+            let url = URL.createObjectURL(Blob);
+            console.log(url);
+        })
+
     </script>
 </body>
 </html>

@@ -8,9 +8,11 @@ require.config({
 
 
 require([
-    './a.js'
-], function(a) {
+    './a.js',
+    'text!./v.vue'
+], function(a, html) {
     'use strict';
+    console.log(html);
     console.log('start');
     a();
 });
