@@ -5,9 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>paste content</title>
+    <style>
+        #box{
+            width: 400px;
+            height: 300px;
+            border: 1px solid aqua;
+        }
+    </style>
 </head>
 <body>
     <a href="https://www.zhangxinxu.com/wordpress/2016/01/contenteditable-plaintext-only/">样例</a>
-    <div contenteditable="true"></div>
+    <div contenteditable="true" id="box"></div>
+    <div>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Similique neque quia possimus maxime, provident nulla, deleniti culpa itaque tenetur, in iusto. Est iusto a voluptatibus cumque architecto, atque ad explicabo.</div>
+    <script>
+        var el = document.getElementById('box');
+        el.addEventListener('paste', (e) => {
+            e.preventDefault();
+            var text = null;
+            if(window.clipboardData && clipboardData.setData) {
+                // IE
+                text = window.clipboardData.getData('text');
+            } else {
+                text = (e.originalEvent || e).clipboardData.getData('text/plain') || prompt('在这里输入文本');
+            }
+            if (document.body.createTextRange) {    
+                if (document.selection) {
+                    textRange = document.selection.createRange();
+                } else if (window.getSelection) {
+                    sel = window.getSelection();
+                    var range = sel.getRangeAt(0);
+                    
+                    // 创建临时元素，使得TextRange可以移动到正确的位置
+                    var tempEl = document.createElement("span");
+                    tempEl.innerHTML = "&#FEFF;";
+                    range.deleteContents();
+                    range.insertNode(tempEl);
+                    textRange = document.body.createTextRange();
+                    textRange.moveToElementText(tempEl);
+                    tempEl.parentNode.removeChild(tempEl);
+                }
+                textRange.text = text;
+                textRange.collapse(false);
+                textRange.select();
+            } else {
+                // Chrome之类浏览器
+                document.execCommand("insertText", false, text);
+            }
+        })
+
+        document.addEventListener('copy', (e) => {
+            var text = e.clipboardData.getData('text/plain');
+            text += '\n' + '这是一段复制的内容，作者曾佑森';
+            debugger
+            var result = e.clipboardData.setData('text/plain', text);
+            console.log(result);
+        })
+    </script>
 </body>
 </html>
