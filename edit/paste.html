@@ -28,6 +28,7 @@
             } else {
                 text = (e.originalEvent || e).clipboardData.getData('text/plain') || prompt('在这里输入文本');
             }
+            text += '\n新增文本';
             if (document.body.createTextRange) {    
                 if (document.selection) {
                     textRange = document.selection.createRange();
