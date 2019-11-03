@@ -55,9 +55,10 @@
         })
 
         document.addEventListener('copy', (e) => {
-            var text = e.clipboardData.getData('text/plain');
-            text += '\n' + '这是一段复制的内容，作者曾佑森';
-            debugger
+            e.preventDefault();
+            
+            var text =document.getSelection().toString();
+            text += '\n' + '这是一段复制的内容，作者btea';
             var result = e.clipboardData.setData('text/plain', text);
             console.log(result);
         })
