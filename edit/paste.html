@@ -15,13 +15,14 @@
 </head>
 <body>
     <a href="https://www.zhangxinxu.com/wordpress/2016/01/contenteditable-plaintext-only/">样例</a>
+    <span></span>
     <div contenteditable="true" id="box"></div>
     <div>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Similique neque quia possimus maxime, provident nulla, deleniti culpa itaque tenetur, in iusto. Est iusto a voluptatibus cumque architecto, atque ad explicabo.</div>
     <script>
         var el = document.getElementById('box');
         el.addEventListener('paste', (e) => {
             e.preventDefault();
-            var text = null;
+            var text = null, textRange;
             if(window.clipboardData && clipboardData.setData) {
                 // IE
                 text = window.clipboardData.getData('text');
@@ -54,10 +55,15 @@
             }
         })
 
+        // 自定义编辑页面选中复制的文本
         document.addEventListener('copy', (e) => {
             e.preventDefault();
-            
-            var text =document.getSelection().toString();
+            var text;
+            if(window.getSelection){
+                text = window.getSelection().toString();
+            }else{
+                text = document.getSelection().toString();
+            }
             text += '\n' + '这是一段复制的内容，作者btea';
             var result = e.clipboardData.setData('text/plain', text);
             console.log(result);
