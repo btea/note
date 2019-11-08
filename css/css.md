@@ -5,4 +5,6 @@
 [第五届CSS大会主题分享之CSS创意与视觉表现（张鑫旭）](https://www.zhangxinxu.com/wordpress/2019/06/cssconf-css-idea/)  
 [css 伪元素(:first-line、:first-letter、:before、:after)](https://www.w3school.com.cn/css/css_pseudo_elements.asp)  
 [css 伪类](https://www.w3school.com.cn/css/css_pseudo_classes.asp)  
-[css多行垂直居中](https://www.cnblogs.com/goloving/p/7657544.html)
+[css多行垂直居中](https://www.cnblogs.com/goloving/p/7657544.html)  
+[CSS对象](https://www.zhangxinxu.com/wordpress/2019/11/js-css-supports-detect/)
+
