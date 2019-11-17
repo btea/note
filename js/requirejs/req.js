@@ -20,6 +20,9 @@
 	}
 
 	reqJs.loadImage = function(url, callback){
+		if(/^image/.test(url)){
+			url = url.replace(/image!/, '');
+		}
 		let img = new Image(url);
 		img.onload = function(){
 			callback();
@@ -31,14 +34,14 @@
 	}
 
     reqJs.loadJs = function(url, callback){
-		// if(/^text!/.test(url)){
-		// 	reqJs.loadText(url, callback);
-		// 	return
-		// }
-		// if(/^image!/.test(url)){
-		// 	reqJs.loadImage(url, callback);
-		// 	return;
-		// }
+		if(/^text!/.test(url)){
+			reqJs.loadText(url, callback);
+			return
+		}
+		if(/^image!/.test(url)){
+			reqJs.loadImage(url, callback);
+			return;
+		}
         let script = document.createElement('script');
         script.charset = 'utf-8';
         script.async = true;
@@ -202,7 +205,17 @@
     reqJs.getScriptId = function(basepath, name){
         if(!basepath || !name){
             return '';
-        }
+		}
+		let isText, isImage;
+		isText = /^text!/.test(name);
+		isImage = /^image!/.test(name);
+		if(isText){
+			name = name.replace('text!','');
+		}
+		if(isImage){
+			name = name.replace('image!','');
+		}
+
         basepath = basepath.replace(/[^\/]+\.js/i, '');
         if(typeof name !== 'string'){
             throw TypeError('this arguments name is must be a string');
@@ -227,7 +240,13 @@
             paths.splice(-n);
             basepath = paths.join('/') + '/';
 		}
-        // basepath += '/';
+		// basepath += '/';
+		if(isText){
+			return 'text!' + basepath + name;
+		}
+		if(isImage){
+			return 'image!' + basepath + name;
+		}
         return basepath + name;
     };
 
