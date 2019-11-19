@@ -43,6 +43,9 @@ function mount(vnode, container) {
 	}
 }
 
+// 处理VNodeData中除 class 和 style 之外的全部数据，当然也要排除 VNodeData中的target属性，因为它只适用于 Portal
+const domPropsRE = /\[A-Z]|^(?:value|checked|slected|muted)$/
+
 function mountElement(vnode, container, isSVG) {
 	// 注：运算符优先级  逻辑或 5 (||)从左到右  按位与 9(&) 从左到右
 
@@ -70,6 +73,13 @@ function mountElement(vnode, container, isSVG) {
 					el.className = dynamicClass(data[key])
 					break
 				default:
+					if (domPropsRE.test(key)) {
+						// 当做 DOM Prop处理
+						el[key] = data[key]
+					} else {
+						// 当作 Attr 处理
+						el.setAttribute(key, data[key])
+					}
 					break
 
 			}
