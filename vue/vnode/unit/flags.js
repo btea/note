@@ -1,4 +1,3 @@
-
 const VNodeFlags = {
     // html标签
     ELEMENT_HTML: 1,                              // 0000000000000001
