@@ -85,5 +85,6 @@ function createTextVNode(text) {
 }
 
 module.exports = {
-	h
+	h,
+	createTextVNode
 }
