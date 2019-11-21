@@ -267,3 +267,42 @@ function patchFragment(prevVNode, nextVNode, container) {
 			nextVNode.el = nextVNode.children[0].el
 	}
 }
+
+// 更新Portal
+function patchPortal(prevVNode, nextVNode) {
+	patchChildren(
+		prevVNode.childFlags,
+		nextVNode.childFlags,
+		prevVNode.children,
+		nextVNode.children,
+		prevVNode.tag  // 注意容器元素是旧的container
+	)
+
+	// 让 nextVNode.el 指向 prevVNode.el
+	nextVNode.el = prevVNode.el
+	
+	// 如果新旧容器不同，才需要搬运
+	if (nextVNode.tag !== prevVNode.tag) {
+		// 获取新的容器元素，即挂在目标
+		const container = typeof nextVNode.tag === 'string' ? document.querySelector(nextVNode.tag) : nextVNode.tag
+		switch (nextVNode.childFlags) {
+			case ChildrenFlags.SINGLE_VNODE:
+				// 如果新的 Portal 是单个子节点，就把该节点搬运到容器中
+				container.appendChild(nextVNode.children.el)
+				break
+			case ChildrenFlags.NO_CHILDREN:
+				// 新的Portal没有子节点，不需要搬运
+				break
+			default:
+				// 新的 Portal有多个字节点, 遍历逐个将他们搬运到新容器中
+				for (let i = 0; i < nextVNode.children.length; i++) {
+					container.appendChild(nextVNode.children[i].el)
+				}
+				break
+		}
+		// 当我们调用 appendChild 方法向 DOM 中添加元素时，如果被添加的元素已存在于页面上，
+		// 那么就会移动该元素到目标容器元素下。我们利用这一点，由于经过 patchChildren 函数的处理之后，
+		// 新的子节点已经存在于旧的容器中了，所以我们只需要在新容器元素上调用 appendChild 
+		// 方法将这些已经存在于旧容器中的子节点搬运过去即可。 
+	}
+}
