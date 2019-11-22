@@ -124,17 +124,30 @@ function mountStatefulComponent(vnode, container, isSVG) {
 	// 1、创建组件实例
 	// 如果一个 VNode 描述的是有状态组件，那么 vnode.tag属性值就是组件类的引用，所以通过 new 关键字创建组件实例
 	const instance = new vnode.tag
-	// 2、获取组件产出的 Vnode
-	// 一个组件的核心就是其 render 函数，通过调用 render 函数可以拿到该组件要渲染的内容
-	instance.$vnode = instance.render()
-	// 3、mount挂载
-	// 既然已经拿到了 VNode，那么将其挂载到 container 上就可以了
-	mount(instance.$vnode, container, isSVG)
-	// 4、让组件实例的 $el 属性和 vnode.el 属性的值引用组件的根DOM元素
-	// 组件的 render 函数会返回该组件产出的 VNode，当该 VNode 被挂载为真实DOM之后，
-	// 就可以通过 instance.$vnode.el 元素拿到组件的根DOM元素，接着我们就可以让组件实例的 $el 属性和 vnode.el 属性的值都引用该DOM元素。
-	// 如果组件的 render 返回的是一个片段(Fragment)，那么 instance.$el 和 vnode.el 引用的就是该片段的第一个DOM元素
-	instance.$el = vnode.el = instance.$vnode.el
+	instance._update = function() {
+		// 2、获取组件产出的 Vnode
+		// 一个组件的核心就是其 render 函数，通过调用 render 函数可以拿到该组件要渲染的内容
+		instance.$vnode = instance.render()
+		// 3、mount挂载
+		// 既然已经拿到了 VNode，那么将其挂载到 container 上就可以了
+		mount(instance.$vnode, container, isSVG)
+		// 4、让组件实例的 $el 属性和 vnode.el 属性的值引用组件的根DOM元素
+		// 组件的 render 函数会返回该组件产出的 VNode，当该 VNode 被挂载为真实DOM之后，
+		// 就可以通过 instance.$vnode.el 元素拿到组件的根DOM元素，接着我们就可以让组件实例的 $el 属性和 vnode.el 属性的值都引用该DOM元素。
+		// 如果组件的 render 返回的是一个片段(Fragment)，那么 instance.$el 和 vnode.el 引用的就是该片段的第一个DOM元素
+		instance.$el = vnode.el = instance.$vnode.el
+
+		// 5、调用mounted钩子
+		instance.mounted && instance.mounted()
+
+		// 现在 MyComponent 组件的 mounted 钩子函数已经可以被正确执行，我们在 mounted 钩子函数内修改了组件的自身状态的值并再次调用了 _update 函数进行组件的更新，
+		// 但是在更新时我们不应该像初次挂载组件那样去调用 mount 函数，而是应该调用 patch 函数将组件新产出的 VNode 与初次挂载时产出的旧 VNode 做比较并完成更新，
+		// 但无论是初次挂载还是后续更新我们调用的都是 _update 函数，可是 _update 函数怎么知道当前这次渲染到底是初次挂载还是后续更新呢？
+		// 所以我们需要为组件实例设计一个 boolean 类型的状态标识，用来标记组件是否已经被挂载，这样 _update 函数就能够区分当前这次渲染到底是初次挂载还是后续更新了
+	}
+	
+	// 把 2、3、4封装成一个函数
+	instance._update()
 }
 
 // 挂载函数式组件
@@ -194,10 +207,10 @@ function mountPortal(vnode, container, isSVG) {
 	// 获取挂载点
 	const target = typeof tag === 'string' ? document.querySelector(tag) : tag
 
-	if (childFlags & childFlags.SINGLE_VNODE) {
+	if (childFlags & ChildrenFlags.SINGLE_VNODE) {
 		// 将children挂载到target上，而非container
 		mount(children, target)
-	} else if (childFlags & childFlags.MULTIPLE_VNODES) {
+	} else if (childFlags & ChildrenFlags.MULTIPLE_VNODES) {
 		for (let i = 0; i < children.length; i++) {
 			mount(children[i], target)
 		}
