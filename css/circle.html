@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>circle</title>
+	<style>
+		.box{
+			position: relative;
+			width: 100px;
+			height: 100px;
+		}
+		.circle{
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100px;
+			height: 100px;
+			border-radius: 50%;
+			border: 2px solid;
+			border-color: rgba(102, 204, 255, 1) rgba(102, 204, 255, .6) rgba(102, 204, 255, .3) rgba(102, 204, 255, 0);
+			animation: c 1s linear infinite;
+		}
+		.cake{
+			width: 50px;
+			height: 50px;
+			position: relative;
+			left: 25px;
+			top: 25px;
+			background: #6cf;
+			clip-path: circle(50%);
+		}
+		.area{
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 50px;
+			height: 50px;
+			/* clip-path: polygon(50% 0, 50% 50%, 0 50%, 0 0); */
+			background: aqua;
+			animation: c1 2s ease-in-out infinite;
+		}
+		@keyframes c{
+			0% {
+				transform: rotate(0deg)
+			}
+			100%{
+				transform: rotate(360deg)
+			}
+		}
+		@keyframes c1{
+			5% {
+				clip-path: polygon(0 0, 50% 0, 50% 50%);
+			}
+			10% {
+				clip-path: polygon(0 0, 50% 0, 50% 50%, 0 50%);
+			}
+			15% {
+				clip-path: polygon(0 0, 50% 0, 50% 50%, 0 100%);
+			}
+			20% {
+				clip-path: polygon(0 0, 50% 0, 50% 50%, 0 100%);
+			}
+			25% {
+				clip-path: polygon(0 0, 50% 0, 50% 50%, 100% 100%, 0 100%);
+			}
+			30% {
+				clip-path: polygon(0 0, 50% 0, 50% 50%, 100% 50%, 100% 100%, 0 100%);
+			}
+			35% {
+				clip-path: polygon(0 0, 50% 0, 50% 50%, 100% 0, 100% 100%, 0 100%);
+			}
+			40% {
+				clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 0);
+			}
+			50% {
+				clip-path: polygon(50% 50%, 0 0, 0 100%, 100% 100%, 100% 0, 50% 0);
+			}
+			55% {
+				clip-path: polygon(50% 50%, 0 50%, 0 100%, 100% 100%, 100% 0, 50% 0);
+			}
+			60% {
+				clip-path: polygon(50% 50%, 0 100%, 0 100%, 100% 100%, 100% 0, 50% 0);
+			}
+			65% {
+				clip-path: polygon(50% 50%, 50% 100%, 0 100%, 100% 100%, 100% 0, 50% 0);
+			}
+			70% {
+				clip-path: polygon(50% 50%, 100% 100%, 100% 0, 50% 0);
+			}
+			75% {
+				clip-path: polygon(50% 50%, 100% 50%, 100% 0, 50% 0);
+			}
+			80% {
+				clip-path: polygon(50% 50%, 100% 0, 50% 0);
+			}
+			85% {
+				clip-path: polygon(50% 50%, 50% 50%);
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="box">
+		<div class="circle"></div>
+		<div class="cake">
+			<div class="area"></div>
+		</div>
+	</div>
+</body>
+</html>
