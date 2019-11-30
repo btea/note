@@ -81,7 +81,7 @@ class DrawPath{
 			}
 			line.forEach(v => {
 				let lng = Math.floor((v[0] - this.benchmark[0]) * scale)
-				let lat = Math.floor((v[1] - this.benchmark[1]) * scale)
+				let lat = Math.floor((this.benchmark[1] - v[1]) * scale)
 				if (lng < this.lngMin) {
 					this.lngMin = lng
 				}
