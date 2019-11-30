@@ -99,24 +99,6 @@ class DrawPath{
 			arr.push(a)
 		})
 		return arr
-		data[0].forEach((p, i) => {
-			let lng = Math.floor((p[0] - this.benchmark[0]) * scale)
-			let lat = Math.floor((p[1] - this.benchmark[1]) * scale)
-			if (lng < this.lngMin) {
-				this.lngMin = lng
-			}
-			if (lng > this.lngMax) {
-				this.lngMax = lng
-			}
-			if (lat < this.latMin) {
-				this.latMin = lat
-			}
-			if (lat > this.latMax) {
-				this.latMax = lat
-			}
-			arr.push([lng, lat])
-		})
-		return arr
 	}
 	createPath(name, opt = {}) {
 		let el = this.createSvg(name)
