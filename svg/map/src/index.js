@@ -38,6 +38,7 @@ class DrawPath{
 		} else {
 			s = w / this.w
 		}
+		this.transformScale = s
 		if (this.latMin < 0) {
 			info.forEach(p => {
 				let list = p.pos
@@ -75,11 +76,21 @@ class DrawPath{
 			
 		})
 	}
+	latLngToPixel(lngLat){
+		let x, y, re 
+		re = this.benchmark
+		x = Math.floor((lngLat[0] - re[0]) * this.scale) + Math.abs(this.lngMin)
+		y = Math.floor((re[1] - lngLat[1]) * this.scale) + Math.abs(this.latMin)
+		x = x / this.transformScale
+		y = y / this.transformScale
+		console.log(x, y);
+	}
 	coordinatesDeal(data) {
 		// 经纬度处理，经纬度转换成实际像素位置
 		// lng(经度) lat(纬度)  中国境内（一般经度大于纬度）
 		if (!data) return []
 		let scale = 1e5
+		this.scale = scale
 		let arr = []
 		if (!this.benchmark) {
 			let benchmark = data[0][0]
@@ -161,4 +172,8 @@ class DrawPath{
 	}
 }
 
-new DrawPath('#app')
+let map = new DrawPath('#app')
+map.latLngToPixel([
+	108.36508734920648,
+	22.79567376085845
+])
