@@ -83,6 +83,7 @@ class DrawPath{
 		y = Math.floor((re[1] - lngLat[1]) * this.scale) + Math.abs(this.latMin)
 		x = x / this.transformScale
 		y = y / this.transformScale
+		return {x, y}
 		console.log(x, y);
 	}
 	coordinatesDeal(data) {
@@ -173,7 +174,13 @@ class DrawPath{
 }
 
 let map = new DrawPath('#app')
-map.latLngToPixel([
+let p = map.latLngToPixel([
 	108.36508734920648,
 	22.79567376085845
 ])
+function createPoint(p) {
+	let el = document.createElement('span')
+	el.style = `width: 2px; height: 2px; border-radius: 50%; background: red; position: absolute; left: ${p.x}px; top: ${p.y}px;`
+	map.el.appendChild(el)
+}
+createPoint(p)
