@@ -30,7 +30,14 @@ class DrawPath{
 		let svgEle = []
 		let w = this.lngMax - this.lngMin
 		let h = this.latMax - this.latMin
-		let s = w / this.w
+		// let s = w / this.w
+		// 自动适应宽高比，保证绘制的地图区域不会超出svg大小外
+		let s
+		if ( w > h) {
+			s = h / this.h
+		} else {
+			s = w / this.w
+		}
 		if (this.latMin < 0) {
 			info.forEach(p => {
 				let list = p.pos
@@ -60,6 +67,12 @@ class DrawPath{
 				'stroke-width': 2,
 				'fill-opacity': 0.5
 			})
+		})
+		this.createPath('path', {
+			d: 'M200 50 L210 65 L215 70 L230 55 L240 80 L200 100Z',
+			fill: 'yellow',
+			// stroke: '',
+			
 		})
 	}
 	coordinatesDeal(data) {
@@ -137,6 +150,7 @@ class DrawPath{
 		Object.keys(opt).forEach(key => {
 			el.setAttribute(key, opt[key])
 		})
+		if (el === this.svg) { return }
 		let v = el.getAttribute('fill')
 		el.addEventListener('mouseenter', (e) => {
 			el.setAttribute('fill', 'red')
