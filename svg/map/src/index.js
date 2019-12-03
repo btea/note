@@ -76,7 +76,7 @@ class DrawPath{
 			
 		})
 	}
-	latLngToPixel(lngLat){
+	latLngToPixel(lngLat) {
 		let x, y, re 
 		re = this.benchmark
 		x = Math.floor((lngLat[0] - re[0]) * this.scale) + Math.abs(this.lngMin)
@@ -84,7 +84,23 @@ class DrawPath{
 		x = x / this.transformScale
 		y = y / this.transformScale
 		return {x, y}
-		console.log(x, y);
+		console.log(x, y)
+	}
+	pixelToLatlng(pixel) {
+		let {x, y} = pixel
+		let re = this.benchmark
+		x *= this.transformScale
+		y *= this.transformScale
+
+		x -= Math.abs(this.lngMin)
+		y -= Math.abs(this.latMin)
+
+		x /= this.scale
+		y /= this.scale
+		
+		x = x + re[0]
+		y = y - re[1]
+		console.log(x, y)
 	}
 	coordinatesDeal(data) {
 		// 经纬度处理，经纬度转换成实际像素位置
@@ -184,3 +200,13 @@ function createPoint(p) {
 	map.el.appendChild(el)
 }
 createPoint(p)
+
+map.el.addEventListener('click', (e) => {
+	let x = e.offsetX;
+	let y = e.offsetY;
+	/***
+	 * 误差太大，经纬度小数后三至四位开始出现误差
+	 ***/
+	console.log('像素', x, y)
+	map.pixelToLatlng({x, y})
+})
