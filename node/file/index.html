@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<input type="file" class="file">
+	<script>
+		var file = document.getElementsByClassName('file')[0]
+		file.onchange = function(e) {
+			var target = e.target.files[0]
+			var file = new FileReader()
+			file.onload = function(e) {
+				var r = e.target.result;
+				var img = new Image()
+				img.onload = function() {
+					convert(this, 'bmp')
+				}
+				img.src = r;
+			}
+			file.readAsDataURL(target)
+		}
+		function convert(image, format) {
+			var canvas = document.createElement('canvas');
+			var context2D = canvas.getContext('2d');
+			var convertImage = function (image, format) {
+				context2D.clearRect(0, 0, canvas.width, canvas.height);
+
+				canvas.width = image.naturalWidth;
+
+				canvas.height = image.naturalHeight;
+
+				image.crossOrigin = "Anonymous";
+
+				context2D.drawImage(image, 0, 0);
+
+				return  canvas.toDataURL('image/' + (format || 'png'),  1);
+			};
+			var src = convertImage(image, format)
+			var a = document.createElement('a')
+			a.href = src
+			a.download = Date.now() + '.' + format;
+			a.click();
+			console.log(a);
+		}
+	</script>
+</body>
+</html>
