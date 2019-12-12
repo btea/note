@@ -34,3 +34,6 @@
 ### [game](https://github.blog/2019-10-08-js13k-2019-highlights/)
 
 ### [jsavascript常见排序算法](https://mp.weixin.qq.com/s/rh8CI7LgoXy8yI7AgUYc0g)
+
+### 爬虫
+[js控制台检测](https://www.cnblogs.com/cc11001100/p/9265945.html)
