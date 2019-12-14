@@ -163,9 +163,26 @@
         //  fetch  https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API/Using_Fetch
         function fetch(url, option){
             // if()
-        }
+		}
+		
+		// 终止fetch请求 https://developer.mozilla.org/zh-CN/docs/Web/API/FetchController
+		let controller = new AbortController()
+		let signal = controller.signal
+		controller.abort()  // 终止(取消)请求
+		fetch(url, {signal}).then(res => res.json()).catch(err => {
+			if (err.name === 'AbortError') {
+				console.log('fetch aborted')
+			} else {
+				console.log('fetch error')
+			}
+		})
+
+
+
         // blob
-        let params = {};
+        let params = {
+			signal
+		};
         fetch(url, {
             body: JSON.stringify(params), // must match 'Content-Type' header
             cache: 'no-cache', // default, no-cache, reload, force-cache, only-if-cached
