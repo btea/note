@@ -17,7 +17,7 @@ class Router{
 	}
 	routesList(routes, parent) {
 		if (Array.isArray(routes)) {
-			router.routes.map(r => this.initRoute(r, parent))	
+			return routes.map(r => this.initRoute(r, parent))	
 		}
 	}
 	initRoute(route, parent) {
@@ -26,11 +26,15 @@ class Router{
 				this.otherwiseRouter = route
 			} else {
 				if (parent) {
+					route.path = parent.path + route.path
 					route.parent = parent
 				}
-				this.historyStack.push(route)
-				this.registeredRouter.push()
-
+				// this.historyStack.push(route)
+				if (route.children) {
+					route.children = this.routesList(route.children, route)
+				}
+				this.registeredRouter.push(route)
+				return route
 			}
 		}
 	}
@@ -72,11 +76,27 @@ class Router{
     }
     // 路由跳转方法，主动调用时可用于跳转路由
     go(toPath) {
-
+		if (!toPath) {
+			throw Error('the first params is required.')
+		}
+		if (toPath.charAt(0) !== '/') {
+			toPath = '/' + toPath
+		}
+		let route
+		for (let i = 0; i < this.registeredRouter.length; i++) {
+			if (this.registeredRouter[i].path === toPath) {
+				route = this.registeredRouter[i]
+				break
+			}
+		}
+		if (route) {
+			route = this.otherwiseRouter
+		}
+		this.when(route.path, route.content)
     }
     // 用于将对应路由信息渲染至页面，实现路由切换
     render(content) {
-
+		document.getElementById('content').innerHTML = content
     }
 }
 import router from './router'
