@@ -1,8 +1,9 @@
 const route = {
+	mode: 'history',
     routes: [
 		{
 			path: '/',
-			redirect: '/a'
+			content: '默认路由内容'
 		},
 		{
 			path: '/a',
@@ -20,6 +21,11 @@ const route = {
 					content: '这是b路由的子路由'
 				}
 			]
+		},
+		{
+			path: '/c',
+			name: 'c',
+			content: '路由c'
 		}
 	]
 }

@@ -1,7 +1,8 @@
 class Router{
     constructor(routers) {
         this.historyStack = []
-        this.registeredRouter = []
+		this.registeredRouter = []
+		this.homeRouter = {}
         this.otherwiseRouter = {}
         this.init(routers)
     }
@@ -23,8 +24,11 @@ class Router{
 	initRoute(route, parent) {
 		if (this.isObject(route)) {
 			if (route.path === '/') {
-				this.otherwiseRouter = route
+				this.homeRouter = route
 			} else {
+				if (route.redirect) {
+					this.otherwiseRouter = route
+				}
 				if (parent) {
 					route.path = parent.path + route.path
 					route.parent = parent
@@ -33,9 +37,9 @@ class Router{
 				if (route.children) {
 					route.children = this.routesList(route.children, route)
 				}
-				this.registeredRouter.push(route)
-				return route
 			}
+			this.registeredRouter.push(route)
+			return route
 		}
 	}
 	isObject(obj) {
@@ -46,24 +50,48 @@ class Router{
 		if (this.type === 'hash') {
 			window.addEventListener('hashchange', (e) => {
 				let hash = location.hash
-				console.log(e, hash)
+				this.viewChange(hash.slice(1))
 			})
 		} else {
 			window.addEventListener('popstate', (e) => {
-				console.log(e)
+				let state = e.state || this.homeRouter
+				this.viewChange(state.path)
 			})
 		}
-    }
-    // 路由注册方法
-    when(path, content) {
+	}
+	// 手动操作浏览器前进后退按钮时，路由变化，对应的内容也要进行变化
+	viewChange(path) {
+		if (!path) {
+			throw Error('the path params is required.')
+		}
 		if (path.charAt(0) !== '/') {
 			path = '/' + path
 		}
-		if (this.type === 'hash') {
-			location.hash = '#' + path
-		} else {
-			history.pushState(route, '', path)
+		let route
+		for (let i = 0; i < this.registeredRouter.length; i++) {
+			if (this.registeredRouter[i].path === path) {
+				route = this.registeredRouter[i]
+				break
+			}
 		}
+		if (!route) {
+			route = this.homeRouter
+		}
+		this.render(route.content)
+	}
+    // 路由注册方法
+    when(path, content, route) {
+		if (path.charAt(0) !== '/') {
+			path = '/' + path
+		}
+		if (path !== '/') {
+			if (this.type === 'hash') {
+				location.hash = '#' + path
+			} else {
+				history.pushState(route, '', path)
+			}
+		}
+		
 		this.render(content)
     }
     // 判断新添加的路由是否已存在
@@ -89,17 +117,43 @@ class Router{
 				break
 			}
 		}
-		if (route) {
-			route = this.otherwiseRouter
+		if (!route) {
+			route = this.homeRouter
 		}
-		this.when(route.path, route.content)
+		this.when(route.path, route.content, route)
     }
     // 用于将对应路由信息渲染至页面，实现路由切换
     render(content) {
 		document.getElementById('content').innerHTML = content
-    }
+	}
+	// 直接用代码实现路由跳转
+	push (info) {
+		/** 
+		 * @params info String 直接跳转至指定路由
+		 * @params info Object info.path
+		*/
+		let path
+		if (typeof info === 'String') {
+			path = info
+		}else if (this.isObject(info)) {
+			path = info.path
+		}
+		if (path) {
+			this.go(path)
+		}
+	}
 }
 import router from './router'
-console.log(router)
 let route = new Router(router)
-console.log(route)
+route.go('/')
+let els = document.getElementsByClassName('change')[0]
+els.addEventListener('click', e => {
+	let el = e.target
+	if (el.tagName === 'LI') {
+		route.go(el.getAttribute('to'))
+	}
+})
+let children = document.getElementsByClassName('children')[0]
+children.addEventListener('click', e => {
+	route.go('/b/com')
+})
