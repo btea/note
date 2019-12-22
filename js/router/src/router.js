@@ -1,5 +1,5 @@
 const route = {
-	mode: 'history',
+	mode: 'hash',
     routes: [
 		{
 			path: '/',
