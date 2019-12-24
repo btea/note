@@ -143,11 +143,16 @@ class Day{
             s = date.getSeconds()
         ;
         str = str.replace(/y+/, y);
-        str = str.replace(/M+/, m >= 10 ? m : '0' + m);
-        str = str.replace(/d+/, d >= 10 ? d : '0' + d);
-        str = str.replace(/H+/, h >= 10 ? h : '0' + h);
-        str = str.replace(/m+/, $m >= 10 ? $m : '0' + $m);
-        str = str.replace(/s+/, s >= 10 ? s : '0' + s);
+        // str = str.replace(/M+/, m >= 10 ? m : '0' + m);
+        // str = str.replace(/d+/, d >= 10 ? d : '0' + d);
+        // str = str.replace(/H+/, h >= 10 ? h : '0' + h);
+        // str = str.replace(/m+/, $m >= 10 ? $m : '0' + $m);
+		// str = str.replace(/s+/, s >= 10 ? s : '0' + s);
+		str = str.replace(/M+/, ('0' + m).slice(-2));
+        str = str.replace(/d+/, ('0' + d).slice(-2));
+        str = str.replace(/H+/, ('0' + h).slice(-2));
+        str = str.replace(/m+/, ('0' + $m).slice(-2));
+        str = str.replace(/s+/, ('0' + s).slice(-2));
         return str;
     }
 
