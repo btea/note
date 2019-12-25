@@ -8,7 +8,32 @@
 </head>
 <body>
     <h5>贝塞尔曲线</h5>
-    <a href="https://cubic-bezier.com/#.17,.67,.83,.67">演示</a>
+	<a href="https://cubic-bezier.com/#.17,.67,.83,.67" target="_blank">演示</a>
+	<div class="container">
+		<div class="coordinate-plane">
+			<button class="control1 control"></button>
+			<button class="control2 control"></button>
+			<span class="start point"></span>
+			<span class="end point"></span>
+		</div>
+		<section id="preview">
+			<code>
+				cubic-bezier(
+				<span class="values">
+				<span id="p1x" class="params"></span>,
+				<span id="p1y" class="params"></span>,
+				<span id="p2x" class="params"></span>,
+				<span id="p2y" class="params"></span>
+				</span>
+				)
+			</code>
+			<h1>
+				<button class="start">开始</button>
+			</h1>
+			<!-- current compare -->
+		</section>	
+		<section id="library"></section>
+	</div>
 	<script src="./src/index.js"></script>
 </body>
 </html>
