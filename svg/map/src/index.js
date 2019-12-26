@@ -16,7 +16,7 @@ class DrawPath{
 
 		this.startCreate()
 	}
-	startCreate() {
+	startCreate() {	
 		let info = []
 		let list = data.features || [];
 		list.forEach(l => {
@@ -31,14 +31,16 @@ class DrawPath{
 		let w = this.lngMax - this.lngMin
 		let h = this.latMax - this.latMin
 		// let s = w / this.w
-		// 自动适应宽高比，保证绘制的地图区域不会超出svg大小外
+		// 自动适应宽高比，保证绘制的地图区域不会超出svg大小
 		let s
-		if ( w > h) {
-			s = h / this.h
-		} else {
-			s = w / this.w
-		}
+		// if ( w > h) {
+		// 	s = h / this.h
+		// } else {
+		// 	s = w / this.w
+		// }
+		s = w / this.w
 		this.transformScale = s
+		
 		if (this.latMin < 0) {
 			info.forEach(p => {
 				let list = p.pos
@@ -47,11 +49,14 @@ class DrawPath{
 					po.forEach(c => {
 						// p.pos[0] = c[0] + Math.abs(this.lngMin)
 						let x, y
-						if (this.lngMin < 0) {
-							x = c[0] + Math.abs(this.lngMin) 
-						}
-						y = c[1] + Math.abs(this.latMin)
-						d += `L${x / s} ${y / s} `
+						// if (this.lngMin < 0) {
+							// x = c[0] + Math.abs(this.lngMin)
+						// }
+						x = c[0] - this.lngMin 
+						// y = c[1] + Math.abs(this.latMin)
+						y = c[1] - this.latMin
+						
+						d += `L${x / s} ${y /s + this.h / 2 - 100} `
 					})
 					d = d.replace('L', 'M')
 					d += ' Z'
@@ -69,12 +74,12 @@ class DrawPath{
 				'fill-opacity': 0.5
 			})
 		})
-		this.createPath('path', {
-			d: 'M200 50 L210 65 L215 70 L230 55 L240 80 L200 100Z',
-			fill: 'yellow',
-			// stroke: '',
+		// this.createPath('path', {
+		// 	d: 'M200 50 L210 65 L215 70 L230 55 L240 80 L200 100Z',
+		// 	fill: 'yellow',
+		// 	// stroke: '',
 			
-		})
+		// })
 	}
 	latLngToPixel(lngLat) {
 		let x, y, re 
@@ -84,7 +89,6 @@ class DrawPath{
 		x = x / this.transformScale
 		y = y / this.transformScale
 		return {x, y}
-		console.log(x, y)
 	}
 	pixelToLatlng(pixel) {
 		let {x, y} = pixel
@@ -139,6 +143,10 @@ class DrawPath{
 			})
 			arr.push(a)
 		})
+		this.latMax += 100
+		this.latMin -= 100
+		this.lngMax += 100
+		this.lngMin -= 100
 		return arr
 	}
 	createPath(name, opt = {}) {
