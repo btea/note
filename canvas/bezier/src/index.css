@@ -1,3 +1,7 @@
+body{
+	margin: 0;
+	padding: 0;
+}
 .container{
 	display: flex;
 }
@@ -6,7 +10,7 @@ canvas{
     margin: 0 10px;
 	border-radius: 5px;
 	cursor: pointer;
-	transition: all 1.5s;
+	/* transition: all 1.5s; */
 }
 canvas.active{
 	background: #66ccff;
@@ -63,4 +67,60 @@ canvas.active{
 	right: 0;
 	margin-top: -7px;
 	margin-right: -7px;
+}
+
+/* 预览 & 比较 */
+#preview{
+	width: 350px;
+}
+#preview .operator h2{
+	width: 150px;
+	display: inline-block;
+}
+.operator .time{
+	font-size: 0;
+}
+.time >span{
+	display: inline-block;
+	font-size: 14px;
+	height: 25px;
+	line-height: 25px;
+	vertical-align: middle;
+	color: #000;
+}
+span.bar{
+	height: 10px;
+	width: 150px;
+	border: 1px solid #000;
+	border-radius: 5px;
+	cursor: pointer;
+	margin: 0 10px;
+	overflow: hidden;
+	position: relative;
+}
+.bar-content{
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 10px;
+	background: #6cf;
+	border-radius: 5px;
+}
+.bar-content::after{
+	content: '';
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 10px;
+	height: 10px;
+	border-radius: 5px;
+	background: aqua;
+}
+.operator canvas{
+	display: block;
+	position: relative;
+	left: 0;
+}
+.operator .move{
+	left: 100%;
 }

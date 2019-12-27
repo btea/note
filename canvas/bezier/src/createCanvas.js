@@ -54,6 +54,14 @@ export class CreateCanvas{
 			this.renderCircle(p)
 		})
 	}
+	renderAxis() {
+		this.ctx.beginPath()
+		this.ctx.strokeStyle = '#000'
+		this.ctx.moveTo(0 + 0.5, 150 + 0.5)
+		this.ctx.lineTo(0 + 0.5, 450 + 0.5)
+		this.ctx.lineTo(300 + 0.5, 450 + 0.5)
+		this.ctx.stroke()
+	}
 	renderCircle(points) {
 		this.ctx.beginPath()
 		this.ctx.fillStyle = this.line
