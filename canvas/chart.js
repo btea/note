@@ -159,7 +159,7 @@ class Chart{
 
     }
     getCurveList(points){
-        const t = 1/3;
+        const t = 1/4;
         const curveList = [];
         let i = 1;
         curveList.push({

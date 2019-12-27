@@ -1,2 +1,3 @@
 [canvas globalCompositeOperation目标图像和源图像的显示状态](https://www.w3school.com.cn/tags/canvas_globalcompositeoperation.asp)  
-[canvas相关属性方法文档](https://www.runoob.com/jsref/prop-canvas-textalign.html)
+[canvas相关属性方法文档](https://www.runoob.com/jsref/prop-canvas-textalign.html)  
+[canvas相关功能库集合](https://github.com/0326/canvas)
