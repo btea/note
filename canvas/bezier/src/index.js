@@ -50,6 +50,10 @@ curve.init = {
 	x: 0, y: 600 * 25 + 150
 }
 let control1, control2, init = {one: {left: 50, top: 350, x: 80,y: 350}, two: {left: 250, top: 250, x: 280, y: 250}}
+let ax = document.getElementById('p1x')
+let ay = document.getElementById('p1y')
+let bx = document.getElementById('p2x')
+let by = document.getElementById('p2y')
 control1 = document.getElementsByClassName('control1')[0]
 control2 = document.getElementsByClassName('control2')[0]
 const pointMove = (el, point) => {
@@ -71,6 +75,25 @@ document.getElementsByClassName('coordinate-plane')[0].appendChild(curve.el)
 pointMove(control1, {x: 50, y: 350})
 pointMove(control2, {x: 250, y: 250})
 curve.renderLine([{x: 0, y: 450}, {x: 50, y: 350}, {x: 250, y: 250}, {x: 300, y: 150}])
+// 过渡时间调整设置
+const getEle = name => document.getElementsByClassName(name)[0]
+let initTime = 0
+let bar = getEle('bar')
+let barContent = getEle('bar-content')
+let timeEl = getEle('desc-time')
+let operator = getEle('operator')
+let play = getEle('start-play')
+// 预览 & 比较 canvas绘制
+let red = new CreateCanvas({
+	width: 60,
+	height: 60,
+	color: '#fff',
+	line: '#fff',
+	background: 'red'
+})
+red.el.className = 'show'
+operator.appendChild(red.el)
+red.renderLine(points.map(p => ({x: p.x / 6 + 5, y: (p.y - 150) / 6 + 5})))
 
 document.addEventListener('mousemove', e => {
 	if (isCanMove) {
@@ -102,47 +125,43 @@ document.addEventListener('mousemove', e => {
 		curve.renderAxis()
 		curve.renderLine(points)
 		activeEl.style = `left: ${vx}px; top: ${vy}px`
+		bezierFun(points[1], points[2])
+
+		red.ctx.clearRect(0, 0, red.width, red.height)
+		red.renderLine(points.map(p => ({x: p.x / 6 + 5, y: (p.y - 150) / 6 + 5})))
 	}
 })
 document.addEventListener('mouseup', e => {
 	isCanMove = false
 })
 
-// 过渡时间调整设置
-const getEle = name => document.getElementsByClassName(name)[0]
-let initTime = 0
-let bar = getEle('bar')
-let barContent = getEle('bar-content')
-let timeEl = getEle('desc-time')
-let operator = getEle('operator')
-let play = getEle('start-play')
-// 预览 & 比较 canvas绘制
-let left = new CreateCanvas({
-	width: 60,
-	height: 60,
-	color: '#fff',
-	line: '#fff',
-	background: 'red'
-})
-left.el.className = 'show'
-operator.appendChild(left.el)
-left.renderLine(points.map(p => ({x: p.x / 6 + 5, y: (p.y - 150) / 6 + 5})))
+
 function bezierFun(one, two) {
 	let a, b, c, d
-	a = numConvert((one.x / 300).toFixed(2))
-	b = numConvert(((one.y - 450) / 300).toFixed(2))
-	c = numConvert((two.x / 300).toFixed(2))
-	d = numConvert(((two.y - 450) / 300).toFixed(2))
+	a = numConvert(one.x / 300)
+	b = numConvert((450 - one.y) / 300)
+	c = numConvert(two.x / 300)
+	d = numConvert((450 - two.y) / 300)
+	codeValue(a, b, c, d)
 	return `${a}, ${b}, ${c}, ${d}`
+}
+
+function codeValue(a, b, c, d){
+	ax.innerText = a
+	ay.innerText = b
+	bx.innerText = c
+	by.innerText = d
 }
 function numConvert(n) {
 	if (!Number(n)) return 0
+	if (!/\./.test(n)) return n
+	n = n.toFixed(2)
 	if (/0$/.test(n)) return n.slice(-1)
 	return n
 }
 // 曲线函数设置
 function timeFunction(el, points, c = 'red') {
-	let bezier = this.bezierFun(points[1], points[2])
+	let bezier = bezierFun(points[1], points[2])
 	el.style = `transition-timing-function: cubic-bezier(${bezier}); transition-duration: ${initTime}s;background: ${c}`
 }
 bar.addEventListener('click', e => {
@@ -156,10 +175,10 @@ bar.addEventListener('click', e => {
 		initTime = initTime.toFixed(1)
 	}
 	timeEl.innerText = `${initTime} 秒`
-	
+	timeFunction(red.el, points)
 })
 play.addEventListener('click', e => {
-	left.el.classList.toggle('move')
+	red.el.classList.toggle('move')
 })
 
 

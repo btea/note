@@ -73,6 +73,15 @@ canvas.active{
 #preview{
 	width: 350px;
 }
+#preview code{
+	font-size: 25px;
+}
+#p1x,#p1y{
+	color: red;
+}
+#p2x,#p2y{
+	color: rgb(0, 170, 187);
+}
 #preview .operator h2{
 	width: 150px;
 	display: inline-block;
