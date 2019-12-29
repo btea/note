@@ -18,6 +18,7 @@ let control = [
 	[40, 90, 60, 10]
 ]
 let names = ['ease', 'linear', 'ease-in', 'ease-out', 'ease-in-out']
+let activeFun = 'ease'
 control.forEach((element, i) => {
 	els[i].options.name = names[i]
 	els[i].points[1] = {x: element[0], y: element[1]}
@@ -94,6 +95,23 @@ let red = new CreateCanvas({
 red.el.className = 'show'
 operator.appendChild(red.el)
 red.renderLine(points.map(p => ({x: p.x / 6 + 5, y: (p.y - 150) / 6 + 5})))
+
+let blue = new CreateCanvas({
+	width: 60,
+	height: 60,
+	color: '#fff',
+	line: '#fff',
+	background: 'rgb(0, 170, 187)'
+});
+blue.el.className = 'show'
+operator.appendChild(blue.el)
+blue.renderLine(els[0].points.map(p => ({x: p.x / (10 / 6), y: p.y / (10 / 6)})))
+
+
+// 应用默认曲线函数
+function curveFn(name) {
+	blue.el.style = `transition-timing-function: ${name}; transition-duration: ${initTime}s;background: ${blue.background}`
+}
 
 document.addEventListener('mousemove', e => {
 	if (isCanMove) {
@@ -176,9 +194,12 @@ bar.addEventListener('click', e => {
 	}
 	timeEl.innerText = `${initTime} 秒`
 	timeFunction(red.el, points)
+
+	curveFn(activeFun)
 })
 play.addEventListener('click', e => {
 	red.el.classList.toggle('move')
+	blue.el.classList.toggle('move')
 })
 
 

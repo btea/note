@@ -72,6 +72,7 @@ canvas.active{
 /* 预览 & 比较 */
 #preview{
 	width: 350px;
+	margin-right: 80px;
 }
 #preview code{
 	font-size: 25px;
@@ -129,6 +130,7 @@ span.bar{
 	display: block;
 	position: relative;
 	left: 0;
+	margin: 15px 0;
 }
 .operator .move{
 	left: 100%;
