@@ -75,7 +75,24 @@ canvas.active{
 	margin-right: 80px;
 }
 #preview code{
-	font-size: 25px;
+	font-size: 28px;
+	white-space: nowrap;
+	width: 400px;
+	font-weight: bold;
+}
+.start-play{
+	appearance: none;
+	width: 60px;
+	height: 25px;
+	border: none;
+	cursor: pointer;
+	border-radius: 3px;
+	background: #66ccff85;
+	outline: none;
+}
+.start-play:hover{
+	/* filter: brightness(1.5); */
+	background: #66ccff;
 }
 #p1x,#p1y{
 	color: red;
@@ -116,15 +133,16 @@ span.bar{
 	background: #6cf;
 	border-radius: 5px;
 }
-.bar-content::after{
-	content: '';
+.time-point{
 	position: absolute;
-	right: 0;
+	left: 0;
 	top: 0;
 	width: 10px;
 	height: 10px;
 	border-radius: 5px;
 	background: aqua;
+	margin-left: -5px;
+	z-index: 2;
 }
 .operator canvas{
 	display: block;
@@ -134,4 +152,27 @@ span.bar{
 }
 .operator .move{
 	left: 100%;
+}
+
+#library{
+	margin: 50px;
+}
+#library .library-item{
+	display: inline-block;
+	position: relative;
+	margin: 25px 0;
+}
+.library-item::after{
+	content: attr(data-name);
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 100%;
+	text-align: center;
+}
+#library canvas{
+	background: rgb(229, 229, 229);
+}
+#library .active{
+	background: rgb(0, 170, 187);
 }

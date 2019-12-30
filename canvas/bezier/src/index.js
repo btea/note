@@ -17,31 +17,66 @@ let control = [
 	[10, 90, 60, 10], 
 	[40, 90, 60, 10]
 ]
-let names = ['ease', 'linear', 'ease-in', 'ease-out', 'ease-in-out']
+let names = ['ease', 'linear', 'ease-in', 'ease-out', 'ease-in-out'], red, blue
 let activeFun = 'ease'
 control.forEach((element, i) => {
 	els[i].options.name = names[i]
+	els[i].options.background = 'none'
 	els[i].points[1] = {x: element[0], y: element[1]}
 	els[i].points[2] = {x: element[2], y: element[3]}
 });
 els[0].options = {
-	background: '#0ab',
+	background: 'none',
 	color: '#fff',
 	line: '#fff'
 }
-let handler = (ins) => {
+let handler = (ins, i) => {
 	let el = ins.el
 	if (el.classList.contains('active')) {
 		return
 	} else {
+		els.map((e, j) => {
+			if (e.el.el.classList.contains('active')) {
+				e.el.el.classList.remove('active')
+				removeActive(els[j])
+			}
+		})
 		el.classList.add('active')
+		addActive(els[i])
+		curveFn(names[i])
 	}
 }
-els.map(el => {
+
+// 右侧取消当前选中活跃样式
+function removeActive(ins) {
+	ins.el.ctx.clearRect(0, 0, ins.width, ins.height)
+	ins.el.color = ins.el.line = '#000'
+	ins.el.renderLine(ins.points)
+}
+// 右侧渲染选中样式
+function addActive(ins) {
+	ins.el.ctx.clearRect(0, 0, ins.width, ins.height)
+	ins.el.color = ins.el.line = '#fff'
+	ins.el.renderLine(ins.points)
+
+	blue.ctx.clearRect(0, 0, blue.width, blue.height)
+	blue.renderLine(ins.points.map(p => ({x: p.x / (10 / 6), y: p.y / (10 / 6)})))
+}
+els.map((el, i) => {
 	let ele = new CreateCanvas(el.options)
-	document.querySelector('#library').appendChild(ele.el)
+	let box = document.createElement('div')
+	box.classList = 'library-item'
+	box.appendChild(ele.el)
+	box.setAttribute('data-name', names[i])
+	document.querySelector('#library').appendChild(box)
 	ele.renderLine(el.points)
 	el.el = ele
+	if (i === 0) {
+		ele.el.classList.add('active')
+	}
+	ele.el.addEventListener('click', () => {
+		handler(ele, i)
+	})
 })
 
 let curve = new CreateCanvas({
@@ -78,14 +113,15 @@ pointMove(control2, {x: 250, y: 250})
 curve.renderLine([{x: 0, y: 450}, {x: 50, y: 350}, {x: 250, y: 250}, {x: 300, y: 150}])
 // 过渡时间调整设置
 const getEle = name => document.getElementsByClassName(name)[0]
-let initTime = 0
+let initTime = 1
 let bar = getEle('bar')
 let barContent = getEle('bar-content')
+let timePoint = getEle('time-point')
 let timeEl = getEle('desc-time')
 let operator = getEle('operator')
 let play = getEle('start-play')
 // 预览 & 比较 canvas绘制
-let red = new CreateCanvas({
+red = new CreateCanvas({
 	width: 60,
 	height: 60,
 	color: '#fff',
@@ -96,7 +132,7 @@ red.el.className = 'show'
 operator.appendChild(red.el)
 red.renderLine(points.map(p => ({x: p.x / 6 + 5, y: (p.y - 150) / 6 + 5})))
 
-let blue = new CreateCanvas({
+blue = new CreateCanvas({
 	width: 60,
 	height: 60,
 	color: '#fff',
@@ -143,12 +179,37 @@ document.addEventListener('mousemove', e => {
 		curve.renderAxis()
 		curve.renderLine(points)
 		activeEl.style = `left: ${vx}px; top: ${vy}px`
-		bezierFun(points[1], points[2])
-
+		let cubic = bezierFun(points[1], points[2])
+		titleIconSet(cubic)
+		timeFunction(red.el, points)
 		red.ctx.clearRect(0, 0, red.width, red.height)
 		red.renderLine(points.map(p => ({x: p.x / 6 + 5, y: (p.y - 150) / 6 + 5})))
 	}
 })
+function titleIconSet(title) {
+	title = `cubic-bezier(${title})`
+	let icon = red.el.toDataURL('image/png')
+	let img = document.createElement('img')
+	img.src = icon
+	let titleEl = document.getElementsByTagName('title')[0]
+	let iconEl = document.getElementsByTagName('link')[0]
+	titleEl.innerText = title
+	img.onload = () => {
+		let canvas = document.createElement('canvas')
+		canvas.width = 60
+		canvas.height = 60
+		let ctx = canvas.getContext('2d')
+		ctx.beginPath()
+		ctx.fillStyle = '#6cf';
+		ctx.rect(0, 0, 60, 60)
+		ctx.fill()
+		ctx.drawImage(img, 5, 5, 50, 50)
+		iconEl.href = canvas.toDataURL('image/png')
+	}
+	
+	
+}
+
 document.addEventListener('mouseup', e => {
 	isCanMove = false
 })
@@ -174,7 +235,7 @@ function numConvert(n) {
 	if (!Number(n)) return 0
 	if (!/\./.test(n)) return n
 	n = n.toFixed(2)
-	if (/0$/.test(n)) return n.slice(-1)
+	if (/0$/.test(n)) return n.slice(0, -1)
 	return n
 }
 // 曲线函数设置
@@ -184,10 +245,7 @@ function timeFunction(el, points, c = 'red') {
 }
 bar.addEventListener('click', e => {
 	let v = (e.layerX / 150).toFixed(3) * 100
-	if (v < 1 / 15 * 100) {
-		v = 1 / 15 * 100
-	}
-	barContent.style = `width: ${v}%;`
+	barContent.style = `width: ${v}%`
 	initTime = Math.floor(v) / 100 * 10
 	if (/\./.test(initTime)) {
 		initTime = initTime.toFixed(1)
@@ -197,6 +255,15 @@ bar.addEventListener('click', e => {
 
 	curveFn(activeFun)
 })
+// 初始化时间设置
+barContent.style = `width: 10%`
+timeEl.innerText = `${initTime} 秒`
+timeFunction(red.el, points)
+curveFn(activeFun)
+// 初始化页面标题和icon
+let cubic = bezierFun(points[1], points[2])
+titleIconSet(cubic)
+
 play.addEventListener('click', e => {
 	red.el.classList.toggle('move')
 	blue.el.classList.toggle('move')
