@@ -206,8 +206,6 @@ function titleIconSet(title) {
 		ctx.drawImage(img, 5, 5, 50, 50)
 		iconEl.href = canvas.toDataURL('image/png')
 	}
-	
-	
 }
 
 document.addEventListener('mouseup', e => {

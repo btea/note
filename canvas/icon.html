@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		canvas{
+			width: 200px;
+			height: 300px;
+			border-radius: 5px;
+			background: linear-gradient(to bottom, rgba(102, 204, 255, 1), rgba(102, 204, 255, .1), rgba(102, 204, 255, .5), rgba(102, 204, 255, 1));	
+		}
+	</style>
+</head>
+<body>
+	<canvas width="200" height="300"></canvas>
+	<script>
+		let el = document.getElementsByTagName('canvas')[0]
+		let ctx = el.getContext('2d')
+		class Circle{
+			constructor() {
+				this.w = 200
+				this.h = 300
+				this.width = 10
+				this.height = 10
+				this.color = '#fff'
+				this.num = 10
+				this.circles = this.createCircle()
+				this.startDraw()
+				setInterval(() => {
+					this.clear()
+					this.startDraw()
+				}, 1000 / 60)
+			}
+			createCircle() {
+				let r = 5, c = '#fff', s
+				return new Array(this.num).fill(0).map(() => {
+					s = Math.random().toFixed(1)
+					s = Number(s)
+					// if (Number(s) < 0.5) {
+					// 	s = 0.5
+					// }
+					s += 1.5
+					return {
+						r: r,
+						y: this.h - r,
+						x: this.random(r, this.w - r),
+						c: c,
+						s: s
+					}
+				})
+			}
+			startDraw() {
+				this.circles.forEach(c => {
+				console.log(c)
+				this.drawCircle(c)
+				})
+			}
+			random(min, max){
+				return Math.floor(Math.random() * (max - min) + min)
+			}
+			clear(){
+				ctx.clearRect(0, 0, this.w, this.h)
+			}
+			
+			drawCircle(c){
+				ctx.beginPath()
+				ctx.strokeStyle = c.c
+				ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2)
+				ctx.stroke()
+				c.y -= c.s
+				if (c.y <= 0) {
+					c.y = this.h + c.r
+					let s = Math.random().toFixed(1)
+					s = Number(s)
+					c.s = s + 1.5
+				}
+			}
+		}
+		new Circle()
+	</script>
+</body>
+</html>
