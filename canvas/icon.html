@@ -7,8 +7,8 @@
 	<title>Document</title>
 	<style>
 		canvas{
-			width: 200px;
-			height: 300px;
+			/* width: 200px; */
+			/* height: 300px; */
 			border-radius: 5px;
 			background: linear-gradient(to bottom, rgba(102, 204, 255, 1), rgba(102, 204, 255, .1), rgba(102, 204, 255, .5), rgba(102, 204, 255, 1));	
 		}
@@ -20,19 +20,50 @@
 		let el = document.getElementsByTagName('canvas')[0]
 		let ctx = el.getContext('2d')
 		class Circle{
-			constructor() {
-				this.w = 200
-				this.h = 300
-				this.width = 10
-				this.height = 10
-				this.color = '#fff'
-				this.num = 10
+			constructor(options) {
+				this.w = options.w || 200
+				this.h = options.h || 300
+				this.width = options.width || 10
+				this.height = options.height || 10
+				this.color = options.color || '#fff'
+				this.num = options.num || 10
+				this.bg = options.bg || '#6cf'
 				this.circles = this.createCircle()
+				this.createEl()
 				this.startDraw()
 				setInterval(() => {
 					this.clear()
 					this.startDraw()
 				}, 1000 / 60)
+			}
+			createEl() {
+				let el = document.createElement('canvas')
+				el.width = this.w
+				el.height = this.h
+				let ctx = el.getContext('2d')
+				this.el = el
+				this.ctx = ctx
+				this.hexTorgb()
+				document.body.appendChild(el)
+			}
+			hexTorgb() {
+				let hex = this.bg, r = '', g = '', b = ''
+				hex = hex.slice(1)
+				if (hex.length === 3){
+					r = parseInt(hex[0].repeat(2), 16)
+					g = parseInt(hex[1].repeat(2), 16)
+					b = parseInt(hex[2].repeat(2), 16)
+				}
+				if (hex.length === 6){
+					r = parseInt(hex.slice(0, 2), 16)
+					g = parseInt(hex.slice(2, 4), 16)
+					b = parseInt(hex.slice(-2), 16)
+				}
+				if (r === '') {
+					return ''
+				}
+				let str = `linear-gradient(to bottom, rgba(${r}, ${g}, ${b}, 1), rgba(${r}, ${g}, ${b}, .1), rgba(${r}, ${g}, ${b}, .5), rgba(${r}, ${g}, ${b}, 1))`
+				this.el.style.background = str
 			}
 			createCircle() {
 				let r = 5, c = '#fff', s
@@ -54,22 +85,21 @@
 			}
 			startDraw() {
 				this.circles.forEach(c => {
-				console.log(c)
-				this.drawCircle(c)
+					this.drawCircle(c)
 				})
 			}
 			random(min, max){
 				return Math.floor(Math.random() * (max - min) + min)
 			}
 			clear(){
-				ctx.clearRect(0, 0, this.w, this.h)
+				this.ctx.clearRect(0, 0, this.w, this.h)
 			}
 			
 			drawCircle(c){
-				ctx.beginPath()
-				ctx.strokeStyle = c.c
-				ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2)
-				ctx.stroke()
+				this.ctx.beginPath()
+				this.ctx.strokeStyle = c.c
+				this.ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2)
+				this.ctx.stroke()
 				c.y -= c.s
 				if (c.y <= 0) {
 					c.y = this.h + c.r
@@ -79,7 +109,9 @@
 				}
 			}
 		}
-		new Circle()
+		new Circle({w: 100, h: 150, width: 10, height: 10, num: 10,bg: '#0ff'})
+		new Circle({w: 120, h: 180, width: 10, height: 10, num: 10, bg: '#09f'})
+		new Circle({w: 160, h: 200, width: 10, height: 10, num: 10, bg: '#05f'})
 	</script>
 </body>
 </html>
