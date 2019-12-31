@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>cross origin</title>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+	<script>
+		let el = document.getElementById('canvas')
+		let ctx = el.getContext('2d')
+		let url = 'https://user-gold-cdn.xitu.io/2019/12/31/16f59b046adb34e9?imageView2/1/w/460/h/456/q/85/format/jpg/interlace/1'
+
+		baseStr()
+		// request()
+
+		function request() {
+			let xhr = new XMLHttpRequest()
+			xhr.onload = function(){  
+				let url = URL.createObjectURL(this.response)
+				let img = new Image()
+				img.onload = () => {
+					ctx.drawImage(img, 0, 0, el.width, el.height)
+					console.log(ctx.getImageData(0, 0, el.width, el.height))
+					// document.body.appendChild(img)
+				}
+				img.src = url
+			}
+			xhr.open('get', url, true)
+			xhr.responseType = 'blob'
+			xhr.send()
+		}
+		
+		function baseStr() {
+			let img = new Image()
+			img.crossOrigin = 'anonymous'
+			img.onload = () => {
+				ctx.drawImage(img, 0, 0, el.width, el.height)
+				console.log(ctx.getImageData(0, 0, el.width, el.height))
+			}
+			img.src = url
+		}
+	</script>
+</body>
+</html>
