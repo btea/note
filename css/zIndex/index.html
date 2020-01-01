@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>css世界层叠规则</title>
+    <style>
+        body{
+            background: #66ccff50;
+        }
+        .z0{
+            width: 100px;
+            height: 50px;
+            background: #6cf;
+            position: relative;
+            z-index: -1;
+        }
+        .block{
+            width: 100px;
+            height: 50px;
+            margin-left: 25px;
+            margin-top: -25px;
+            background: aqua;
+        }
+        .float{
+            width: 100px;
+            height: 50px;
+            background: beige;
+            margin-left: 50px;
+            margin-top: -25px;
+        }
+        .inline{
+            display: inline;
+            /* width: 100px; */
+            /* height: 50px; */
+            padding: 10px 20px;
+            background: cadetblue;
+            margin-left: 75px;
+            margin-top: -25px;
+        }
+        .auto{
+            width: 100px;
+            height: 50px;
+            position: relative;
+            z-index: auto;
+            background: crimson;
+            left: 100px;
+        }
+        .z1{
+            width: 100px;
+            height: 50px;
+            position: relative;
+            z-index: 1;
+            background: cyan;
+            left: 125px;
+            top: -25px;
+        }
+    </style>
+</head>
+<body>
+    <div class="z0">负z-index</div>
+    <div class="block">block块状水平盒子</div>
+    <div class="float">浮动盒子</div>
+    <div class="inline">inline盒子</div>
+    <div class="auto">z-index: auto 或 z-index: 0</div>
+    <div class="z1">正z-index</div>
+</body>
+</html>
