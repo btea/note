@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>box</title>
+    <style>
+        .box{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 200px;
+            height: 150px;
+            background: none;
+            outline: #99999950 solid 9999px;
+            border: 1px solid #6cf;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+    <script>
+        let el = document.getElementsByClassName('box')[0]
+        let x, y;
+        el.addEventListener('mousedown', e => {
+            console.log(e)
+        })
+    </script>
+</body>
+</html>

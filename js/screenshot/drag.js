@@ -311,8 +311,6 @@ class dragElement{
         if(type === 'leftMid'){
 
         }
-        console.log(type);
-        console.log(e);
     }
     
     throttle(fn, t){
