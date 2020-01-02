@@ -23,10 +23,33 @@
     <div class="box"></div>
     <script>
         let el = document.getElementsByClassName('box')[0]
-        let x, y;
+        let x, y, a, b, isCanMove = false, X  = 0, Y = 0
+        let debounce = (time, fn) => {
+            let t = Date.now()
+            return (e) => {
+                if (Date.now() - t < time) return
+                fn(e)
+                t = Date.now()
+            }    
+        }
         el.addEventListener('mousedown', e => {
-            console.log(e)
+            isCanMove = true
+            x = e.x
+            y = e.y
         })
+        document.addEventListener('mousemove',debounce(60, (e) => {
+            if (!isCanMove) return
+            a = X + e.x - x
+            b = Y + e.y - y
+            
+            el.style = `transform: translate(${a}px, ${b}px)`;
+        }))
+        document.addEventListener('mouseup', e => {
+            isCanMove = false
+            X = a
+            Y = b
+        })
+
     </script>
 </body>
 </html>
