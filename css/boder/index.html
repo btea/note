@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>border</title>
+	<style type="text/css">
+		.border{
+			width: 300px;
+			height: 150px;
+			border-radius: 5px;
+			border: 4px solid aqua;
+			margin: 30px  auto;
+			position: relative;
+			background: #6cf;
+		}
+		.border::after,.border::before{
+			content: '';
+			position: absolute;
+			left: 50%;
+			bottom: 100%;
+			width: 0;
+			height: 0;
+			border: solid transparent;
+		}
+		.border::before{
+			border-width: 20px;
+			margin-left: -20px;
+			border-bottom-color: #6cf;
+			z-index: 1;
+		}
+		.border::after{
+			border-width: 26px;
+			margin-left: -26px;
+			border-bottom-color: aqua;
+		}
+	</style>
+</head>
+<body>
+	<div class="border">
+		这是一个框	
+	</div>
+</body>
+</html>
