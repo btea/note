@@ -6,6 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>box</title>
     <style>
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+        .container{
+            width: 100%;
+            height: 100%;
+        }
 		.box{
             position: absolute;
             left: 50%;
@@ -16,11 +24,25 @@
             outline: #99999950 solid 9999px;
             border: 1px solid #6cf;
             cursor: pointer;
+            z-index: 1;
+        }
+        button{
+            position: absolute;
+            left: 50%;
+            top: 100%;
+
         }
     </style>
 </head>
 <body>
-	<div class="box"></div>
+    <div class="container">
+        <!-- <img src="https://i0.hdslb.com/bfs/album/e78d3f6bbc487a003a3a72677c1975f781ac2090.jpg" alt=""> -->
+        <img src="https://i0.hdslb.com/bfs/album/aa3f669c2e0ac2f82e5864db4bb3c463bb3c00ff.jpg" style="height: 80%;" alt="">
+    </div>
+    <div class="box">
+        <button onclick="startLoad()">下载</button>
+    </div>
+    <script src="dom-to-image.js"></script>
     <script>
         let el = document.getElementsByClassName('box')[0]
         let x, y, a, b, isCanMove = false, X  = 0, Y = 0
@@ -49,7 +71,28 @@
             X = a
             Y = b
         })
-
+        function startLoad() {
+            let node = document.getElementsByClassName('container')[0];
+            domtoimage.toPng(node).then(url => {
+                let con = document.getElementsByClassName('box')[0]
+                let info = con.getBoundingClientRect()
+                let w = window.innerWidth
+                let h = window.innerHeight
+                let el = document.createElement('canvas')
+                el.width = info.width
+                el.height = info.height
+                let ctx = el.getContext('2d')
+                let img = new Image()
+                img.onload = () => {
+                    ctx.drawImage(img, -info.left, -info.top, w, h)
+                    let link = document.createElement('a')
+                    link.href = el.toDataURL()
+                    link.download = Date.now() + '.png'
+                    link.click()
+                }
+                img.src = url
+            })
+        }
     </script>
 </body>
 </html>
