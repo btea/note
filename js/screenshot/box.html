@@ -9,6 +9,9 @@
         html,body{
             width: 100%;
             height: 100%;
+			margin: 0;
+			padding: 0;
+			position: relative;
         }
         .container{
             width: 100%;
@@ -25,6 +28,7 @@
             border: 1px solid #6cf;
             cursor: pointer;
             z-index: 1;
+			will-change: transform;
         }
         button{
             position: absolute;
@@ -37,7 +41,8 @@
 <body>
     <div class="container">
         <!-- <img src="https://i0.hdslb.com/bfs/album/e78d3f6bbc487a003a3a72677c1975f781ac2090.jpg" alt=""> -->
-        <img src="https://i0.hdslb.com/bfs/album/aa3f669c2e0ac2f82e5864db4bb3c463bb3c00ff.jpg" style="height: 80%;" alt="">
+		<!-- <img src="https://i0.hdslb.com/bfs/album/aa3f669c2e0ac2f82e5864db4bb3c463bb3c00ff.jpg" style="height: 80%;" alt=""> -->
+		<img src="https://user-gold-cdn.xitu.io/2020/1/3/16f6b82d3a0b41ac?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="">
     </div>
     <div class="box">
         <button onclick="startLoad()">下载</button>
