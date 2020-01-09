@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Element.insertAdjacentElement</title>
+	<style>
+		div{
+			margin: 30px auto;
+			width: 300px;
+			height: 200px;
+		}
+		p{
+			width: 300px;
+			margin: 0 auto;
+		}
+	</style>
+</head>
+<body>
+	<div class="beforebegin">
+		beforebegin
+	</div>
+	<div class="afterbegin">
+		afterbegin
+	</div>
+	<div class="beforeend">
+		beforeend
+	</div>
+	<div class="afterend">
+		afterend
+	</div>
+
+	<script>
+		let beforebegin = document.getElementsByClassName('beforebegin')[0]
+		let afterbegin = document.getElementsByClassName('afterbegin')[0]
+		let beforeend = document.getElementsByClassName('beforeend')[0]
+		let afterend = document.getElementsByClassName('afterend')[0]
+		let el = document.createElement('p')
+		el.innerText = '插入的元素'
+		// 语法
+		// element.insertAdjacentElement(position, element)
+		// 返回值
+		// 插入的元素，插入失败则返回null
+		// 异常
+		// SyntaxError 插入的位置是一个无法识别的值
+		// TypeError 插入的元素不是一个有效元素
+
+		HTMLElement.prototype.insertAdjacentElement = function(position, el) {
+			position = String(position).toLowerCase()
+			if (!['beforebegin', 'afterbegin', 'beforeend', 'afterend'].includes(position)) {
+				throw Error("Failed to execute 'insertAdjacentElement' on 'Element': The value provided ('" + position + "') is not one of 'beforeBegin', 'afterBegin', 'beforeEnd', or 'afterEnd'.")
+			}
+			if (!el instanceof HTMLElement) {
+				throw TypeError("Failed to execute 'insertAdjacentElement' on 'Element': parameter 2 is not of type 'Element'.")
+			}
+			try {
+				switch (position) {
+					case 'beforebegin':
+						this.parentNode.insertBefore(el, this)
+						break
+					case 'afterbegin':
+						this.insertBefore(el, this.childNodes[0])
+						break
+					case 'beforeend':
+						this.appendChild(el)
+						break
+					case 'afterend':
+						this.parentNode.insertBefore(el, this.nextElementSibling)
+						break
+				}
+				console.log('%c插入成功!', 'color: red; font-size: 20px; font-style: italic;')
+				return el
+			} catch(err) {
+				return null
+			}
+		}
+
+		/*--------beforeBegin---------*/
+		beforebegin.insertAdjacentElement('beforeBegin', el.cloneNode(true))
+		/*--------afterBegin---------*/
+		afterbegin.insertAdjacentElement('afterBegin', el.cloneNode(true))
+		/*--------beforEend---------*/
+		beforeend.insertAdjacentElement('beforeend', el.cloneNode(true))
+		/*--------afterEnd---------*/
+		afterend.insertAdjacentElement('afterEnd',el.cloneNode(true))
+	</script>
+</body>
+</html>
