@@ -1,0 +1,85 @@
+.tool-list{
+	position: absolute; 
+	right: 0; 
+	top: 100%; 
+	margin: 5px 0 0 0;
+	background: #ffffff;
+	white-space: nowrap;
+	padding: 0;
+}
+.tool-list .item{
+	list-style: none;
+	height: 20px;
+	display: inline-block;
+	min-width: 25px;
+	position: relative;
+	margin: 5px;
+	vertical-align: middle;
+	cursor: pointer;
+	box-sizing: border-box;
+	font-size: 12px;
+	border: 1px solid #fff;
+}
+.tool-list .item:hover{
+	border-color: #999;
+}
+.tool-list .load{
+	width: 50px;
+	text-align: right;
+}
+.tool-list .load::before{
+	content: '';
+	position: absolute;
+	left: 2px;
+	top: 0;
+	width: 12px;
+	height: 8px;
+	border: 3px solid;
+	border-color: transparent transparent greenyellow greenyellow;
+	transform: rotate(-45deg) scale(0.8);
+	
+}
+.tool-list .cancel{
+	transform: scale(0.8);
+}
+.tool-list .cancel::before{
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 3px;
+	width: 21px;
+	background: red;
+	transform-origin: left;
+	transform: rotate(45deg);
+}
+.tool-list .cancel::after{
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	height: 3px;
+	width: 21px;
+	background: red;
+	transform-origin: left;
+	transform: rotate(-45deg);
+}
+.tool-list .rect::before{
+	content: '';
+	position: absolute;
+	left: 2px;
+	right: 2px;
+	top: 1px;
+	bottom: 1px;
+	border: 1px solid #6cf;
+}
+.tool-list .ellipse::before{
+	content: '';
+	position: absolute;
+	left: 2px;
+	right: 2px;
+	top: 1px;
+	bottom: 1px;
+	border-radius: 50%;
+	border: 1px solid #6cf;
+}
