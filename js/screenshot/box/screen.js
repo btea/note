@@ -1,5 +1,7 @@
 class ScreenShot{
 	constructor() {
+		this.width = 200
+		this.height = 150
 		this.init()
 	}
 	init() {
@@ -8,8 +10,8 @@ class ScreenShot{
 		el.style = this.Elstyle = `position: fixed;
 		left: 50%;
 		top: 50%;
-		width: 200px;
-		height: 150px;
+		width: ${this.width}px;
+		height: ${this.height}px;
 		background: none;
 		outline: #99999950 solid 9999px;
 		border: 1px solid #fff;
@@ -51,9 +53,17 @@ class ScreenShot{
 		this.el.appendChild(tool)
 		this.tool = tool
 	}
+	initCanvas() {
+		let el = this.createElement('canvas')
+		this.canvas = el
+		el.width = this.width
+		el.height = this.height
+		this.ctx = this.el.getContext('2d')
+		
+	}
 	startLoad() {
 		// 完成，开始下载
-
+		
 	}
 	cancelScreenShot() {
 		// 取消截图
@@ -84,7 +94,7 @@ class ScreenShot{
             Y = b
         })
 	}
-	debounce = (time, fn) => {
+	debounce(time, fn) {
 		let t = Date.now()
 		return (e) => {
 			if (Date.now() - t < time) return
