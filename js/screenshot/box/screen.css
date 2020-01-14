@@ -1,3 +1,45 @@
+.screen-shoot-box .point{
+	position: absolute;
+	width: 4px;
+	height: 4px;
+	background: #6cf;
+}
+.screen-shoot-box .nw-resize{
+	left: -2px;
+	top: -2px;
+}
+.screen-shoot-box .n-resize {
+	left: 50%;
+	margin-left: -2px;
+	top: -2px;
+}
+.screen-shoot-box .ne-resize {
+	right: -2px;
+	top: -2px;
+}
+.screen-shoot-box .e-resize {
+	right: -2px;
+	top: 50%;
+	margin-top: -2px;
+}
+.screen-shoot-box .se-resize {
+	right: -2px;
+	bottom: -2px;
+}
+.screen-shoot-box .s-resize {
+	bottom: -2px;
+	left: 50%;
+	margin-left: -2px;
+}
+.screen-shoot-box .sw-resize {
+	left: -2px;
+	bottom: -2px;
+}
+.screen-shoot-box .w-resize {
+	left: -2px;
+	top: 50%;
+	margin-top: -2px;
+}
 .tool-list{
 	position: absolute; 
 	right: 0; 
@@ -21,7 +63,7 @@
 	border: 1px solid #fff;
 }
 .tool-list .item:hover{
-	border-color: #999;
+	/* border-color: #999; */
 }
 .tool-list .load{
 	width: 50px;
