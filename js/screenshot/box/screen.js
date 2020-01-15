@@ -111,7 +111,7 @@ class ScreenShot{
 		// 从左上角开始
 		let points = ['nw-resize', 'n-resize', 'ne-resize', 'e-resize', 'se-resize', 's-resize', 'sw-resize', 'w-resize']
 		let frag = document.createDocumentFragment()
-		let x, y, x1, y1, w = this.width, h = this.height, w1, y1, val, isCanResize 
+		let x, y, x1, y1, w = this.width, h = this.height, val, isCanResize 
 		points.map(p => {
 			let el = this.createElement('span')
 			el.classList = 'point ' + p
@@ -143,7 +143,7 @@ class ScreenShot{
 				}
 				if (val === 'e-resize') {
 					// 右中
-					
+					this.el.style.width = `${w + x1}px`
 				}
 				if (val === 'se-resize') {
 					// 右下角
@@ -159,8 +159,9 @@ class ScreenShot{
 				}
 			}
 		})
-		document.addEventListener('mousedown', e => {
+		document.addEventListener('mouseup', e => {
 			isCanResize = false
+			w = this.width = w + x1;
 		})
 	}
 	debounce(time, fn) {
