@@ -13,18 +13,17 @@ class ScreenShot{
 	}
 	init() {
 		let el = this.createElement('div')
+		this.getContainerStyle()
+
 		el.className = 'screen-shoot-box'
-		el.style = this.Elstyle = `position: fixed;
-		left: 50%;
-		top: 50%;
-		width: ${this.width}px;
-		height: ${this.height}px;
+		this.Elstyle = `position: fixed;
 		background: none;
 		outline: #99999950 solid 9999px;
 		border: 1px solid #6cf;
 		cursor: move;
 		z-index: 2;
 		will-change: transform;`
+		el.style = this.Elstyle + `width: ${this.width}px;height: ${this.height}px; left: ${this.left}px; top: ${this.top}px;`
 		let mask = this.createElement('div')
 		mask.className = 'screen-shoot-mask'
 		mask.style = `position: fixed; left: 0; top: 0; right: 0; bottom: 0; opacity: 0; z-index: 1;`
@@ -33,7 +32,23 @@ class ScreenShot{
 		
 		this.mask = mask // 遮罩，防止截图时触发页面操作
 		this.bindOperator()
-		// this.startCapture()		
+		this.startCapture()
+	}
+	getContainerStyle() {
+		// let style = this.getElStyle(this.el)
+		// this.left = parseInt(style.left)
+		// this.top = parseInt(style.top)
+		let w, h
+		w = window.innerWidth
+		h = window.innerHeight
+		this.left = (w - this.width) / 2
+		this.top = (h - this.height) / 2
+	}
+	getElStyle(el, pseudo = null) {
+		if (window.getComputedStyle) {
+			return window.getComputedStyle(el, pseudo)
+		} 
+		return el.currentStyle
 	}
 	bindOperator() {
 		document.addEventListener('keydown', e => {
@@ -56,9 +71,16 @@ class ScreenShot{
 		// 添加工具栏
 		let tool = this.createElement('ul')
 		tool.className = 'tool-list'
-		tool.innerHTML = this.toolLists.map(n => `<li class="${n.n} item" title="${n.i}">${n.t || ''}</li>`).join('')
+		tool.innerHTML = this.toolLists.map(n => {
+			let html = `<li class="${n.n} item" title="${n.i}">${n.t || ''}</li>`
+			return html
+		}).join('')
 		this.el.appendChild(tool)
 		this.tool = tool
+		
+		let child = tool.children
+		child[3].addEventListener('click', this.startLoad)
+		child[2].addEventListener('click', () => { this.cancelScreenShot() })
 	}
 	initCanvas() {
 		let el = this.createElement('canvas')
@@ -70,11 +92,31 @@ class ScreenShot{
 	}
 	startLoad() {
 		// 完成，开始下载
-
+		let node = document.getElementsByClassName('container')[0];
+        domtoimage.toPng(node).then(url => {
+            let con = document.getElementsByClassName('screen-shoot-box')[0]
+            let info = con.getBoundingClientRect()
+            let w = window.innerWidth
+            let h = window.innerHeight
+            let el = document.createElement('canvas')
+            el.width = info.width
+            el.height = info.height
+            let ctx = el.getContext('2d')
+            let img = new Image()
+            img.onload = () => {
+                ctx.drawImage(img, -info.left, -info.top - document.documentElement.scrollTop, w, h)
+                let link = document.createElement('a')
+                link.href = el.toDataURL()
+                link.download = Date.now() + '.png'
+                link.click()
+            }
+            img.src = url
+        })
 	}
 	cancelScreenShot() {
 		// 取消截图
-
+		document.body.removeChild(this.el)
+		document.body.removeChild(this.mask)
 	}
 	drawRect() {
 		// 绘制矩形
@@ -96,7 +138,7 @@ class ScreenShot{
 			if (!isCanMove) return
             a = X + e.x - x
 			b = Y + e.y - y
-            this.el.style = this.Elstyle + `transform: translate(${a}px, ${b}px)`;
+            this.el.style = this.Elstyle + `transform: translate(${a}px, ${b}px);width: ${this.width}px;height: ${this.height}px; left: ${this.left}px; top: ${this.top}px;`;
         }))
         document.addEventListener('mouseup', e => {
             isCanMove = false
@@ -111,7 +153,7 @@ class ScreenShot{
 		// 从左上角开始
 		let points = ['nw-resize', 'n-resize', 'ne-resize', 'e-resize', 'se-resize', 's-resize', 'sw-resize', 'w-resize']
 		let frag = document.createDocumentFragment()
-		let x, y, x1, y1, w = this.width, h = this.height, val, isCanResize 
+		let x, y, x1, y1, w = this.width, h = this.height, val, isCanResize, left = this.left, top = this.top, w1 = w, h1 = h, left1 = left, top1 = top 
 		points.map(p => {
 			let el = this.createElement('span')
 			el.classList = 'point ' + p
@@ -127,41 +169,83 @@ class ScreenShot{
 		})
 		this.el.appendChild(frag)
 
-		document.addEventListener('mousemove', e => {
+		document.body.addEventListener('mousemove', e => {
 			if (isCanResize) {
+				e.stopPropagation()
 				x1 = e.clientX - x
 				y1 = e.clientY - y
-				if (val === 'resize') {
+				if (val === 'nw-resize') {
 					// 左上角
+					left1 = left + x1
+					top1 = top + y1
+					w1 = w - x1
+					h1 = h - y1
+					this.el.style.left = `${left + x1}px`
+					this.el.style.top = `${top + y1}px`
+					this.el.style.width = `${w - x1}px`
+					this.el.style.height = `${h - y1}px`
 				}
 				if (val === 'n-resize') {
 					// 上正中
+					top1 = top + y1
+					h1 = h - y1
+					this.el.style.top = `${top + y1}px`
+					this.el.style.height = `${h - y1}px`
 				}
-				if (val === 'n-resize') {
+				if (val === 'ne-resize') {
 					// 右上角
-					// w1 = w 
+					top1 = top + y1
+					h1 = h - y1
+					w1 = w + x1
+					this.el.style.top = `${top + y1}px`
+					this.el.style.height = `${h - y1}px`
+					this.el.style.width = `${w + x1}px`
 				}
 				if (val === 'e-resize') {
 					// 右中
+					w1 = w + x1
 					this.el.style.width = `${w + x1}px`
 				}
 				if (val === 'se-resize') {
 					// 右下角
+					w1 = w + x1
+					h1 = h + y1
+					this.el.style.width = `${w + x1}px`
+					this.el.style.height = `${h + y1}px`
 				}
 				if (val === 's-resize') {
 					// 下中
+					h1 = h + y1
+					this.el.style.height = `${h + y1}px`
 				}
 				if (val === 'sw-resize') {
 					// 左下角
+					left1 = left + x1
+					w1 = w - x1
+					h1 = h + y1
+					this.el.style.left = `${left + x1}px`
+					this.el.style.width = `${w - x1}px`
+					this.el.style.height = `${h + y1}px`
 				}
 				if (val === 'w-resize') {
 					// 左中
+					w1 = w - x1
+					left1 = left + x1
+					this.el.style.width = `${w - x1}px`
+					this.el.style.left = `${left + x1}px`
 				}
 			}
 		})
-		document.addEventListener('mouseup', e => {
-			isCanResize = false
-			w = this.width = w + x1;
+		document.body.addEventListener('mouseup', e => {
+			if (isCanResize) {
+				e.stopPropagation()  // 阻止冒泡，防止触发document上绑定的拖拽元素框相关事件
+				isCanResize = false
+				w = this.width = w1;
+				h = this.height = h1;
+				left = this.left = left1;
+				top = this.top = top1;
+			}
+			
 		})
 	}
 	debounce(time, fn) {
