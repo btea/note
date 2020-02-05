@@ -18,8 +18,10 @@ function createCurry(func, args) {
 const _check = createCurry(check)
 const checkPhone = _check(/^1[34578]\d{9}$/)
 const checkEmail = _check(/^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/)
+const checkDate = _check(/^\d{4}(-|\/|\.)\d{1,2}\1\d{1,2}$/)
 
 export default {
     checkPhone,
-    checkEmail
+    checkEmail,
+    checkDate
 }
