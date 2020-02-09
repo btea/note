@@ -46,5 +46,39 @@ function dasherize(str) {
     return str.replace(/([A-Z])/g, '-$1').replace(/[-_\s]+/g, '-').toLowerCase()
 }
 ```
-
+## HTML转义和反转义
+### 将html特殊字符转义成等值的实体
+```javascript
+function escapeHTML(str) {
+    var escapeChars = {
+        '<': 'lt',
+        '>': 'gt',
+        '"': 'quot',
+        '&': 'amp',
+        '\'': '#39'
+    }
+    return str.replace(new RegExp('[' + Object.keys(escapeChars).join('') + ']'), 'g'), function(match) {
+        return '&' + escapeChars[match] + ';'
+    })
+}
+```
+### 实体字符转义成等值的HTML
+```javascript
+function unescapeHTML(str) {
+    var htmlEntities = {
+        nbsp: ' ',
+        lt: '<',
+        gt: '>',
+        quot: '"',
+        amp: '&',
+        apos: '\''
+    }
+    return str.replace(/\&([^;]+);/g, function(match, key) {
+        if (key in htmlEntities) {
+            return htmlEntities[key]
+        }
+        return match
+    })
+}
+```
 
