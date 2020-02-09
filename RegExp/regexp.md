@@ -25,7 +25,7 @@ $(美元符号)匹配结尾，在多行匹配中匹配结尾
 ## 非捕获括号
 ### (?:p) 和 (?:p1|p2|p3)
 栗子：将每个单词的首字母转换为大写
-```
+```javascript
 function titleize(str) {
     return str.toLowerCase().replace(/(?:^|\s)\w/g, function(c) {
         return c.toUpperCase()
@@ -33,7 +33,7 @@ function titleize(str) {
 }
 ```
 栗子：驼峰化
-```
+```javascript
 function camelize(str) {
     return sre.replace(/[-_\s]+(.)?/g, function(match, c) {
         return c ? c.toUpperCase() : ''
@@ -41,7 +41,7 @@ function camelize(str) {
 }
 ```
 栗子：中划线化(逆驼峰化)
-```
+```javascript
 function dasherize(str) {
     return str.replace(/([A-Z])/g, '-$1').replace(/[-_\s]+/g, '-').toLowerCase()
 }
