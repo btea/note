@@ -14,6 +14,37 @@ $(美元符号)匹配结尾，在多行匹配中匹配结尾
 (?=p), 其中 p是一个子模式，即p前面的位置，或者说，该位置后面的字符要匹配p。
 比如，(?=l),表示“l”字符前面的位置。
 (?!p), 表示(?=p)的反面的意思。  
-二者的学名分别是 positive lookahead（正向先行断言） 和 negative lookahead（负向先行断言）。
+二者的学名分别是 positive lookahead（正向先行断言） 和 negative lookahead（负向先行断言）。  
+栗子：数字千位分隔符表示法  
+'123456789'.replace(/(?!^)(?=(\d{3})+$)/g, ',')  => '123,456,789'
+
+## 反向引用
+\1  \2  \3、、、  
+\1 表示匹配第一个分组内容， \2 表示匹配第二个分组内容，当多个括号嵌套时，以左括号（开括号）为准。  
+
+## 非捕获括号
+### (?:p) 和 (?:p1|p2|p3)
+栗子：将每个单词的首字母转换为大写
+```
+function titleize(str) {
+    return str.toLowerCase().replace(/(?:^|\s)\w/g, function(c) {
+        return c.toUpperCase()
+    })
+}
+```
+栗子：驼峰化
+```
+function camelize(str) {
+    return sre.replace(/[-_\s]+(.)?/g, function(match, c) {
+        return c ? c.toUpperCase() : ''
+    })
+}
+```
+栗子：中划线化(逆驼峰化)
+```
+function dasherize(str) {
+    return str.replace(/([A-Z])/g, '-$1').replace(/[-_\s]+/g, '-').toLowerCase()
+}
+```
 
 
