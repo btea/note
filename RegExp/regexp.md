@@ -148,11 +148,11 @@ function unescapeHTML(str) {
 匹配字符串`"[abc]"`时，正则应写成`/\[abc\]/`或者`/\[abc]/`。  
 同理，匹配字符串`"{3,5}"`时，只需要写成`/\{3,5}/`即可。
 ## 正则相关API
-> String#search 
-> String#split
-> String#replace
-> String#match
-> RegExp#test
+> String#search  
+> String#split  
+> String#replace  
+> String#match  
+> RegExp#test  
 > RegExp#exec
 ### search 和 match的参数问题
 字符串实例的4个方法参数都支持正则和字符串。但search 和 match,会把字符串转换为正则。
@@ -174,7 +174,7 @@ function unescapeHTML(str) {
 第二，正则使用分组时，结果数组中是包含分隔符的。
 ### 强大的replace
 `replace`有两种使用形式，这是因为它的第二个参数，可以是字符串，也可以是函数。  
-当第二个参数时字符串时，如下的字符有特殊含义：
+当第二个参数时字符串时，如下的字符有特殊含义：  
 属性     |    描述
 -------- | --------
 `$1`,`$2`,...,`$99`| 匹配第 1-99 个分组里捕获的文本
