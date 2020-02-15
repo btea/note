@@ -21,7 +21,7 @@ function convert(num) {
     num = String(num)
     return num.replace(/(?!^)(?=(\d{3})+$)/g, ',')
 }
-concart(123456789) => '123,456,789'
+convert(123456789) => '123,456,789'
 ``` 
 
 ## 反向引用
