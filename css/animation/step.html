@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>animation step</title>
+    <style>
+        div{
+            width: 70px;
+            height: 70px;
+            background-image: url('./gift.png');
+            animation: move 1.68s steps(21) infinite alternate;
+        }
+        @keyframes move {
+            0%{
+                background-position: 0px;
+            }
+            100%{
+                background-position: 1470px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="a"></div>
+</body>
+</html>
