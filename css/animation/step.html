@@ -5,11 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>animation step</title>
     <style>
-        div{
+        .a{
             width: 70px;
             height: 70px;
             background-image: url('./gift.png');
-            animation: move 1.68s steps(21) infinite alternate;
+            animation: move 1.68s steps(21) infinite;
+        }
+        .tea{
+            width: 140px;
+            height: 140px;
+            background-image: url('./tea.png');
+            animation: tea 1s steps(7) infinite;
         }
         @keyframes move {
             0%{
@@ -19,9 +25,18 @@
                 background-position: 1470px;
             }
         }
+        @keyframes tea {
+            0%{
+                background-position: 0;
+            }
+            100%{
+                background-position: 980px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="a"></div>
+    <div class="tea"></div>
 </body>
 </html>
