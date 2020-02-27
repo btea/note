@@ -257,6 +257,45 @@ HTTP/1.1中定义了7种警告。警告码对应的警告内容仅推荐参考�
 214         | Transformation applied（使用了转换） | 代理对内容编码或媒体类型等执行了某些处理时  
 299         | Miscellaneous persistent warning（持久杂项警告） | 任意的警告内容  
 
+## 请求首部字段  
+请求首部字段是从客户端往服务器端发送请求报文中所使用的字段，用于补充请求的附加信息、客户端信息、对响应内容相关的优先级等内容。  
+### Accept  
+Accept首部字段可通知服务器，用户代理能够处理的媒体类型以及媒体类型的相对优先级。可使用type/subtype这种形式，一次指定多种媒体类型。  
+* 文本文件  
+text/html,text/plain,text/css...  
+application/xhtml+xml, application/xml...  
+* 图片文件  
+image/jpeg,image/gif,image/png...  
+* 视频文件  
+video/mpeg,video/quicktime...  
+* 应用程序使用的二进制文件  
+application/octet-stream,application/zip...  
+若想要给显示的媒体类型增加优先级，则使用q= 来额外表示权重值（品质系数）。在RFC2616定义中，此处的q是指qvalue，即quality factor。直译的话就是质量数，但经过综合考虑理解记忆的便利性之后，似乎采用权重值更为稳妥。用分号(;)进行分隔。权重值q的范围是0~1（可精确到小数点后3位），且1为最大值。不指定权重q时，默认权重q=1.0。  
+当服务器提供多种内容时，将会首先返回权重值最高的媒体类型。  
+栗子：Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+会首先返回text/html（默认权重值为1.0）  
+### Accept-Charset  
+Accept-Charset首部字段可用来通知服务器用户代理支持的字符集及对字符集的相对优先顺序。另外，可一次性指定多种字符集。与首部字段Accept相同的是可用权重q值来表示相对优先级。  
+该首部字段应用于内容协商机制的服务器驱动协商。  
+### Accept-Encoding  
+Accept-Encoding：gzip, deflate  
+Accept-Encoding首部字段用来告知服务器用户代理支持的内容编码以及内容编码的优先级顺序。可一次性指定多种内容编码。  
+* gzip  
+由文件压缩程序gzip（GNU zip）生成的编码格式（RFC1952），采用Lempel-Ziv算法（LZ77）以及32位循环冗余校验（Cyclic Redundancy Check，通称RFC）。  
+* compress  
+由UNIX文件压缩程序compress生成的编码格式，采用Lempel-Ziv-Welch算法（LZW）。  
+* deflate  
+组合使用zlib格式（RFC1950）及由deflate压缩算法（RFC1951）生成的编码格式。  
+* identity  
+不执行压缩或不会变成的默认编码格式。  
+采用权重q值来表示相对优先级，这点与首部字段Accept相同。另外，也可使用星 号（*）作为通配符，指定任意的编码格式。  
+### Authorization  
+首部字段Authorization是用来告知服务器，用户代理的认证信息（证书值）。通 常，想要通过服务器认证的用户代理会在接收到返回的401状态码响应后，把首部字 段Authorization加入请求中。共用缓存在接收到含有Authorization首部字段的 请求时的操作处理会略有差异。  
+
+
+
+
+
 
 
 
