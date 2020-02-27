@@ -202,5 +202,67 @@ cache-extension token
 Cache-Control: private, community="UCI"  
 通过cache-extension标记（token），可以扩展Cache-Control首部字段内的指令。  
 如上例，Cache-Control首部字段本身没有community这个指令。借助extension tokens实现了该指令的添加。如果缓存服务器不能理解community这个新指令，就会直接忽略。因此，extension tokens仅对能理解它的缓存服务器来说是有意义的。  
+### Connection  
+Connection首部字段具备如下两个作用。
+* 控制代理不再转发的首部字段  
+* 管理持久连接   
+
+**控制不再转发给代理的首部字段**  
+Connection：不再转发的首部字段名  
+在客户端发送请求和服务器返回响应内，使用Connection首部字段，可控制代理不再转发的首部字段（即Hop-by-hop首部）。  
+**管理持久连接**  
+Connection：close
+HTTP/1.1版本的默认连接都是持久连接。为此，客户端会在持久连接上连续发送请求。当服务器端想明确断开连接时，则指定Connection首部字段的值为Close。  
+Connection：Keep-Alive  
+HTTP/1.1之前的HTTP版本默认连接都是非持久连接。为此，如果想在旧版本的HTTP协议上维持持续连接，则需要指定Connection首部字段的值为Keep-Alive。
+### Date  
+首部字段Date表明创建HTTP报文的日期时间。  
+HTTP/1.1协议使用在RFC1123中规定的日期时间的格式，如下示例。  
+Date: Tue, 03 Jul 2012 04:40:59 GMT  
+之前的HTTP协议版本中使用在RFC850中定义的格式，如下所示。  
+Date: Tue, 03-Jul-12 04:40:59 GMT  
+除此之外，还有一种格式。它与C标准库内的asctime() 函数的输出格式一致。  
+Date: Tue Jul 03 04:40:59 2012  
+### Pragma  
+Pragma是HTTP/1.1之前版本的历史遗留字段，仅作为与HTTP/1.0的向后兼容而定义。  
+规范定义的形式唯一，如下所示。  
+Pragma: no-cache  
+该首部字段属于通用首部字段，但只用在客户端发送的请求中。客户端会要求所有的中间服务器不返回缓存的资源。  
+所有的中间服务器如果都能以HTTP/1.1为基准，那直接采用Cache-Control: nocache指定缓存的处理方式是最为理想的。但要整体掌握全部中间服务器使用的HTTP协议版本却是不现实的。因此，发送的请求会同时含有下面两个首部字段。  
+Cache-Control: no-cache Pragma: no-cache  
+### Trailer  
+首部字段Trailer会事先说明在报文主体后记录了哪些首部字段。该首部字段可应用在HTTP/1.1版本分块传输编码时。  
+### Transfer-Encoding  
+首部字段Transfer-Encoding规定了传输报文主体时采用的编码方式。  
+HTTP/1.1的传输编码方式仅对分块传输编码有效。  
+### Upgrade  
+首部字段Upgrade用于检测HTTP协议及其他协议是否可使用更高的版本进行通信，其参数值可以用来指定一个完全不同的通信协议。  
+### Via  
+使用首部字段Via是为了追踪客户端与服务器之间的请求和响应报文的传输路径。  
+报文经过代理或网关时，会先在首部字段Via中附加该服务器的信息，然后再进行转发。这个做法和traceroute及电子邮件的Received首部的工作机制很类似。  
+首部字段Via不仅用于追踪报文的转发，还可避免请求回环的发生。所以必须在经过代理时附加该首部字段内容。  
+Via首部是为了追踪传输路径，所以经常会和TRACE方法一起使用。比如，代理服务器接收到由TRACE方法发送过来的请求（其中Max-Forwards: 0）时，代理服务器 就不能再转发该请求了。这种情况下，代理服务器会将自身的信息附加到Via首部后，返回该请求的响应。  
+### Warning  
+HTTP/1.1的Warning首部是从HTTP/1.0的响应首部（Retry-After）演变过来的。 该首部通常会告知用户一些与缓存相关的问题的警告。  
+HTTP/1.1中定义了7种警告。警告码对应的警告内容仅推荐参考。另外，警告码具备扩展性，今后有可能追加新的警告码。  
+***HTTP/1.1警告码***  
+
+警告码      |   警告内容             |   说明  
+------------|-----------------------|--------------------  
+110         | Response is stale（响应已过期） | 代理返回已过期的资源  
+111         | Revalidation failed（再验证失败）| 代理再验证资源有效性时失败（服务器无法达到等原因）  
+112         | Disconnection operation(断开连接操作) | 代理与互联网连接被故意切断  
+113         | Heuristic expiration(试探性过期)  | 响应的使用期超过24小时（有效缓存的设定时间大于24小时的情况下）  
+199         | Miscellaneous warning（杂项警告） | 任意的警告内容  
+214         | Transformation applied（使用了转换） | 代理对内容编码或媒体类型等执行了某些处理时  
+299         | Miscellaneous persistent warning（持久杂项警告） | 任意的警告内容  
+
+
+
+
+
+
+
+
 
 
