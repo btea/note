@@ -11,7 +11,8 @@ http.createServer(function(request, response){
         request.on('end', () => {
             console.log(data)
             response.setHeader('Connection', 'close');
-            response.statusCode = 201;
+            response.setHeader('Allow', 'GET,HEAD');
+            response.statusCode = 405;
             response.end('connection');
         })
     }else {

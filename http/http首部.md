@@ -357,6 +357,114 @@ ETag: W/"usagi-1234"
 使用首部字段Location可以将响应接收方引导至某个与之请求URI位置不同的资源。  
 基本上，该字段会配合3xx：Redirection的响应，提供重定向的URI。  
 几乎所有浏览器在接收到包含首部字段Location的响应后，都会强制性地尝试对已提示的重定向资源的访问。  
+### Proxy-Authenticate  
+Proxy-Authenticate: Basic realm="Usagidesign Auth"  
+首部字段Proxy-Authenticate会把由代理服务器所要求的认证信息发送给客户端。  
+它与客户端和服务器之间的HTTP访问认证的行为相似，不同之处在于其认证行为是在客户端与代理之间进行的。而客户端与服务器之间进行认证时，首部字段WWWAuthorization有着相同的作用。  
+### Retry-After  
+Retry-After：120  
+首部字段Retry-After告知客户端应该在多久之后再次发送请求。主要配合状态码503 Service Unavailable响应，或3xx Redirect响应一起使用。  
+字段值可以指定为具体的日期时间（Wed, 04 Jul 2012 06：34：24 GMT等格 式），也可以是创建响应后的秒数。  
+### Server  
+Server: Apache/2.2.17 (Unix)  
+首部字段Server告知客户端当前服务器上安装的HTTP服务器应用程序的信息。不单单会标出服务器上的软件应用名称，还有可能包括版本号和安装时启用的可选项。  
+Server: Apache/2.2.6 (Unix) PHP/5.2.5  
+### Vary  
+### WWW-Authenticate  
+
+## 实体首部字段  
+实体首部字段是包含在请求报文和响应报文中的实体部分使用的首部，用于补充内容的更新时间等与实体相关的信息。  
+### Allow  
+Allow：GET, HEAD  
+首部字段Allow用于通知客户端能够支持Request-URI指定资源的所有HTTP方法。当服务器接收到不支持的HTTP方法时，会以状态码405 Method Not Allowed作为响应返回。与此同时，还会把所有能支持的HTTP方法写入首部字段Alllow后返回。  
+### Content-Encoding  
+Content-Encoding: gzip  
+首部字段Content-Encoding会告知客户端服务器对实体的主体部分选用的内容编码方式。内容编码是指在不丢失实体信息的前提下所进行的压缩。  
+主要采用以下4种内容编码的方式。  
+* gzip  
+* compress  
+* deflate  
+* identify  
+### Content-Language  
+Content-Language: zh-CN  
+首部字段Content-Language会告知客户端，实体主体使用的自然语言（指中文或英文等语言）。  
+### Content-Length  
+Content-Length： 15000  
+首部字段Content-Length表明了实体主体部分的大小（单位是字节）。对实体主体进行内容编码时，不能再使用Content-Length首部字段。
+### Content-Location  
+### Content-MD5  
+Content-MD5: OGFkZDUwNGVhNGY3N2MxMDIwZmQ4NTBmY2IyTY==  
+首部字段Content-MD5是一串由MD5算法生成的值，其目的在于检查报文主体在传输 过程中是否保持完整，以及确认传输到达。  
+对报文主体执行MD5算法获得的128位二进制数，再通过Base64编码后将结果写入 Content-MD5字段值。由于HTTP首部无法记录二进制值，所以要通过Base64编码处理。为确保报文的有效性，作为接收方的客户端会对报文主体再执行一次相同的MD5算法。计算出的值与字段值作比较后，即可判断出报文主体的准确性。  
+采用这种方法，对内容上的偶发性改变是无从查证的，也无法检测出恶意篡改。其中一个原因在于，内容如果能够被篡改，那么同时意味着Content-MD5也可重新计算然后被篡改。所以处在接收阶段的客户端是无法意识到报文主体以及首部字段Content-MD5是已经被篡改过的。  
+### Content-Range  
+Content-Range：bytes 5001-10000/10000  
+针对范围请求，返回响应时使用的首部字段Content-Range，能告知客户端作为响应返回的实体的哪个部分符合范围请求。字段值以字节为单位，表示当前发送部分及整个实体大小。  
+### Content-Type  
+Content-Type: text/html; charset=UTF-8  
+首部字段Content-Type说明了实体主体内对象的媒体类型。和首部字段Accept一样，字段值用type/subtype形式赋值。  
+参数charset使用iso-8859-1或euc-jp等字符集进行赋值。  
+### Expires  
+Expires: Wed, 04 Jul 2012 08:26:05 GMT  
+首部字段Expires会将资源失效的日期告知客户端。缓存服务器在接收到含有首部字段Expires的响应后，会以缓存来应答请求，在Expires字段值指定的时间之前，响应的副本会一直保存。当超过指定的时间后，缓存服务器在请求发送过来时，会转向源服务器请求资源。  
+源服务器不希望缓存服务器对资源缓存时，最好在Expires字段内写入与首部Date相同的时间值。  
+但是，当首部字段Cache-Control有指定max-age指令时，比起首部字段Expires，会优先处理max-age指令。  
+### Last-Modified  
+Last-Modified: Wed, 23 May 2012 09:59:55 GMT  
+首部字段Last-Modified指明资源最终修改的时间。一般来说，这个值就是Request-URI指定资源被修改的时间。但类似使用CGI脚本进行动态数据处理时，该值有可能会变成数据最终修改时的时间。  
+
+## 为Cookie服务的首部字段  
+管理服务器与客户端之间状态的Cookie，虽然没有被编入标准化HTTP/1.1的RFC2616中，但在web网站页面得到了广泛的应用。  
+Cookie的工作机制是用户识别及状态管理。web网站为了管理用户的状态会通过web浏览器，把一些数据临时写入用户的计算机内。接着当用户访问该web网站时，可通过通信方式取回之前存放的Cookie。  
+调用Cookie时，由于可校验Cookie的有效期，以及发送方的域、路径、协议等信息，所以正规发布的Cookie内的数据不会因来自其他web站点和攻击者的攻击而泄露。  
+至2013年5月，Cookie的规格标准文档有以下4种。  
+由网景公司颁布的规格标准  
+网景通信公司设计并开发了Cookie，并制定相关的规格标准。1994年前后，Cookie正式应用在网景浏览器中。目前最普及Cookie方式也是以此为基准的。  
+RFC2019  
+某企业尝试以独立技术对Cookie规格进行标准化统筹。原本的意图是想和网景公司制定的标准交互应用，可惜发生了微妙的差异。现在该标准已淡出了人们的视线。  
+RFC2965  
+为终结Internet Explorer浏览器与Netscape Navigator的标准差异而导致的浏览器战争，RFC2965内定义了新的HTTP首部Set-Cookie2和Cookie2。可事实上，它们几乎没怎么投入使用。  
+RFC6265  
+将网景公司制定的标准作为业界事实标准（De facto standard），重新定义Cookie标准后的产物。  
+目前使用最广泛的Cookie标准却不是RFC中的任何一个。而是在网景公司制定的标准上进行扩展后的产物。  
+***为Cookie服务的首部字段***  
+首部字段名      |   说明          |  首部类型  
+---------------|-----------------|----------  
+Set-Cookie     | 开始状态管理所使用的Cookie信息 | 响应首部字段  
+Cookie         | 服务器接收到的Cookie信息      | 请求首部字段
+### Set-Cookie  
+Set-Cookie：status=enable;expires=Tue, 05 Jul 2011 07:26:31 GMT;⇒path=/; domain=.hackr.jp;  
+***Set-Cookie字段的属性***  
+属性           | 说明         
+---------------|----------------  
+NAME=VALUE     | 赋予Cookie的名称和值（必需项）  
+expires=DATE   | Cookie的有效期（若不明确指定则默认为浏览器关闭为止）  
+path=PATH      | 将服务器上的文件目录作为Cookie的适用对象（若不指定则默认文档所在的文件目录）  
+domain=域名    | 作为Cookie适用对象的域名（若不指定则默认为创建Cookie的服务器域名）  
+Secure         | 仅在HTTPS安全通信时才会发送Cookie  
+HttpOnly       | 加以限制，使Cookie不能被JavaScript脚本访问  
+expires属性  
+Cookie的expires属性指定浏览器可发送Cookie的有效期。  
+当省略expires属性时，其有效期仅限于维持浏览器会话（Session）时间段内。这通常限于浏览器应用程序被关闭之前。  
+另外，一旦Cookie从服务器端发送至客户端，服务器端就不存在可以显示删除Cookie的方法。但可以通过覆盖已过期的Cookie，实现对客户端Cookie的实质性删除。  
+path属性  
+通过Cookie的domain属性指定的域名可做到与结尾匹配一致。比如，当指定example.com后，除example.com以外，www.example.com或www2.example.com等都可以发送Cookie。  
+因此，除了针对具体指定的多个域名发送Cookie之外，不指定domain属性显得更安全。  
+secure属性  
+Cookie的secure属性用于限制web页面仅在HTTPS安全连接时，才可以发送Cookie。  
+发送Cookie时，指定secure属性的方法如下：  
+Set-Cookie：name=value；secure  
+以上例子仅当在https://www.example.com/(HTTPS) 安全连接的情况下才会进行Cookie的回收。也就是说，即使域名相同，http://www.example.com/(HTTP) 也不会发生Cookie回收行为。  
+当省略secure属性时，无论是HTTP还是HTTPS，都会对Cookie进行回收。  
+httpOnly属性  
+
+
+
+
+
+
+
+
 
 
 
