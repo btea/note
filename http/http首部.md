@@ -457,6 +457,53 @@ Set-Cookie：name=value；secure
 以上例子仅当在https://www.example.com/(HTTPS) 安全连接的情况下才会进行Cookie的回收。也就是说，即使域名相同，http://www.example.com/(HTTP) 也不会发生Cookie回收行为。  
 当省略secure属性时，无论是HTTP还是HTTPS，都会对Cookie进行回收。  
 httpOnly属性  
+Cookie的HttpOnly属性是Cookie的扩展功能，它使JavaScript脚本无法获得Cookie。其主要目的为防止跨站脚本攻击（Cross-site scripting，XSS）对Cookie的信息窃取。  
+发送指定HttpOnly属性的Cookie的方法如下所示：  
+Set-Cookie：name=value;HttpOnly  
+通过上述设置，通常从web页面内还可以对Cookie进行读取操作。但使用JavaScript的document.cookie就无法读取附加HttpOnly属性后的Cookie的内容了。因此，也就无法在XSS中利用JavaScript劫持Cookie了。  
+虽然是独立的扩展功能，但Internet Explorer 6 SP1以上版本等当下的主浏览器都已经支持该扩展了。另外顺带一提，该扩展并非是为了防止XSS而开发的。  
+### Cookie  
+Cookie：status=enable  
+首部字段Cookie会告知服务器，当客户端想获得HTTP状态管理支持时，就会在请求中包含从服务器接收到的Cookie。接收到多个Cookie时，同样可以以多个Cookie形式发送。  
+
+## 其他首部字段  
+HTTP首部字段是可以自行扩展的。所以在web服务器和浏览器的应用上，会出现各种非标准的首部字段。  
+常用首部字段：  
+* X-Frame-Options  
+* X-XSS-Protection  
+* DNT  
+* P3P  
+### X-Frame-Options：DENY  
+首部字段X-Frame-Options属于HTTP响应首部，用于控制网站内容在其他web网站的Frame标签内的显示问题。其主要目的是为了防止点击劫持(clickjacking)攻击。  
+首部字段X-Frame-Options有以下两个可指定的字段值。  
+* DENY:拒绝  
+* SAMEORIGHT: 仅同源域名下的页面（Top-level-browsing-context）匹配时许可。（（比如，当指定http://hackr.jp/sample.html页面为SAMEORIGIN时，那 么hackr.jp上所有页面的frame都被允许可加载该页面，而example.com等其他域 名的页面就不行了）。  
+支持该首部字段的浏览器有：Internet Explorer 8、Firefox 3.6.9+、Chrome 4.1.249.1042+、Safari 4+ 和Opera 10.50+ 等。现在主流的浏览器都已经支持。  
+能在所有的Web服务器端预先设定好X-Frame-Options字段值是最理想的状态。 
+### X-XSS-Protection   
+X-XSS-Protection： 1  
+首部字段X-XSS-Protection属性属于HTTP响应首部，它是针对跨站脚本攻击（XSS）的一种对策，用于控制浏览器XSS防护机制的开关。  
+首部字段X-XSS-Protection可指定的字段如下：  
+* 0：将XSS过滤设置成无效状态  
+* 1：将XSS过滤设置成有效状态  
+### DNT  
+DNT: 1  
+首部字段DNT属于HTTP请求首部，其中DNT是Do Not Track的简称，意为拒绝个人信息被收集，是表示拒绝被精准广告追踪的一种方法。  
+首部字段DNT可指定的值如下：  
+* 0：同意被追踪  
+* 1：拒绝被追踪  
+由于首部字段DNT的功能具备有效性，所谓web服务器需要对DNT做对应的支持。  
+### P3P  
+P3P: CP="CAO DSP LAW CURa ADMa DEVa TAIa PSAa PSDa IVAa ⇒ IVDa OUR BUS IND UNI COM NAV INT"  
+首部字段P3P属于HTTP响应首部，通过利用P3P（The Platform for Privacy Preferences，在线隐私偏好平台）技术，可以让Web网站上的个人隐私变成一种仅供程序可理解的形式，以达到保护用户隐私的目的。  
+要进行P3P的设定，需按以下操作步骤进行。  
+步骤1：创建P3P隐私  
+步骤2：创建P3P隐私对照文件后，保存命名在 /w3c/p3p.xml  
+步骤3：从P3P隐私中新建Compact policies后，输出到HTTP响应中  
+
+
+
+
 
 
 
