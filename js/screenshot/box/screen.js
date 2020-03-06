@@ -102,7 +102,25 @@ class ScreenShot{
             el.width = info.width
             el.height = info.height
             let ctx = el.getContext('2d')
-            let img = new Image()
+			let img = new Image()
+			/**
+			 * ctx.drawImage(iamge, sx, sy, swidth, sheight, dx, dy, dwidth, dheight)
+			 * @params image 绘制到上下文的图片元素  
+			 * @params sx 需要绘制到目标上下文中的，image的矩形（裁剪）选择框的左上角X轴坐标
+			 * @params sy 需要绘制到目标上下文中的，image的矩形（裁剪）选择框的左上角Y轴坐标  
+			 * @params swidth 需要绘制到目标上下文中的，iamge的矩形（裁剪）选择框的宽度。如果不说明，整个矩形（裁剪）从坐标的sx和sy开始，一直到image的右下角为止
+			 * @params sheight                                                 高度
+			 * @params dx image的左上角在目标canvas上X轴坐标 
+			 * @params dy image的左上角在目标canvas上y轴坐标 
+			 * @params dwidth image在目标canvas上绘制的宽度。允许对绘制的image进行缩放。如果不说明，在绘制时image宽度不会缩放
+			 * @params dheight                        高度
+			 * 
+			 * 语法 
+			 * ctx.drawImage(image, dx, dy)
+			 * ctx.drawImage(image, dx, dy, dwidth, dheight)
+			 * ctx.drawImage(image, sx, sy, swidth, sheight, dx, dy, dwidth, dheight) 
+			 * 
+			 * */
             img.onload = () => {
                 ctx.drawImage(img, -info.left, -info.top - document.documentElement.scrollTop, w, h)
                 let link = document.createElement('a')
