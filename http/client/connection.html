@@ -26,7 +26,8 @@
         let btn = document.getElementsByClassName('start')[0];
         btn.addEventListener('click', () => {
             // request('http://192.168.1.3:3000/connection');
-            post('http://192.168.1.3:3000/connection');
+            // post('http://192.168.1.3:3000/connection');
+            post('/connection');
         })
         function request(url) {
             let xhr = new XMLHttpRequest()
@@ -47,9 +48,9 @@
                 }
             }
             xhr.open('post', url)
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-            // xhr.setRequestHeader('Content-Type', 'multipart/form-data')
-            // xhr.setRequestHeader('Content-Type', 'text/plain')
+            // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8') // Form Data
+            // xhr.setRequestHeader('Content-Type', 'multipart/form-data')  // payload
+            xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8')
             xhr.send(JSON.stringify(p))
             // xhr.send(p)
         }
