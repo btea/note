@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>video play</title>
+    <style>
+        .video-box{
+            margin: 30px auto;
+            position: relative;
+            width: 800px;
+        }
+        video{
+            width: 800px;
+            height: 450px;
+            filter: grayscale(1);
+        }
+        canvas{
+            position: absolute;
+            left: 100px;
+            top: 50px;
+            width: 300px;
+            height: 160px;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-box">
+        <video src="./stage2.mp4" controls></video>
+        <canvas width="800" height="450"></canvas>
+    </div>
+    <script>
+        let video = document.getElementsByTagName('video')[0]
+        let el = document.getElementsByTagName('canvas')[0]
+        let ctx = el.getContext('2d'), isPlay
+        video.addEventListener('play', () => {
+            isPlay = true
+        })
+        video.addEventListener('pause', () => {
+            isPlay = false
+        })
+        requestAnimationFrame(startDraw)
+
+        function startDraw() {
+            isPlay && ctx.drawImage(video, 0, 0, 800, 450)
+            requestAnimationFrame(startDraw)
+        }
+    </script>
+</body>
+</html>
