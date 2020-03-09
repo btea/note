@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>弹幕~ 不会重复的弹幕实现</title>
+    <link rel="shortcut icon" href="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=257721527,2563588984&fm=26&gp=0.jpg" type="image/jpeg">
+    <style>
+        body{
+            margin: 0;
+        }
+        .container-box{
+            width: 800px;
+            height: 600px;
+            margin: 50px auto;
+            box-shadow: 0 0 5px 5px #000;
+        }
+        .container-box .screen{
+            height: 560px;
+        }
+        .control-bar{
+            height: 40px;
+        }
+        .control-bar .send-word{
+            float: right;
+            margin-right: 15px;
+        }
+        .control-bar .send-word .input-set{
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .input-set .set{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            font-style: normal;
+            cursor: pointer;
+            text-align: center;
+        }
+        .input-set .set::after{
+            content: '';
+            width: 10px;
+            height: 2px;
+            background: #000;
+            position: absolute;
+            left: 10px;
+            bottom: 5px;
+        }
+        .input-set .set:hover{
+            color: #6cf;
+        }
+        .input-set .set:hover .input-set .set::after{
+            background: #6cf;
+        }
+        .input-set input{
+            color: #212121;
+            background: #f4f4f4;
+            border: 1px solid #e7e7e7;
+            height: 30px;
+            outline: none;
+            width: 300px;
+            padding-left: 30px;
+            box-sizing: border-box;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+        .send-word .send-button{
+            display: inline-block;
+            height: 30px;
+            line-height: 30px;
+            color: #fff;
+            cursor: pointer;
+            background: #6cf;
+            vertical-align: middle;
+            font-size: 13px;
+            padding: 0 10px;
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+        .send-word .send-button:hover{
+            background: #6df;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-box">
+        <div class="screen"></div>
+        <div class="control-bar">
+            <div class="send-word">
+                <div class="input-set">
+                    <i class="set">A</i>
+                    <input type="text" placeholder="发个友善的弹幕见证当下">
+                </div><div class="send-button" role="button">发送</div>
+            </div>
+        </div>
+    </div>
+    <script src="./danmaku.js"></script>
+</body>
+</html>
