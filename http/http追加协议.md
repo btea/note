@@ -16,6 +16,7 @@ Google在2010年发布了SPDY(取自SPeeDY,发音同speedy)，其开发目标旨
 * 请求/响应首部未经过压缩就发送。首部信息越多延迟越大。  
 * 发送冗余的首部。每次互相发送相同的首部造成的浪费较多。  
 * 可任意选择数据压缩格式。非强制压缩发送。  
+
 **Ajax的解决方法**  
 Ajax(Asynchronous JavaScript and XML,异步JavaScript与XML技术)是一种有效利用JavaScript和DOM(Document Object Model，文档对象模型)的操作，以达到局部web页面替换加载的异步通信手段。和以前的同步通信相比，由于它只更新一部分页面，响应中传输的数据量会因此而减少，这一优点显而易见。  
 Ajax的核心技术是名为XMLHttpRequest的API,通过Javascript脚本语言的调用就能和服务器进行HTTP通信。借由这种手段，就能从已加载完毕的web页面上发起请求，只更新局部的页面。  
