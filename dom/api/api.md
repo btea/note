@@ -1,0 +1,1 @@
+[requestIdleCallback](https://github.com/justjavac/the-front-end-knowledge-you-may-not-know/issues/9)
