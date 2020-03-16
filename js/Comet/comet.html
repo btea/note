@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图像 ping</title>
+    <style>
+        .btn{
+            padding: 3px 5px;
+            background: #6cf;
+            border-radius: 3px;
+            cursor: pointer;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="btn">发送</div>
+    <script>
+        let btn = document.getElementsByClassName('btn')[0]
+        btn.addEventListener('click', () => {
+            let xhr = new XMLHttpRequest()
+            xhr.onreadystatechange = function() {
+                console.log(xhr.readyState)
+                if (xhr.readyState == 3) {
+                    console.log(xhr.responseText)
+                }else if(xhr.readyState == 4) {
+                    console.log('finish')
+                }
+            }
+            xhr.open('get', '/get')
+            xhr.send(null)
+        })
+    </script>
+</body>
+</html>
