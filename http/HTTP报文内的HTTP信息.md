@@ -43,8 +43,8 @@ HTTP/1.1中存在一种称之为传输编码（Transfer Coding）的机制，它
 
 type      |   desc  
 ----------| -----------  
-* multipart/form-data| 在web表单文件上传时使用  
-* multipart/byteranges| 状态码206（Partial Content，部分内容）响应报文包含了多个范围的内容时使用。  
+multipart/form-data| 在web表单文件上传时使用  
+multipart/byteranges| 状态码206（Partial Content，部分内容）响应报文包含了多个范围的内容时使用。  
 
 ### 获取部分内容的范围请求
 以前，用户不能使用现在这种高速的带宽访问互联网，当时，下载一个尺寸稍大的 图片或文件就已经很吃力了。如果下载过程中遇到网络中断的情况，那就必须重头 开始。为了解决上述问题，需要一种可恢复的机制。所谓恢复是指能从之前下载中 断处恢复下载。  
