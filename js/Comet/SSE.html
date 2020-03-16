@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>图像 ping</title>
+    <title>SSE 服务器发送事件</title>
     <style>
         .btn{
             padding: 3px 5px;
@@ -19,16 +19,11 @@
     <script>
         let btn = document.getElementsByClassName('btn')[0]
         btn.addEventListener('click', () => {
-            let xhr = new XMLHttpRequest()
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 3) {
-                    console.log(xhr.responseText)
-                }else if(xhr.readyState == 4) {
-                    console.log('finish')
-                }
+            let es = new EventSource('/msg')
+            es.onmessage = function(e) {
+                // console.log(e)
+                console.log(e.data)
             }
-            xhr.open('get', '/get')
-            xhr.send(null)
         })
     </script>
 </body>

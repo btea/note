@@ -4,7 +4,7 @@ let a = 0
 http.createServer(function(request, response) {
     let url = request.url
     if(url === '/') {
-        fs.readFile('./comet.html', (err, data) => {
+        fs.readFile('./SSE.html', (err, data) => {
             if (err) {
                 console.log(err)
             } else {
@@ -16,7 +16,7 @@ http.createServer(function(request, response) {
     if (url === '/favicon.ico') {
         response.end('')
     }
-    if (url === '/get') {
+    if (url === '/msg') {
         getV()
     }
     function getV() {
@@ -26,11 +26,12 @@ http.createServer(function(request, response) {
         })
         id = setInterval(() => {
             a++
+            // 使用EventSource监听接收数据，必须以"data: "开头， "\n\n"结尾，代表结束
             response.write('data: {a: 10}' + '\n\n')
-            if (a >= 5) {
-                clearInterval(id)
-                response.end()
-            }
+            // if (a >= 5) {
+                // clearInterval(id)
+                // response.end()
+            // }
         }, 1000)
     }
 }).listen(2233)
