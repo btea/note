@@ -1,1 +1,32 @@
-[fetch](https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API/Using_Fetch)
+[fetch](https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API/Using_Fetch)  
+
+***Ajax(Asynchronous JavaScript + XML)，能够向服务器请求额外的数据，而无需卸载页面。***   
+Ajax技术的核心是`XMLHttpRequest`对象（简称XHR），这是由微软首先引入的一个特性，其他浏览器提供商后来都提提供了相同的实现。在XHR出现之前，Ajax式的通信必须借助一些 hack手段来实现，大多数是使用隐藏的框架或内嵌框架。XHR为向服务器发送请求和解析服务器响应提供了流畅的接口。能够以异步方式从服务器取得更多信息，意味着用户单击后，可以不必刷新页面也能取得新数据。也就是说，可以使用XHR对象取得新数据，然后再通过 DOM 将新数据插入到页面中。另外，虽然名字中包含XML的成分，但Ajax通信与数据格式无关；这种技术就是无须刷新页面即可从服务器取得数据，但不一定是 XML数据。  
+
+### XHR的用法  
+在使用XHR对象时，要调用第一个方法是`open()`,它接收 3 个参数：要发送的请求类型/方法('get'、'post'等)、请求的URL和表示是否异步的布尔值。
+>注：一是URL相对于执行代码的当前页面（当然也可以使用相对路径）；二是调用open()方法并不会真正发送请求，而只是启动一个请求准备发送。    
+
+要发送特定的请求，必需调用`send()`方法：  
+```javascript
+xhr.open('get', 'example.txt', false);
+xhr.send(null)
+```
+`send()`方法接收一个参数，即要作为请求主体发送的数据。如果不需要通过请求主体发送数据，则必须传入null，因为这个参数对于浏览器来说是必需的。调用`send()`之后，请求就会被分派到服务器。  
+由于这次请求时同步的，JavaScript代码会等到服务器响应之后再继续执行。在收到响应之后，响应的数据会自动填充XHR对象的属性，相关属性简介如下：  
+* responseText: 作为响应主体被返回的文本。  
+* responseXML: 如果响应的内容类型是`"text/xml"`或`"application/xml"`,这个属性中将保存包含着响应数据的XML DOM文档。  
+* status: 响应的HTTP状态。  
+* statusText: HTTP状态的说明。  
+
+XHR对象的`readyState`属性，该属性表示请求/响应过程的当前活动阶段。这个属性可取的值如下：  
+0：未初始化。尚未调用`open()`方法。  
+1：启动。已经调用`open()`方法，当尚未调用`send()`方法。  
+2：发送。已经调用`send()`方法，但尚未接收到响应。  
+3：接收。已经接收到部分响应数据。  
+4：完成。已经接收到全部响应数据，而且已经可以在客户端使用。  
+只要readyState属性的值由一个值变成另一个值，都会触发一次`readystatechange事件`。可以利用这个事件来检测每次状态变化后`readyState`的值。通常，我们只对`readyState`的值为`4`的阶段感兴趣，因为此时所有数据都已经就绪。不过，在调用`open()`之前指定`onreadystatechange`事件处理程序才能确保跨浏览器兼容性。  
+在接收到响应之前可以调用`abort()`方法来取消异步请求，如下所示：  
+`xhr.abort();`  
+调用这个方法后，XHR 对象会停止触发事件，而且也不再允许访问任何与响应有关的对象属性。在终止请求之后，还应该对 XHR对象进行解引用操作。由于内存原因，不建议重用 XHR 对象。 
+
