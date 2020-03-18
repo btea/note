@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>event</title>
+    <style>
+        .box{
+            width: 100px;
+            height: 100px;
+            background: #6cf;
+        }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+    <script>
+        var box = document.getElementsByClassName('box')[0]
+        box.addEventListener('click', function() {
+            console.log('冒泡')
+        }, false)
+        box.addEventListener('click', function() {
+            console.log('捕获')
+        }, true)
+    </script>
+</body>
+</html>
