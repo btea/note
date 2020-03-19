@@ -21,9 +21,9 @@ http.createServer((request, response) => {
         request.on('end', () => {
             console.log(data)
             // response.setHeader('Access-Control-Allow-Origin', 'http://192.168.1.3:2233');
-            response.setHeader('Connection', 'close');
+            // response.setHeader('Connection', 'close');
             response.setHeader('Content-Type', 'application/json;charset=utf-8');
-            response.setHeader('Set-Cookie', 'bir=4223;n="zys"');
+            response.setHeader('Set-Cookie', ['bir=4223', 'sessionid=513654656']);
             response.statusCode = 200;
             let obj = {
                 code: 200,
@@ -34,6 +34,27 @@ http.createServer((request, response) => {
                 }  
             }
             response.end(JSON.stringify(obj));
+        })
+    }
+    // http缓存   https://blog.csdn.net/lncci/article/details/82182788
+    if (/\.js$/.test(url)) {
+        fs.readFile('.' + url, (err, str) => {
+            response.setHeader('Content-type', 'application/x-javascript')
+            if (err) {
+                console.log(err)
+                return
+            }
+            // 强制缓存
+            // max-age  http/1.1
+            // expires http/1.0
+            // max-age优先级高于expires
+            // response.setHeader('Cache-Control', 'max-age=3600');
+            // 协商缓存
+            // Etag last-modified                 response
+            // If-None-Match If-Modified-Since    request
+            // Etag优先级要高  
+            response.setHeader('Etag', 'zys1993');
+            response.end(str)
         })
     }
 }).listen(2233)
