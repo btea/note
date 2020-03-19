@@ -12,3 +12,17 @@
 * `once`：布尔值，值为`true`时表示该回调只会调用一次，调用后移除监听  
 * `passive`：布尔值，设置为`true`时，表示永远不会调用`preventDefault()`。如果`listener`仍然调用了这个函数，客户端会将它忽略并抛出一个控制台警告。  
 
+检测是否支持`passive`
+```javascript
+var passiveSupported = false;
+try {
+  var options = Object.defineProperty({}, "passive", {
+    get: function() {
+      passiveSupported = true;
+    }
+  });
+
+  window.addEventListener("test", null, options);
+} catch(err) {}
+```
+如果passiveSupported值为true，则说明支持passive属性设置。  
