@@ -443,20 +443,21 @@ path=PATH      | 将服务器上的文件目录作为Cookie的适用对象（若
 domain=域名    | 作为Cookie适用对象的域名（若不指定则默认为创建Cookie的服务器域名）  
 Secure         | 仅在HTTPS安全通信时才会发送Cookie  
 HttpOnly       | 加以限制，使Cookie不能被JavaScript脚本访问  
-expires属性  
+
+`expires属性`    
 Cookie的expires属性指定浏览器可发送Cookie的有效期。  
 当省略expires属性时，其有效期仅限于维持浏览器会话（Session）时间段内。这通常限于浏览器应用程序被关闭之前。  
 另外，一旦Cookie从服务器端发送至客户端，服务器端就不存在可以显示删除Cookie的方法。但可以通过覆盖已过期的Cookie，实现对客户端Cookie的实质性删除。  
-path属性  
+`path属性`    
 通过Cookie的domain属性指定的域名可做到与结尾匹配一致。比如，当指定example.com后，除example.com以外，www.example.com或www2.example.com等都可以发送Cookie。  
 因此，除了针对具体指定的多个域名发送Cookie之外，不指定domain属性显得更安全。  
-secure属性  
+`secure属性`    
 Cookie的secure属性用于限制web页面仅在HTTPS安全连接时，才可以发送Cookie。  
 发送Cookie时，指定secure属性的方法如下：  
 Set-Cookie：name=value；secure  
 以上例子仅当在https://www.example.com/(HTTPS) 安全连接的情况下才会进行Cookie的回收。也就是说，即使域名相同，http://www.example.com/(HTTP) 也不会发生Cookie回收行为。  
 当省略secure属性时，无论是HTTP还是HTTPS，都会对Cookie进行回收。  
-httpOnly属性  
+`httpOnly属性`    
 Cookie的HttpOnly属性是Cookie的扩展功能，它使JavaScript脚本无法获得Cookie。其主要目的为防止跨站脚本攻击（Cross-site scripting，XSS）对Cookie的信息窃取。  
 发送指定HttpOnly属性的Cookie的方法如下所示：  
 Set-Cookie：name=value;HttpOnly  
