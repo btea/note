@@ -48,8 +48,9 @@ http.createServer((request, response) => {
             // max-age  http/1.1
             // expires http/1.0
             // max-age优先级高于expires
-            // response.setHeader('Cache-Control', 'max-age=3600');
-            // 协商缓存
+            response.setHeader('Cache-Control', 'max-age=3600');
+
+            // 协商缓存  协商缓存需服务端拿到对应的首部字段值进行比较，若符合缓存要求，则返回304，否则返回新的资源，并返回200
             // Etag last-modified                 response
             // If-None-Match If-Modified-Since    request
             // Etag优先级要高  
