@@ -22,6 +22,15 @@
             width: 300px;
             height: 160px;
         }
+        .btn{
+            display: inline-block;
+            margin: 20px auto;
+            cursor: pointer;
+            padding: 3px 5px;
+            border-radius: 3px;
+            background-color: #6cf;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -29,9 +38,11 @@
         <video src="./stage2.mp4" controls></video>
         <canvas width="800" height="450"></canvas>
     </div>
+    <div class="btn">画中画</div>
     <script>
         let video = document.getElementsByTagName('video')[0]
         let el = document.getElementsByTagName('canvas')[0]
+        let btn = document.getElementsByClassName('btn')[0]
         let ctx = el.getContext('2d'), isPlay
         video.addEventListener('play', () => {
             isPlay = true
@@ -45,6 +56,39 @@
             isPlay && ctx.drawImage(video, 0, 0, 800, 450)
             requestAnimationFrame(startDraw)
         }
+
+
+        // 画中画功能
+        btn.addEventListener('click', function() {
+            if(!document.pictureInPictureElement) {
+                video.requestPictureInPicture()
+                .catch(err => {
+                    console.log(err)
+                })
+            }else {
+                document.exitPictureInPicture()
+                .catch(error => {
+                    // Video failed to leave Picture-in-Picture mode.
+                }); 
+            }
+        });
+        // 在 video 标签添加 disablePictureInPicture 可以禁止画中画
+        video.addEventListener('enterpictureinpicture', function(event) {
+            // 可以通过event获取获取画中画的宽高等
+            let picture = event.pictureInPictureWindow
+            // picture.width  // 画中画的宽度
+            // picture.height // 画中画的高度
+            console.log(event)
+            // 监听画中画窗口尺寸变化，可放大缩小
+            picture.addEventListener('resize', function(event) {
+                console.log(event)
+            })
+        });
+        video.addEventListener('leavepictureinpicture', function(event) {
+            // 此时 event.pictureInPictureWindow 对象不存在
+            console.log('退出 Picture-in-Picture')
+        })
+        
     </script>
 </body>
 </html>
