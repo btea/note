@@ -54,6 +54,23 @@ SameSite可以有下面三种值：
 同源策略作为浏览器的安全基石，其「同源」判断是比较严格的，相对而言，Cookie中的「同站」判断就比较宽松：只要两个 URL 的 eTLD+1 相同即可，不需要考虑协议和端口。其中，eTLD 表示有效顶级域名，注册于 Mozilla 维护的公共后缀列表（Public Suffix List）中，例如，.com、.http://co.uk、.http://github.io 等。eTLD+1 则表示，有效顶级域名+二级域名，例如 taobao.com 等。  
 
 举几个例子，www.taobao.com 和 www.baidu.com 是跨站，www.a.taobao.com 和 www.b.taobao.com 是同站，a.github.io 和 b.github.io 是跨站(注意是跨站)。  
+**同站与跨站**  
+理解两个网站是否为"同一个网站"很重要，判断是否同一网站是通过叫`eTLD+1`的方式(`eTLD = effective Top Level Domain`),eTLD定义在上述的Public Suffix List中，+1 表示在左侧加一个子域名。eTLD+1实际上表示了“可注册的域名”，在实际中eTLD+1 一般是不同的主体注册，所以要视为不同的域名。  
+所以下列域名都视为同一网站的：  
+```javascript
+abc.com
+x.abc.com
+y.abc.com  
+x.y.abc.com
+```
+而这样的请求都是跨站的：  
+```javascript
+x.abc.com
+x.def.com
+x.abc.io
+```
+根据Cookie域名的不同，如果Cookie的域名与当前用户访问的网站域名为同站，那么此Cookie为一方Cookie，否则为三方Cookie。有可能同一个Cookie在网站A中是一方，在另一个网站B中中是三方。  
+
 >改变  
 
 请求类型   | 实例             | 以前     | Strict  | Lax   | None  
