@@ -66,5 +66,19 @@ iframe   | `<iframe src=""></iframe>`    | 发送cookie | 不发送 | 不发送 
 AJAX     | `$.get("...")`      | 发送cookie | 不发送 | 不发送 | 发送cookie  
 Image    | `<img src="...">`   | 发送cookie | 不发送 | 不发送 | 发送cookie  
 
+***注***  
+1、http接口不支持SameSite=none  
+如果你想加Same-Site=none属性，那么该Cookie就必须同时加上Secure属性，表示只有在HTTPS协议下该Cookie才会被发送。  
+2、需要UA检测，部分浏览器不能加SameSite=none  
+IOS 12的Safari以及老版本一些Chrome会把SameSite=none识别成SameSite=Strict，所以服务端必须在下发Set-Cookie响应头时进行User-Agent检测，对这些浏览器不下发SameSite=none属性。  
+### Cookie的作用  
+1、会话状态管理(如用户登录状态、购物车、游戏分数或其它需要记录的信息)  
+2、个性化设置（比如用户自定义设置、主题等）
+3、浏览器行为跟踪（如跟踪分析用户行为等）  
+### Cookie的缺点  
+大小限制（4KB），不能保存太多信息。  
+不安全，容易被盗取，导致XSS攻击等。  
+增加请求大小。  
+
 
 
