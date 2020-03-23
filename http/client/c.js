@@ -19,11 +19,17 @@ http.createServer((request, response) => {
             data += chunk
         })
         request.on('end', () => {
-            console.log(data)
             // response.setHeader('Access-Control-Allow-Origin', 'http://192.168.1.3:2233');
             // response.setHeader('Connection', 'close');
             response.setHeader('Content-Type', 'application/json;charset=utf-8');
-            response.setHeader('Set-Cookie', ['bir=4223', 'sessionid=513654656']);
+            response.setHeader('Set-Cookie', ['bir=4223;Max-Age=10;SameSite=None', 'sessionid=513654656;Max-Age=0']);
+            // Max-Age可以为正数、负数、甚至是0
+            // 如果max-Age属性为正数时，浏览器会将其持久化，即写到对应的Cookie文件中。  
+            // 如果max-Age属性为负数，则表示Cookie只是一个会话性cookie。会话性cookie保存在客户端内存中，
+            // 并在用户关闭浏览器时失效。需要注意的是，有些浏览器提供了会话恢复功能，这种情况下即使关闭了浏览器，会话期Cookie
+            // 也会被保留下来，就像浏览器从来没有关闭一样。
+            // 当max-Age为0时，则会立即删除这个Cookie
+            // 假如Expires和Max-Age都存在时，Max-Age优先级更高
             response.statusCode = 200;
             let obj = {
                 code: 200,
