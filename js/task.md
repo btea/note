@@ -6,13 +6,16 @@
 
 ### **js黑科技**
 [严格模式下， this指向全局对象](https://www.cnblogs.com/qianlegeqian/p/3950044.html)  
-`
+```javascript
 	function fun(){  
 		'use strict'  
 		console.log(this) // undefined  
 		function func(){
-			cosnole.log(this)
+			console.log(this)
 		}
 		func.bind((0, eval)('this'))()
+
+		// var obj = (0, eval)('this')
+		// func.call(obj)
 	}
-`
+```
