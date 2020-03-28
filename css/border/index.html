@@ -66,6 +66,30 @@
 			border: 1px solid #000;
 			margin: 20px;
 		}
+		.box{
+			width: 300px;
+			height: 200px;
+			border: 3px solid #6cf;
+			background: aquamarine;
+			text-align: center;
+			color: #fff;
+			margin: 0 auto;
+			position: relative;
+		}
+		.box::after{
+			content: '';
+			position: absolute;
+			width: 16px;
+			height: 16px;
+			left: 50%;
+			margin-left: -8px;
+			top: -8px;
+			border: 3px solid;
+			border-color: #6cf transparent transparent #6cf;
+			background: aquamarine;
+			transform: rotate(45deg);
+			box-sizing: border-box;
+		}
 	</style>
 </head>
 <body>
@@ -80,5 +104,6 @@
 			<line x1="0" y1="0" x2="100%" y2="100%" style="stroke: aqua; stroke-width: 2;"></line>
 		</svg>
 	</div>
+	<div class="box">这是另一个框</div>
 </body>
 </html>
