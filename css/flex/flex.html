@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>flex layout</title>
+    <style>
+        .flex{
+            display: flex;
+            background: yellow;
+            width: 650px;
+        }
+        .flex .item{
+            width: 200px;
+            height: 200px;
+            margin: 5px;
+            background: yellowgreen;
+        }
+        .justify-content{
+            display: flex;
+            width: 650px;
+            background: yellow;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+        .justify-content .item{
+            width: 200px;
+            height: 200px;
+            margin: 5px;
+            background: yellowgreen;
+            
+        }
+        .align-items{
+            display: flex;
+            width: 650px;
+            background: yellow;
+            margin-top: 10px;
+            height: 300px;
+            align-items: flex-end;
+        }
+        .align-items .items{
+            width: 150px;
+            height: 200px;
+            margin: 5px;
+            background: yellowgreen;
+        }
+        .align-content{
+            display: flex;
+            width: 650px;
+            background: yellow;
+            margin-top: 10px;
+            height: 300px;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-content: center;
+        }
+        .align-content .item{
+            width: 150px;
+            height: 50px;
+            margin: 5px;
+            background: yellowgreen;
+        }
+        .left-middle-right{
+            display: flex;
+            width: 650px;
+            background: yellow;
+            margin-top: 10px;
+            height: 300px;
+        }
+        .left-middle-right .left{
+            width: 100px;
+            background: #6cf;
+        }
+        .left-middle-right .middle{
+            background: red;
+            flex-grow: 1;
+        }
+        .left-middle-right .right{
+            width: 200px;
+            background: rebeccapurple;
+        }
+        .order{
+            display: flex;
+            width: 650px;
+            background: yellow;
+            margin-top: 10px;
+            height: 300px;
+            flex-wrap: wrap;
+        }
+        .order .item{
+            width: 300px;
+            height: 100px;
+            background: royalblue;
+            margin: 5px;
+            order: 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="flex">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+    </div>
+    <div class="justify-content">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+    </div>
+    <div class="align-items">
+        <div class="items"></div>
+        <div class="items"></div>
+        <div class="items"></div>
+    </div>
+    <div class="align-content">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+    </div>
+    <div class="left-middle-right">
+        <div class="left"></div>
+        <div class="middle"></div>
+        <div class="right"></div>
+    </div>
+    <div class="order">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+    </div>
+</body>
+</html>
