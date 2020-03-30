@@ -32,8 +32,8 @@ align-content
 ```
 * row(默认值)：主轴为水平方向，起点在左端。  
 * row-reverse：主轴在水平方向，起点在右端。  
-* column：主轴为水平方向，起点在上沿。  
-* column-reverse：主轴为水平方向，起点在下沿。  
+* column：主轴为垂直方向，起点在上沿。  
+* column-reverse：主轴为垂直方向，起点在下沿。  
 ```  
 ***flex-wrap属性***  
 默认情况下，项目都排在一条线（又称“轴线”）上。`flex-wrap`属性定义，如果一条轴线排不下，如何换行。  
@@ -146,7 +146,7 @@ align-content
   flex-basis: <length> | auto; /* default auto */
 }
 ```   
-它可以设为跟`width`或`height`属性一样的值（比如350px），则项目将占据固定空间。 
+它可以设为跟`width`或`height`属性一样的值（比如350px），则项目将占据固定空间。   
 ***flex属性***  
 `flex`属性是`flex-grow`, `flex-shrink` 和 `flex-basis`的简写，默认值为`0 1 auto`。后两个属性可选。  
 ```
@@ -155,7 +155,7 @@ align-content
 }
 ```
 该属性有两个快捷值：`auto (1 1 auto)` 和 `none (0 0 auto)`。
-建议优先使用这个属性，而不是单独写三个分离的属性，因为浏览器会推算相关值。  
+建议优先使用这个属性，而不是单独写三个分离的属性，因为浏览器会推算相关值。   
 ***align-self属性***  
 `align-self`属性允许单个项目有与其他项目不一样的对齐方式，可覆盖`align-items`属性。默认值为`auto`，表示继承父元素的`align-items`属性，如果没有父元素，则等同于`stretch`。  
 ```
