@@ -111,15 +111,17 @@
                 const key = this.random();
                 this.key = key;
                 this.callbacks[key] = null;
+                if (this.serialize(data)) {
+                    url += this.serialize(data);
+                }
                 xhr.open(type, url, isAsync || true);
                 xhr.onreadystatechange = function(){
                     if(xhr.readyState === 4 && xhr.status === 200){
-                        console.log(xhr);
                         this.callbacks[key](xhr.response);
                     }
                 }.bind(this);
                 xhr.responseType = dataType;
-                xhr.send(this.serialize(data));
+                xhr.send(null);
             }
             post(obj){
                 let  {type, dataType, data, url, isAsync} = obj;
@@ -133,7 +135,7 @@
                         this.callbacks[key](xhr.response);
                     }
                 }.bind(this);
-                xhr.setRequestHeader('content-type','application/x-www-urlencoded');
+                xhr.setRequestHeader('content-type','application/x-www-form-urlencoded');
                 xhr.send(this.serialize(data));
             }
             serialize(obj){
