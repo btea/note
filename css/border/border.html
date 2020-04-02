@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div{
+            width: 150px;
+            height: 30px;
+            margin: 20px auto;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+        }
+        .one::before{
+            content: '';
+            position: absolute;
+            left: 50%;
+            right: 50%;
+            bottom: 0;
+            height: 3px;
+            background: #6cf;
+            transition: all .5s;
+        }
+        .one:hover::before{
+            left: 0;
+            right: 0;
+        }
+        .two::before{
+            left: 0;
+            right: 100%;
+            content: '';
+            position: absolute;
+            bottom: 0;
+            height: 3px;
+            background: #6cf;
+            transition: all .5s;
+        }
+        .two:hover::before{
+            right: 0;
+        }
+        .three::before{
+            left: 100%;
+            right: 0;
+            content: '';
+            position: absolute;
+            bottom: 0;
+            height: 3px;
+            background: #6cf;
+            transition: all .5s;
+        }
+        .three:hover::before{
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="one">第一个边框</div>
+    <div class="two">第二个边框</div>
+    <div class="three">第三个边框</div>
+</body>
+</html>
