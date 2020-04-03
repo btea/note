@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>默认标题</title>
+</head>
+<body>
+    <script>
+        var title = document.getElementsByTagName('title')[0]
+        window.onfocus = function() {
+            title.innerText = '聚焦标题'
+        }
+        window.onblur = function() {
+            title.innerText = '离开的标题'
+        }
+    </script>
+</body>
+</html>
