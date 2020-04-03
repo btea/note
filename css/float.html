@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BFC block formatting contexts</title>
+    <style>
+        .float{
+            float: left;
+            font-size: 20px;
+            background: lightblue;
+            width: 100px;
+        }
+        .border{
+            overflow: hidden;
+            border: 2px solid aqua;
+        }
+        .item{
+            width: 100px;
+            height: 100px;
+            background: aqua;
+            margin: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="border">
+        <div class="float">我是一个左浮动的元素</div>
+    </div>
+    <div class="item"></div>
+    <div class="item" style="display: inline-block;"></div>
+    <div class="container">
+        <div style="height: 100px;width: 100px;float: left;background: lightblue">我是一个左浮动的元素</div>
+        <div style="width: 200px; height: 200px;background: #eee">我是一个没有设置浮动, 
+        也没有触发 BFC 元素, width: 200px; height:200px; background: #eee;</div>
+    </div>
+</body>
+</html>
