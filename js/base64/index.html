@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="file" class="file">
+    <img src="" alt="" class="img">
+    <script src="base64.js"></script>
+    <script>
+        let el = document.getElementsByClassName('file')[0];
+        let img = document.getElementsByClassName('img')[0];
+        el.addEventListener('change', e => {
+            let file = e.target.files[0]
+            // let f = new Uint8Array(file)
+            let f = new FileReader();
+            f.readAsArrayBuffer(file)
+            f.onload = function() {
+                let arr = f.result;
+                let view = new DataView(arr)
+                let list = [];
+                for(let i = 0; i < view.byteLength; i++) {
+                    list.push(view.getUint8(i))
+                }
+                let src = binaryToStr(list)
+                // img.src = src
+                console.log(src)
+            }
+            let f1 = new FileReader();
+            f1.readAsDataURL(file);
+            f1.onload = function() {
+                let result = f1.result;
+                console.log(result)
+            }
+            // console.log(f)
+        })
+    </script>
+</body>
+</html>
