@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>carousel 无缝衔接</title>
+    <style>
+        html,body,.carousel-list{
+            margin: 0;
+            padding: 0;
+        }
+        .carousel-box{
+            width: 400px;
+            height: 300px;
+            overflow: hidden;
+            margin: 0 auto;
+            position: relative;
+        }
+        .carousel-list{
+            width: 700%;
+            height: 100%;
+        }
+        .carousel-list.ani{
+            transition: all 1.5s;
+        }
+        .carousel-list li{
+            list-style: none;
+            height: 300px;
+            width: 400px;
+            float: left;
+        }
+        li img{
+            width: 100%;
+            height: 100%;
+        }
+        .pre-btn,.next-btn{
+            position: absolute;
+            top: 50%;
+            margin-top: -25px;
+            width: 18px;
+            height: 50px;
+            background: rgba(0,0,0,.5);
+            cursor: pointer;
+        }
+        .pre-btn{
+            left: 0;
+        }
+        .pre-btn::before{
+            content: '';
+            position: absolute;
+            top: 22px;
+            left: 6px;
+            width: 6px;
+            height: 6px;
+            border-style: solid;
+            border-color: #fff;
+            border-width: 0 0 3px 3px;
+            transform: rotate(45deg);
+        }
+        .next-btn{
+            right: 0;
+        }
+        .next-btn::after{
+            content: '';
+            position: absolute;
+            top: 22px;
+            right: 6px;
+            width: 6px;
+            height: 6px;
+            border-style: solid;
+            border-color: #fff;
+            border-width: 3px 3px 0 0;
+            transform: rotate(45deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="carousel-box">
+        <div class="pre-btn"></div>
+        <div class="next-btn"></div>
+        <ul class="carousel-list">
+            <li><img src="https://i1.hdslb.com/bfs/live/new_room_cover/b742556bb6c0626ac22a38bb9fd3cb6e0b867367.jpg@1e_1c_100q.webp" alt=""></li>
+            <li><img src="https://i1.hdslb.com/bfs/live/new_room_cover/bce71905923ef1a02889ab6433cbf7abc296820e.jpg@1e_1c_100q.webp" alt=""></li>
+            <li><img src="https://i1.hdslb.com/bfs/live/new_room_cover/b445d13c35e47b091f5ca9607fc60cbf0578287d.jpg@1e_1c_100q.webp" alt=""></li>
+            <li><img src="https://i1.hdslb.com/bfs/live/room_cover/eaccad98262dc4cbb31c4178b8da1204b69a3544.jpg@1e_1c_100q.webp" alt=""></li>
+            <li><img src="https://i1.hdslb.com/bfs/live/user_cover/313d99c12a9d2f874e375514477b4dfac8ad504d.jpg@1e_1c_100q.webp" alt=""></li>
+        </ul>
+    </div>
+    <script>
+        let box = document.getElementsByClassName('carousel-list')[0];
+        let list =document.getElementsByTagName('li');
+        let prev = document.getElementsByClassName('pre-btn')[0];
+        let next = document.getElementsByClassName('next-btn')[0];
+        box.appendChild(list[0].cloneNode(true));
+        box.insertBefore(list[4].cloneNode(true), list[0]);
+        box.style.marginLeft = '-400px';
+        let i = 1, id;
+        next.addEventListener('click', function() {
+            let left = i * 400;
+            i++
+            box.classList.add('ani');
+            box.style.marginLeft = -left + 'px';
+            if (i > 6) {
+                setTimeout(() => {
+                    box.classList.remove('ani');
+                    box.style.marginLeft = '-400px';
+                    i = 2;
+                }, 1500)
+                // box.classList.add('ani');
+                // box.style.marginLeft = -400 + 'px';  
+            }
+        })
+        prev.addEventListener('click', function() {
+            i--
+            let left = i * 400;
+            box.classList.add('ani');
+            box.style.marginLeft = -left + 'px';
+            if(!i) {
+                setTimeout(() => {
+                    box.classList.remove('ani');
+                    box.style.marginLeft = '-2000px';
+                    i = 5;
+                }, 1500)
+            }
+        })
+        
+        // startInterval()
+        function startInterval() {
+            id = setInterval(() => {
+                let left = i * 400;
+                box.classList.add('ani');
+                box.style.marginLeft = -left + 'px';
+                i++
+                if (i > 5) {
+                    clearInterval(id);
+                    reset();
+                }
+            }, 2000)
+        }
+        function reset() {
+            setTimeout(() => {
+                box.classList.remove('ani');
+                box.style.marginLeft = 0;
+                i = 1;
+                startInterval();
+            }, 2000)
+        }
+        
+    </script>
+</body>
+</html>
