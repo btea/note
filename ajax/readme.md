@@ -13,7 +13,7 @@ xhr.open('get', 'example.txt', false);
 xhr.send(null)
 ```
 `send()`方法接收一个参数，即要作为请求主体发送的数据。如果不需要通过请求主体发送数据，则必须传入null，因为这个参数对于浏览器来说是必需的。调用`send()`之后，请求就会被分派到服务器。  
-由于这次请求时同步的，JavaScript代码会等到服务器响应之后再继续执行。在收到响应之后，响应的数据会自动填充XHR对象的属性，相关属性简介如下：  
+由于这次请求是同步的，JavaScript代码会等到服务器响应之后再继续执行。在收到响应之后，响应的数据会自动填充XHR对象的属性，相关属性简介如下：  
 * responseText: 作为响应主体被返回的文本。  
 * responseXML: 如果响应的内容类型是`"text/xml"`或`"application/xml"`,这个属性中将保存包含着响应数据的XML DOM文档。  
 * status: 响应的HTTP状态。  
