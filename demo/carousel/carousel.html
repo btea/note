@@ -96,18 +96,17 @@
         box.style.marginLeft = '-400px';
         let i = 1, id;
         next.addEventListener('click', function() {
+            i++;
             let left = i * 400;
-            i++
             box.classList.add('ani');
             box.style.marginLeft = -left + 'px';
-            if (i > 6) {
+            console.log(i)
+            if (i > 5) {
                 setTimeout(() => {
                     box.classList.remove('ani');
                     box.style.marginLeft = '-400px';
-                    i = 2;
+                    i = 1;
                 }, 1500)
-                // box.classList.add('ani');
-                // box.style.marginLeft = -400 + 'px';  
             }
         })
         prev.addEventListener('click', function() {
