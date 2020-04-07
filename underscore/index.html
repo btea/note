@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .role{
+            width: 50px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" class="text"><div class="role" role="button">确定</div>
+    <div class="show"></div>
+    <script src="underscore.js"></script>
+    <script>
+        var role = document.getElementsByClassName('role')[0];
+        var text = document.getElementsByClassName('text')[0];
+        var show = document.getElementsByClassName('show')[0];
+        role.addEventListener('click', function() {
+            var result = _.escape(text.value);
+            console.log(result)
+            show.innerHTML = result;
+        })
+    </script>
+</body>
+</html>
