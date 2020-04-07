@@ -94,57 +94,32 @@
         box.appendChild(list[0].cloneNode(true));
         box.insertBefore(list[4].cloneNode(true), list[0]);
         box.style.marginLeft = '-400px';
-        let i = 1, id;
+        let i = 1, id, len = list.length;
+        function move(judgment, init, initLeft) {
+            /**
+             * @params judgment 转折条件
+             * @params i 转折之后i的值
+             * @params initLeft 转折后初始化marginLeft值
+            */
+            let left = i * 400;
+            box.classList.add('ani');
+            box.style.marginLeft = -left + 'px';
+            if (judgment) {
+                setTimeout(() => {
+                    box.classList.remove('ani');
+                    box.style.marginLeft = initLeft + 'px';
+                    i = init;
+                }, 1500)
+            }
+        }
         next.addEventListener('click', function() {
             i++;
-            let left = i * 400;
-            box.classList.add('ani');
-            box.style.marginLeft = -left + 'px';
-            console.log(i)
-            if (i > 5) {
-                setTimeout(() => {
-                    box.classList.remove('ani');
-                    box.style.marginLeft = '-400px';
-                    i = 1;
-                }, 1500)
-            }
+            move(i > 5, 1, -400);
         })
         prev.addEventListener('click', function() {
-            i--
-            let left = i * 400;
-            box.classList.add('ani');
-            box.style.marginLeft = -left + 'px';
-            if(!i) {
-                setTimeout(() => {
-                    box.classList.remove('ani');
-                    box.style.marginLeft = '-2000px';
-                    i = 5;
-                }, 1500)
-            }
-        })
-        
-        // startInterval()
-        function startInterval() {
-            id = setInterval(() => {
-                let left = i * 400;
-                box.classList.add('ani');
-                box.style.marginLeft = -left + 'px';
-                i++
-                if (i > 5) {
-                    clearInterval(id);
-                    reset();
-                }
-            }, 2000)
-        }
-        function reset() {
-            setTimeout(() => {
-                box.classList.remove('ani');
-                box.style.marginLeft = 0;
-                i = 1;
-                startInterval();
-            }, 2000)
-        }
-        
+            i--;
+            move(!i, 5, -2000);
+        })        
     </script>
 </body>
 </html>
