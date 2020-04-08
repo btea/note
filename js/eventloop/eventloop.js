@@ -71,3 +71,27 @@ setImmediate(function() {
         console.log('immediate2_then')  // 22
     })
 })
+
+// glob1
+// globl1_promise
+// glob2_promise
+// glob1_nextTick
+// glob2_nextTick
+// glob1_then
+// glob2_then
+// timeout1
+// timeout1_promise
+// timeout2
+// timeout2_promise
+// timeout1_nextTick
+// timeout2_nextTick
+// timeout1_then
+// timeout2_then
+// immediate1
+// immediate1_promise
+// immediate2
+// immediate2_promise
+// immediate1_nextTick
+// immediate2_nextTick
+// immediate1_then
+// immediate2_then
