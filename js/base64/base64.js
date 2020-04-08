@@ -49,16 +49,15 @@ function charToBinary(text) {
     for(let i = 0; i < text.length; i += 3) {
         let code = ''
         code += codeToBinary(text[i].charCodeAt());
-        if (text[i + 1]) {
+        if (text[i + 1] !== undefined) {
             code += codeToBinary(text[i + 1].charCodeAt());
         }
-        if (text[i + 2]) {
+        if (text[i + 2] !== undefined) {
             code += codeToBinary(text[i + 2].charCodeAt());
         }
         if (code.length % 6) {
             code += '0'.repeat(6 - (code.length % 6));
         }
-
         let arr = [code.slice(0,6), code.slice(6, 12)];
         if (code.length / 6 === 3) {
             arr.push(code.slice(12, 18))
@@ -84,6 +83,6 @@ function codeToBinary(code) {
     v = '0'.repeat(8 - v.length) + v;
     return v;
 }
-charToBinary('Man');
-charToBinary('BC');
+// charToBinary('Man');
+// charToBinary('BC');
 charToBinary('A');

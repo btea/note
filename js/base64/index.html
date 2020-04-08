@@ -16,22 +16,18 @@
             let file = e.target.files[0]
             // let f = new Uint8Array(file)
             let f = new FileReader();
-            f.readAsArrayBuffer(file)
+            // f.readAsArrayBuffer(file)
+            f.readAsText(file);
             f.onload = function() {
                 let arr = f.result;
-                let view = new DataView(arr)
-                let list = [];
-                for(let i = 0; i < view.byteLength; i++) {
-                    list.push(view.getUint8(i))
-                }
-                let src = binaryToStr(list)
-                // img.src = src
+                let src = charToBinary(arr);
                 console.log(src)
             }
             let f1 = new FileReader();
             f1.readAsDataURL(file);
             f1.onload = function() {
                 let result = f1.result;
+                // img.src = result
                 console.log(result)
             }
             // console.log(f)
