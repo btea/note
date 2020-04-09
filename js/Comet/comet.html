@@ -22,7 +22,7 @@
             let xhr = new XMLHttpRequest()
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 3) {
-                    console.log(xhr.responseText)
+                    document.write(xhr.responseText)
                 }else if(xhr.readyState == 4) {
                     console.log('finish')
                 }

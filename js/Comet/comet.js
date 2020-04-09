@@ -21,16 +21,22 @@ http.createServer(function(request, response) {
     }
     function getV() {
         let id
-        response.writeHead(200, {
-            'Content-Type': 'text/event-stream'
-        })
-        id = setInterval(() => {
-            a++
-            response.write('data: {a: 10}' + '\n\n')
-            if (a >= 5) {
-                clearInterval(id)
-                response.end()
-            }
-        }, 1000)
+        response.setHeader('Content-Type', 'text/html;charset=utf-8');
+        response.setHeader('Transfer-Encoding', 'chunked');
+        // id = setInterval(() => {
+        //     a++
+        //     response.write('data: {a: ' + a + '}')
+        //     if (a >= 5) {
+        //         clearInterval(id)
+        //         response.end()
+        //     }
+        // }, 1000)
+        setTimeout(() => {
+            response.write("第一次传输<br/>");
+        }, 1000);
+        setTimeout(() => {
+            response.write("第二次传输");
+            response.end()
+        }, 2000);
     }
 }).listen(2233)
