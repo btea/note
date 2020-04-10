@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>defer async</title>
+</head>
+<body>
+    <p>默认情况下，脚本的下载和执行将会按照文章的先后顺序同步进行。当脚本下载和执行的时候，文档解析就会被阻塞，在脚本下载和执行完成之后文档才能往下继续进行解析。</p>
+    <ul>
+        下面是async和defer两者区别：
+        <li>当script中有defer属性时，脚本的加载过程和文档加载时异步发生的，等到文档解析完(COMContentLoaded事件发生)脚本才开始执行</li>
+        <li>当script有async属性时，脚本的加载过程和问的那个也是异步发生的。但脚本下载完成后会停止HTML解析，执行脚本，脚本解析完继续HTML解析。</li>
+        <li>当script同时有async和defer属性时，执行效果和async一致</li>
+    </ul>
+    <script src="./async.js" async></script>
+</body>
+</html>
