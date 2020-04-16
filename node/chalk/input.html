@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		html,body{
+			text-align: center;
+		}
+		.box{
+			display: inline-block;
+			position: relative;
+			min-width: 100px;
+			background: none;
+			color: #000;
+			/* background-color: rgba(0, 0, 0, .5); */
+		}
+		.box, input{
+			border-radius: 5px;
+			text-align: center;
+			height: 35px;	
+			outline: none;
+			border: none;
+			padding: 0 5px;
+			font-size: 16px;
+			box-sizing: border-box;
+			text-align: center;
+		}
+		input{
+			background-color: rgba(0, 0, 0, .5);
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			color: #fff;
+			/* display: none; */
+		}
+	</style>
+</head>
+<body>
+	<div class="box">
+		<input type="text" />
+	</div>
+	<script>
+		let input = document.getElementsByTagName('input')[0];
+		let box = document.getElementsByClassName('box')[0];
+		input.addEventListener('input', () => {
+			box.childNodes[0].nodeValue = input.value;
+		})
+	</script>
+</body>
+</html>
