@@ -15,7 +15,8 @@
 			min-width: 100px;
 			background: none;
 			color: #000;
-			/* background-color: rgba(0, 0, 0, .5); */
+			line-height: 35px;
+			background-color: rgba(0, 0, 0, .5);
 		}
 		.box, input{
 			border-radius: 5px;
@@ -37,18 +38,29 @@
 			color: #fff;
 			/* display: none; */
 		}
+		.demo{
+			margin: 10px 0;
+			height: 30px;
+			background-color: rgba(0, 0, 0, .5);
+			border-radius: 5px;
+			display: inline-block;
+		}
 	</style>
 </head>
 <body>
-	<div class="box">
-		<input type="text" />
+	<div class="box" contenteditable="true">
+		<!-- <input type="text" /> -->
 	</div>
+	<br>
+	<div class="demo"></div>
 	<script>
-		let input = document.getElementsByTagName('input')[0];
-		let box = document.getElementsByClassName('box')[0];
-		input.addEventListener('input', () => {
-			box.childNodes[0].nodeValue = input.value;
-		})
+		// let input = document.getElementsByTagName('input')[0];
+		// let box = document.getElementsByClassName('box')[0];
+		// let demo = document.getElementsByClassName('demo')[0];
+		// input.addEventListener('input', () => {
+		// 	box.childNodes[0].nodeValue = input.value;
+		// 	demo.innerText = input.value;
+		// })
 	</script>
 </body>
 </html>
