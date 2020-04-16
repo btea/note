@@ -53,8 +53,11 @@ const vals = {
 };
 const methods = {};
 Object.keys(vals).map(key => {
-	String.prototype[key] = methods[key] = str => {
+	methods[key] = str => {
 		return '\x1b[' + vals[key] + 'm' + str + '\x1b[0m';
+	}
+	String.prototype[key] = function(){
+		return '\x1b[' + vals[key] + 'm' + this.toString() + '\x1b[0m';
 	}
 })
 
@@ -64,4 +67,5 @@ console.log(`this is a ${methods.yellow(symbol.heart)}`);
 console.log(`this is a ${methods.blue(symbol.heart)}`);
 console.log(`this is a ${methods.magenta(symbol.heart)}`);
 console.log(`this is a ${methods.cyan(symbol.heart)}`);
-console.log(`this is a ${methods.white(symbol.heart)}`);
+let s = `this is a ${methods.yellow(symbol.heart)}`;
+console.log(s.bgCyan());
