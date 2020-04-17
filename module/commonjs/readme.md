@@ -1,6 +1,6 @@
 [CommonJs规范](https://javascript.ruanyifeng.com/nodejs/module.html)  
 Node应用由模块组成，采用CommonJS模块规范。  
-每个班文件就是一个模块，有自己的作用域。在一个文件里面定义的变量、函数、类，都是私有的，对其他文件不可见。  
+每个文件就是一个模块，有自己的作用域。在一个文件里面定义的变量、函数、类，都是私有的，对其他文件不可见。  
 ```javascript
 // example.js
 var x = 5;
