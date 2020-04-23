@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自定义元素circle-text</title>
+</head>
+<body>
+    <a href="https://codepen.io/AmeliaBR/pen/00ff5f4e2b3dbbf96e4ae313655dd9c0">自定义元素</a>
+    <circle-text r="3em" rotate="-90deg">
+        CSS is super fun & cool & I like CSS!!
+    </circle-text>
+    <script>
+    if (window.customElements && document.body.attachShadow) { //mustard
+        class CircleText extends HTMLElement {
+            static get observedAttributes() {
+                return ['r', 'rotate'];
+            }
+            static defaultRadius = 100;
+            
+            constructor() {
+                super();
+                let shadow = this.attachShadow({mode: 'open'});
+                shadow.innerHTML = `
+                <svg id="s">
+                    <style>
+                    svg { display: block; overflow: visible; padding: 1em; }
+                    textPath { fill: currentColor; }
+                    </style>
+                    <defs><path id="p"/><circle id="r"/></defs>
+                    <text id="t"><textPath id="tp" xlink:href="#p"></textPath></text>
+                </svg>`;
+                // save links to the elements we'll need to modify
+                this.svg = shadow.getElementById("s");
+                this.path = shadow.getElementById("p");
+                this.text = shadow.getElementById("t");
+                this.textPath = shadow.getElementById("tp");
+            
+                // SVGLength object on a circle for unit conversion for path data
+                // (since Safari and Firefox don't support text on a <circle> element)
+                this.radius = shadow.getElementById("r").r.baseVal;
+                
+                this.updateText();    
+                // create a mutation observer for text content updates
+                let watchText = new MutationObserver(this.updateText.bind(this));
+                watchText.observe(this, {childList: true, characterData: true});
+            }
+            connectedCallback() {
+                // re-calculate dimensions, in case of font-relative units
+                this.updateRadius(this.getAttribute("r"));
+            }
+            
+            attributeChangedCallback(name, oldValue, newValue) {
+                switch (name) {
+                    case "r":
+                    if (this.svg.isConnected) this.updateRadius(newValue);
+                    break;
+                    case "rotate":
+                    this.updateTransform(newValue);
+                    break;
+                }
+            }
+            
+            updateRadius(newValue) {
+                var r; 
+                if (this.svg.isConnected) {
+                    //force an initial style calc to get em values
+                    let f = getComputedStyle(this.svg)["font-size"];
+                }
+            
+                try {
+                    this.radius.valueAsString = newValue;
+                    r = this.radius.value;
+                } catch(e) {
+                    r = CircleText.defaultRadius;
+                }
+                let d = 2*r;
+                let offset = -1*r;
+                [
+                    {name: "height", value:d },
+                    {name: "width", value:d },
+                    {name: "viewBox", value: [offset, offset, d, d].join() }
+                ].forEach(
+                    ({name, value})=>this.svg.setAttribute(name, value)
+                ); 
+                this.path.setAttribute("d",
+                    `M${-r},0 A${r},${r},0 1 1 ${r},0 A${r},${r},0 1 1 ${-r},0Z`
+                );
+            }
+            
+            updateTransform(rotate) {
+                if (rotate) {
+                    this.text.style["transform"] = `rotate(${rotate})`;
+                } else {
+                    this.text.style["transform"] = "none";
+                }
+            }
+            
+            updateText() {
+                this.textPath.textContent = this.textContent.trim();
+            }
+            
+        }//end class     
+        customElements.define("circle-text", CircleText, {});
+            
+    }
+  
+    </script>
+</body>
+</html>
