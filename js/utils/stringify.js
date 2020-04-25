@@ -3,8 +3,8 @@ function stringify(obj) {
     if (obj === null || isPrimite(obj)) {
         return obj + '';
     }
-    var str = '';
-    if (Array.prototype.toString.call(obj) === '[object Object]') {
+    var str = '', isArray = Array.isArray(obj);
+    if (!isArray) {
          str += '{'
          for(let i in obj) {
              let value = obj[i]
