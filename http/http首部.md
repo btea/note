@@ -168,7 +168,7 @@ Cache-Control：no-store
 **s-maxage指令**  
 Cache-Control：s-maxage=604800(单位：秒)  
 s-maxage指令的功能和max-age指令的相同，它们的不同点是s-maxage指令只适用于供多位用户使用的公共缓存服务器（这里一般指代理）。也就是说，对于向同一用户反复返回响应的服务器来说，这个指令没有任何作用。  
-另外，当时用s-maxage指令后，则直接忽略对Expires首部字段及max-age指令的处理。  
+另外，当使用s-maxage指令后，则直接忽略对Expires首部字段及max-age指令的处理。  
 **max-age指令**
 Cache-Control：max-age=604800（单位：秒）  
 当客户端发送的请求中包含max-age指令时，如果判定缓存资源的缓存时间数值比指定时间的数值更小，那么客户端就接收缓存的资源。另外，当指定max-age值为 0，那么缓存服务器通常需要将请求转发给源服务器。  
