@@ -1,4 +1,5 @@
-import defineReactiver from './index'
+import defineReactiver from './defineReactive'
+import {arrayMethods} from './arrayMutator'
 /***
  * Observer 会被附加到每一个被侦测的Object 上。
  * 一旦被附加上，Observer会将Object的所有属性转换为getter/setter的形式
@@ -10,6 +11,8 @@ export class Observer{
 
         if (!Array.isArray(value)) {
             this.walk(value)
+        } else {
+            value.__proto__ = arrayMethods
         }
     }
     /***
