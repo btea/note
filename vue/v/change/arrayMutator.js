@@ -25,6 +25,22 @@ export const arrayMethods = Object.create(Array.prototype)
     def(arrayMethods, method, function mutator(...args){
         const result = origin.apply(this, args)
         const ob = this.__ob__
+        // 获取新增元素
+        let inserted
+        switch (method) {
+            case 'push':
+            case 'unshift':
+                inserted = args    
+                break
+            case 'splice':
+                inserted = args.slice(2)
+                break
+        }
+        
+        if (inserted) {
+            ob.observeArray(inserted)
+        }
+
         ob.dep.notify()
         return result
     })

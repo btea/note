@@ -14,12 +14,18 @@ export class Observer{
         this.value = value
         this.dep = new Dep()  // 新增，数组添加依赖的地方
         def(value, '__ob__', this)
-        if (!Array.isArray(value)) {
-            this.walk(value)
+        // if (!Array.isArray(value)) {
+        //     this.walk(value)
+        // } else {
+        //     // value.__proto__ = arrayMethods
+        //     const augment = hasProto ? protoAugment : copyAugment
+        //     augment(value, arrayMethods, arrayKeys)
+        // }
+        
+        if (Array.isArray(value)) {
+            this.observeArray(value)
         } else {
-            // value.__proto__ = arrayMethods
-            const augment = hasProto ? protoAugment : copyAugment
-            augment(value, arrayMethods, arrayKeys)
+            this.walk(value)
         }
     }
     /***
@@ -32,6 +38,15 @@ export class Observer{
             defineReactiver(obj, keys[i], obj[keys[i]])
         }
     }
+
+    /**
+     * 侦测 Array中的每一项
+    */
+   observeArray(items) {
+       for(let i = 0; i < items.length; i++) {
+           observe(items[i])
+       }
+   }
 }
 
 export function def(obj, key, val, enumerable) {
