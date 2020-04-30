@@ -23,14 +23,15 @@ class V{
         }
     }
     watchData(text, el) {
-        let reg = /\{\{((\w|\.){1,})\}\}/g
+        let reg = /\{\{(.{1,})\}\}/g
+        let match = text.match(reg)
+        
         let realText = text.replace(reg, (match, key) => {
             return this.realValue(this.data, key)
         })
         el.innerText = realText
         let v = RegExp.$1
         new Watcher(this.data, v, function(val, oldVal) {
-            console.log(val, oldVal)
             el.innerText = realText.replace(oldVal, val)
         })
     }

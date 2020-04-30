@@ -1,6 +1,6 @@
 import { Observer } from "./observer";
 
-class Dep{
+export class Dep{
     constructor() {
         this.subs = [];
     }
@@ -33,15 +33,20 @@ function remove(subs, sub) {
 }
 
 export default function defineReactive(obj, key, val) {
-    if (typeof val === 'object') {
-        new Observer(val)
-    }
+    // if (typeof val === 'object') {
+    //     new Observer(val)
+    // }
+    let childOb = observe(val)
     let dep = new Dep();
     Object.defineProperty(obj, key, {
         enumerable: true,
         configurable: true,
         get() {
             dep.depend()
+
+            if (childOb) {
+                childOb.dep.depend()
+            }
             return val
         },
         set(newVal) {
@@ -53,4 +58,30 @@ export default function defineReactive(obj, key, val) {
             dep.notify()
         }
     })
+}
+
+/***
+ * 尝试为value创建一个Observer实例
+ * 如果创建成功，直接返回创建的Observer实例
+ * 如果value已经存在一个Observer实例，则直接返回它
+*/
+export function observe(value, asRootData) {
+    if (!isObject(value)) {
+        return
+    }
+    let ob
+    if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
+        ob = value.__ob__
+    }else {
+        ob = new Observer(value)
+    }
+    return ob
+}
+
+function isObject(v) {
+    return typeof v === 'object'
+}
+
+function hasOwn(obj, key) {
+    return key in obj
 }
