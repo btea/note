@@ -24,14 +24,14 @@ class V{
     }
     watchData(text, el) {
         let reg = /\{\{((\w|\.){1,})\}\}/g
-        // let v = text.replace(reg, '$1')
-        el.innerText = text.replace(reg, (match, key) => {
+        let realText = text.replace(reg, (match, key) => {
             return this.realValue(this.data, key)
         })
+        el.innerText = realText
         let v = RegExp.$1
-        let vm = this
-        new Watcher(this.data, v, function() {
-            el.innerText = vm.realValue(vm.data, v)
+        new Watcher(this.data, v, function(val, oldVal) {
+            console.log(val, oldVal)
+            el.innerText = realText.replace(oldVal, val)
         })
     }
     realValue(obj, key) {
@@ -55,7 +55,13 @@ let app = new V({
         message: 'this is a message',
         info: {
             login: '123'
-        }
+        },
+        list: [
+            {name: '虹猫'},
+            {name: '蓝兔'},
+            {name: '蓝猫'},
+            {name: '淘气'}
+        ]
     }
 })
 console.log(app)
