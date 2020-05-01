@@ -42,11 +42,11 @@ export class Observer{
     /**
      * 侦测 Array中的每一项
     */
-   observeArray(items) {
-       for(let i = 0; i < items.length; i++) {
-           observe(items[i])
-       }
-   }
+    observeArray(items) {
+        for(let i = 0; i < items.length; i++) {
+            observe(items[i])
+        }
+    }
 }
 
 export function def(obj, key, val, enumerable) {

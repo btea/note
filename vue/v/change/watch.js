@@ -1,3 +1,5 @@
+import { traverse } from "./traverse";
+
 /**
  * 解析简单路径
 */
@@ -18,8 +20,15 @@ function parsepath(path) {
 
 
 export default class Watcher{
-    constructor(vm, expOrFn, cb) {
+    constructor(vm, expOrFn, cb, options) {
         this.vm = vm
+
+        // 深度监听
+        if (options) {
+            this.deep = !!options.deep
+        }else {
+            this.deep = false
+        }
 
         // 保存watcher监听了哪些依赖，方便后续可以取消订阅
         this.deps = []
@@ -36,6 +45,9 @@ export default class Watcher{
     get() {
         window.target = this
         let value = this.getter.call(this.vm, this.vm)
+        if (this.deep) {
+            traverse(value)
+        }
         window.target = void 0
         return  value
     }

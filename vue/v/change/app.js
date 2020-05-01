@@ -2,7 +2,8 @@ import {Observer} from './observer'
 import Watcher from './watch'
 class V{
     constructor(obj) {
-        new Observer(obj.data)
+        let ob = new Observer(obj.data)
+        // console.log(ob)
         this.data = obj.data
         this.init(obj)
     }
@@ -78,9 +79,18 @@ let app = new V({
         ]
     }
 })
-// let val = app.$watch('message', function(newVal, oldVal) {
-//     console.log('message属性发生了变化')
+
+// let val = app.$watch('info.login', function(newVal, oldVal) {
+//     console.log('info属性的login属性发生了变化')
+// }, {
+//     deep: true
 // })
+
+// let msg = app.$watch('message', function(newVal, oldVal) {
+//     console.log('message改变')
+//     console.log('新值：' + newVal + ';  ' + '旧值：' + oldVal)
+// })
+
 // let val1 = app.$watch(function() {
 //     console.log(this.age + this.message)
 // }, function(newVal, oldVal) {
