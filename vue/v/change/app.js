@@ -1,4 +1,4 @@
-import {Observer} from './observer'
+import {Observer, set, del} from './observer'
 import Watcher from './watch'
 class V{
     constructor(obj) {
@@ -61,6 +61,12 @@ class V{
             watcher.teardown()
         }
     }
+    $set(target, key, value) {
+        set.call(this, target, key, value)
+    }
+    $delete(target, key) {
+        del.call(this, target, key)
+    }
 }
 
 let app = new V({
@@ -80,6 +86,13 @@ let app = new V({
     }
 })
 
+let w = app.$watch('list', function(newVal, oldVal) {
+    console.log('list数组更新')
+    console.log(newVal)
+    console.log(oldVal)
+})
+let setV = app.$set(app.data.list, 5, 100)
+console.log(setV)
 // let val = app.$watch('info.login', function(newVal, oldVal) {
 //     console.log('info属性的login属性发生了变化')
 // }, {
