@@ -1,33 +1,31 @@
 import { Observer } from "./observer";
 
+let uid = 0
 export class Dep{
     constructor() {
+        this.uid = ++uid
         this.subs = [];
     }
     addSub(sub) {
         this.subs.push(sub)
     }
     removeSub(sub) {
-        remove(sub)
+        // remove(sub)
+        const index = this.subs.indexOf(sub)
+        if (index > -1) {
+            return this.subs.splice(index, 1)
+        }
     }
     depend() {
         if (window.target) {
-            this.addSub(window.target)
+            // this.addSub(window.target)
+            window.target.addDep(this)
         }
     }
     notify() {
         const list = this.subs.slice()
         for(let i = 0; i < list.length; i++) {
             this.subs[i].update()
-        }
-    }
-}
-
-function remove(subs, sub) {
-    if (subs.length) {
-        const index = subs.indexOf(sub)
-        if (index > -1) {
-            return subs.splice(index, 1)
         }
     }
 }
