@@ -12,7 +12,7 @@ Expires用于设置Cookie的过期时间。比如：
 ```javascript
 Set-Cookie: id=a3fWa; Expires=Wed, 21 Oct 2015 07:28:00 GMT;
 ``` 
-当Expires属性缺省时，表示是会话性Cookie，默认值值为Session，表示的就是会话性Cookie。当为会话性 Cookie 的时候，值保存在客户端内存中，并在用户关闭浏览器时失效。需要注意的是，有些浏览器提供了会话恢复功能，这种情况下即使关闭了浏览器，会话期 Cookie 也会被保留下来，就好像浏览器从来没有关闭一样。  
+当Expires属性缺省时，表示是会话性Cookie，默认值为Session，表示的就是会话性Cookie。当为会话性 Cookie 的时候，值保存在客户端内存中，并在用户关闭浏览器时失效。需要注意的是，有些浏览器提供了会话恢复功能，这种情况下即使关闭了浏览器，会话期 Cookie 也会被保留下来，就好像浏览器从来没有关闭一样。  
 与会话性 Cookie 相对的是持久性 Cookie，持久性 Cookies 会保存在用户的硬盘中，直至过期或者清除 Cookie。这里值得注意的是，设定的日期和时间只与客户端相关，而不是服务端。  
 **Max-Age**  
 Max-Age用于设置在Cookie失效之前需要经过的秒数。比如：  
