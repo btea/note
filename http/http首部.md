@@ -47,7 +47,7 @@ Accept-Encoding     | 优先的内容编码
 Accept-Language     | 优先的语言（自然语言）  
 Authorization       | Web认证信息  
 Expect              | 期待服务器的指定行为  
-From                | 用户的电力邮箱地址  
+From                | 用户的电子邮箱地址  
 Host                | 请求资源所在服务器  
 If-Match            | 比较实体标记（ETag）  
 If-Modified-Since   | 比较资源的更新时间  
