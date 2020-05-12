@@ -1,6 +1,9 @@
 [loader讲解](https://segmentfault.com/a/1190000018450503)  
 [plugin](https://segmentfault.com/a/1190000012840742)  
-[webpack讲解仓库](https://github.com/luoxue-victor/webpack-box)
+[webpack讲解仓库](https://github.com/luoxue-victor/webpack-box)  
+[webpack文档](https://www.webpackjs.com/contribute/writing-a-plugin/)  
+[深入浅出webpack](https://webpack.wuhaolin.cn/)  
+
 
 
 ### npm配置  
