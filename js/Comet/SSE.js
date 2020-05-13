@@ -27,7 +27,7 @@ http.createServer(function(request, response) {
         id = setInterval(() => {
             a++
             // 使用EventSource监听接收数据，必须以"data: "开头， "\n\n"结尾，代表结束
-            response.write('data: {a: 10}' + '\n\n')
+            response.write('data: {a: ' + a + '}' + '\n\n')
             // if (a >= 5) {
                 // clearInterval(id)
                 // response.end()
