@@ -256,7 +256,7 @@
 
 	function initConfig(config){
 		if(Object.prototype.toString.call(config) !== '[object Object]'){
-			throw Error(`the config method first parameter is not object!`);
+			throw Error(`the config method first parameter must be an object!`);
 		}
 		if(config.paths){
 			reqJs.paths = config.paths;

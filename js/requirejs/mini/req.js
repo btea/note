@@ -27,30 +27,32 @@
         }
         document.head.appendChild(script);
     };
+    // 生成模块基本结构对象
+    reqJs.modelObject = function(id, callback) {
+        if (!modules[id]) {
+            modules[id] = {
+                dep: [],
+                id: id,
+                callback: callback,
+                export: null
+            }
+        }
+    },
     reqJs.define = function(dep, callback) {
         var id = reqJs.getScript();
         if(typeof dep === 'function') {
             callback = dep;
-            if(!modules[id]) {
-                modules[id] = {
-                    dep: null,
-                    id: id,
-                    callback: callback,
-                    export: null
-                }
-            }
+            reqJs.modelObject(id, callback);
         }else {
+            reqJs.modelObject(id, callback);
             dep.forEach(function(name) {
-                var id = reqJs.getPath(path, name);
-                if(!modules[id]) {
-                    modules[id] = {
-                        dep: null,
-                        id: id,
-                        callback: callback,
-                        export: null
-                    }
-                }
+                let _id = id.replace(/[^\/]+\.js/, '');
+                console.log(id)
+                console.log(_id)
+                var p = reqJs.getPath(_id, name);
+                modules[id].dep.push(p);
             }, reqJs)
+            console.log(modules)
         }
         
     };
@@ -59,21 +61,30 @@
         id = id.replace(/[^\/]+\.js/, '')
         dep.forEach(function(d, i){
             var path = this.getPath(id, d);
+            if (modules[path] && modules[path].export) {
+                params[i] = modules[path].export;
+                n++
+                if (n === dep.length) {
+                    callback.apply(null, params)
+                }
+                return 
+            }
+            // 直接用script标签加载对应的依赖模块
+            
             this.loadJs(path, function() {
                 if (modules[path]) {
                     modules[path].export = modules[path].callback();
-                    params[i] = modules[path].callback();
+                    params[i] = modules[path].export;
                     n++
                 }
                 if (n === dep.length) {
                     callback.apply(null, params)
-                    console.log(modules)
                 }
             })
         }, reqJs)
     },
     reqJs.getPath = function(path, name) {
-        if (/\//.test(path)) {
+        if (/\/$/.test(path)) {
             path = path.slice(0, -1);
         }
         path = path.split('/');
@@ -85,13 +96,8 @@
         }
     } 
 
-
-
-
-
     reqJs.init();
 	
-
     global.define = reqJs.define;
 	global.require = reqJs.require;
 })(this)
