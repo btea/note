@@ -12,6 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dom-to-image": "^2.6.0",
+    "html2canvas": "^1.0.0-rc.5",
     "parcel": "^1.12.4"
   }
 }
