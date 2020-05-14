@@ -1,0 +1,1 @@
+[JavaScript代码规范](https://standardjs.com/readme-zhcn.html)
