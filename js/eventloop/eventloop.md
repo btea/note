@@ -9,3 +9,5 @@
 #### 来自不同任务源的任务会进入到不同的任务队列。其中setTimeout和setInterval是同源的。
 #### 事件循环的顺序，决定了JavaScript代码的执行顺序。它从script(整体代码)开始第一次循环。之后全局上下文进入函数调用栈。直到调用栈清空(只剩全局)，然后执行所有micro-task。当所有可执行的micro-task执行完毕之后。循环再次从marco-task开始，找到其中一个任务队列执行完毕，然后再执行所有的micro-task,一直这样循环下去。
 #### 其中每一个任务的执行，无论是marco-task还是micro-task,都是借助函数调用栈来完成。
+
+[浏览器与Node的事件循环(event loop)有和区别？](https://github.com/ljianshu/Blog/issues/54)   
