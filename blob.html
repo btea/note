@@ -11,7 +11,22 @@
     <script>
         function save(){
             let blob = new Blob(['this is a file']);
-            window.navigator.msSaveBlob(blob, 'a.txt');
+            load(blob, 'a.txt')
+        }
+        function load(val, name) {
+            if (!val) {
+                throw new TypeError('1 argument required, but only 0 present.')
+            }
+            name = name || 'a.txt'
+            if (window.navigator.msSaveBlob) {
+                window.navigator.msSaveBlob(blob, name)
+            }else {
+                var a = document.createElement('a')
+                var link = window.URL.createObjectURL(val)
+                a.download = name
+                a.href = link
+                a.click()
+            }
         }
     </script>
 </body>
