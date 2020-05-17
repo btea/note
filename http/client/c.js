@@ -30,6 +30,8 @@ http.createServer((request, response) => {
             // 也会被保留下来，就像浏览器从来没有关闭一样。
             // 当max-Age为0时，则会立即删除这个Cookie
             // 假如Expires和Max-Age都存在时，Max-Age优先级更高
+            response.setHeader('last-modified', new Date().toUTCString())
+            response.setHeader('Etag', 'zys1993');
             response.statusCode = 200;
             let obj = {
                 code: 200,
