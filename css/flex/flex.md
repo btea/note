@@ -112,7 +112,7 @@ align-content
 ```
 * order
 * flex-grow
-* flex-shrik
+* flex-shrink
 * flex-basis  
 * flex
 * align-self
