@@ -53,13 +53,13 @@
         .flex-three .top{
             height: 300px;
             width: 100px;
-            flex: 1 2 100px;
+            flex: 1 2 300px;
             background: pink;
         }
         .flex-three .bottom{
             height: 200px;
             width: 100px;
-            flex: 2 1 100px;
+            flex: 2 1 200px;
             background: lightcyan;
         }
         .flex-four{
@@ -113,11 +113,18 @@
             <li>right的真实宽度：400 - 85.714285714 = 314.285714286 浏览器渲染真实结果保留两位小数为：314.28</li>
         </div>
         <div class="flex-three">
-            <div class="top"></div>
-            <div class="bottom"></div>
+            <div class="top">height：150</div>
+            <div class="bottom">height: 150</div>
         </div>
         <div class="text">
-            当主轴方向为纵向时，若子元素的总高度溢出，子元素
+            当主轴方向为纵向时，若子元素的总高度溢出，子元素收缩算法与宽度算法一致<br>
+            父元素总高度300px，子元素flex-basis分别为300px、200px <br>
+            <li>子项溢出的空间高度为：300px + 200px - 300px = 200px</li>
+            <li>top收缩高度：200 * 300 * 2 / (300 * 2 + 200 * 1) = 150</li>
+            <li>bottom收缩高度：200 * 200 * 1 / (300 * 2 + 200 * 1) = 50</li>
+            最终得到结果：
+            <li>top的真实高度：300 - 150 = 150</li>
+            <li>bottom的真实高度：200 - 50 = 150</li>
         </div>
         <div class="flex-four">
             <div class="top"></div>
