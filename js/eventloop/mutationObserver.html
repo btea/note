@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MutationObserver</title>
+</head>
+<body>
+    <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/MutationObserver">MutationObserver MDN</a>
+    <a href="https://segmentfault.com/a/1190000012787829?utm_source=tag-newest">H5 MutationObserver 参数讲解</a>
+    <script>
+        // MutationObserver 监听dom参数以及子集变化 为微任务，优先级在promise之后
+        var mo = new MutationObserver(function(mutations) {
+            console.log(mutations)
+        })
+        var text = document.createTextNode('text')
+        mo.observe(text, {
+            characterData: true
+        });
+        text.nodeValue = 'new text'
+        new Promise(function(resolve, reject) {
+            console.log('start')
+            resolve()
+        }).then(function() {
+            console.log('promise')
+        })
+    </script>
+</body>
+</html>
