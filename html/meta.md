@@ -41,6 +41,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <!-- 针对WebApp全屏模式，隐藏状态栏/设置状态栏颜色，content的值为default | black | black-translucent -->
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<!-- CSP(Content-Security-Policy)白名单  https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy-->
+<meta http-equiv="Content-Security-Policy" content="img-src https://www.bilibili.com https://*.hdslb.com/; font-src *;">
 ```
 
 
