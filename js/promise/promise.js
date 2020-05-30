@@ -1,3 +1,5 @@
+// 参考资料 https://juejin.im/post/5ab20c58f265da23a228fe0f#heading-6
+
 class Promise{
     constructor(executor){
         // 初始化state为等待状态
@@ -119,6 +121,45 @@ class Promise{
         //     })
         // }
     }
+
+    // 捕获错误的方法
+    catch(callback) {
+        return this.then(null, callback)
+    }
+}
+
+Promise.all = function(promises) {
+    return new Promise((resolve, reject) => {
+        let arr = []
+        for(let i = 0; i < promises.length; i++) {
+            promises[i].then(function(val) {
+                arr[i] = val
+                if (i === promises.length - 1) {
+                    resolve(arr)
+                }
+            }, reject)
+        }
+    })
+}
+
+Promise.race = function(promises) {
+    return new Promise((resolve, reject) => {
+        for(let i = 0; i < promises.length; i++) {
+            promises[i].then(resolve, reject)
+        }
+    })
+}
+
+Promise.resolve = function(val) {
+    return new Promise((resolve, reject) => {
+        resolve(val)
+    })
+}
+
+Promise.reject = function(reason) {
+    return new Promise((resolve, reject) => {
+        reject(reason)
+    })
 }
 
 function resolvePromise(promise2, x, resolve, reject){
