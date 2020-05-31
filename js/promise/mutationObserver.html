@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promise</title>
+</head>
+<body>
+    <script>
+        function nextTick(callback) {
+            var mo = new MutationObserver(function(mutations) {
+                callback()
+            })
+            var text = document.createTextNode('text')
+            mo.observe(text, {
+                characterData: true
+            });
+            text.nodeValue = 'new text'
+        }
+        class Promise1{
+            constructor(excutor) {
+                this.value = undefined
+                this.reason = undefined
+                this.onResolvedCallback = []
+                this.onRejectedCallback = []
+                this.state = 'pending'
+                let resolve = (val) => {
+                    if (this.state === 'pending') {
+                        this.state = 'resolved'
+                        this.value = val
+                        this.onResolvedCallback.forEach(fn => fn())
+                    }
+                }
+                let reject = (error) => {
+                    if (this.state === 'pending') {
+                        this.state = 'rejected'
+                        this.reason = error
+                        this.onRejectedCallback.forEach(fn => fn())
+                    }
+                }
+
+                try {
+                    excutor(resolve, reject)
+                } catch (error) {
+                    reject(error)
+                }
+            }
+            then(onFulfilled, onRejected) {
+                onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : val => val
+                onRejected = typeof onRejected === 'function' ? onRejected : err => {throw Error(err)}
+
+                let promise2 = new Promise1((resolve, reject) => {
+                    if (this.state === 'pending') {
+                        this.onResolvedCallback.push(fn => {
+                            nextTick(() => {
+                                try {
+                                    let x = onFulfilled(this.value)
+                                    resolvePromise(promise2, x, resolve, reject)
+                                } catch (error) {
+                                    reject(error)
+                                }
+                            })
+                        })
+                        this.onRejectedCallback.push(fn => {
+                            nextTick(() => {
+                                try {
+                                    let x = onRejected(promise2, x, resolve, reject)
+                                    resolvePromise(promise2, x, resolve, reject)
+                                } catch (error) {
+                                    reject(error)
+                                }
+                            })
+                        })
+                    }
+                    if (this.state === 'resolved') {
+                        nextTick(() => {
+                            try {
+                                let x = onFulfilled(this.value)
+                                resolvePromise(promise2, x, resolve, reject)
+                            } catch (error) {
+                                reject(error)
+                            }
+                        })
+                    }
+                    if (this.state === 'rejected') {
+                        nextTick(() => {
+                            try {
+                                let x = onReejcted(this.reason)
+                                resolvePromise(promise2, x, resolve, reject)
+                            } catch (error) {
+                                reject(error)
+                            }
+                        })
+                    }
+                })
+                return promise2
+            }
+        }
+        function resolvePromise(promise, x, resolve, reject) {
+            if (promise === x) {
+                throw new TypeError('循环引用')
+            }
+            let called 
+            if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
+                try {
+                    let then = x.then
+                    if (typeof then === 'fucntion') {
+                        then.call(x, y => {
+                            if (called) return 
+                            called = true
+                            resolvePromise(promise, y, resolve, reject)
+                        }, err => {
+                            if (called) return
+                            called = true
+                            reject(err)
+                        })
+                    }else {
+                        resolve(x) 
+                    }
+                } catch (error) {
+                    if (called) return
+                    called = true
+                    reject(error) 
+                }
+            }else {
+                resolve(x)
+            }
+        }
+    </script>
+</body>
+</html>
