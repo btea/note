@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>selector(选择器)优先级</title>
+    <style>
+        * {
+            color: red;
+        }
+        div{
+            color: aqua;
+        }
+        
+        
+        /* [data]{
+            color: greenyellow;
+        } */
+        /* .font{
+            color: hotpink;
+        } */
+        :not(code) {
+            color: #6cf;
+        }
+    </style>
+</head>
+<body>
+    <code>
+        <h1>
+            内联样式 > id选择器 > 类选择器 = 属性选择 > 伪类选择器 > 元素选择器 > 通用选择器
+        </h1>
+        1、属性选择器优先级高于元素选择器 <br>
+        2、元素选择器的优先级高于通用选择器<br>
+        3、类(class)选择器优先级和属性选择器一样<br>
+        4、伪类选择器优先级要高于元素选择器，低于属性选择器/类选择器<br>
+    </code>
+    <div data class="font">这是文字</div>
+</body>
+</html>
