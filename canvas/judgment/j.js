@@ -16,18 +16,29 @@ class Judgment{
         if(!this.height){
             this.height = parseInt(this.getStyle(this.parentNode, 'height'));
         }
-        this.el.width = this.width;
-        this.el.height = this.height;
+        let ctx = this.ctx
+        let backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
+            ctx.mozBackingStorePixelRatio ||
+            ctx.msBackingStorePixelRatio ||
+            ctx.oBackingStorePixelRatio ||
+            ctx.backingStorePixelRatio || 1;
+            var devicePixelRatio = window.devicePixelRatio || 1;
+            var ratio = devicePixelRatio / backingStoreRatio
+        this.el.style.width = `${this.width}px`
+        this.el.style.height = `${this.height}px`
+        this.ctx.scale(ratio, ratio)
+        this.el.width = this.width * ratio;
+        this.el.height = this.height * ratio;
         this.createUpper();
         this.bindEvent();
     }
     bindEvent(){
-        this.el.addEventListener('click', (e) => {
-            this.judgment(e.layerX, e.layerY);
-        });
-        // this.el.addEventListener('mousemove', (e) => {
+        // this.el.addEventListener('click', (e) => {
         //     this.judgment(e.layerX, e.layerY);
-        // })
+        // });
+        this.el.addEventListener('mousemove', (e) => {
+            this.judgment(e.layerX, e.layerY);
+        })
     }
     drawRect(opt){
         let {left, top, w, h} = opt;
