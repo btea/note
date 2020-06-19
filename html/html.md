@@ -3,4 +3,6 @@
 [替换元素和非替换元素](https://blog.csdn.net/Syleapn/article/details/79583598)  
 [可替换元素（MDN）](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Replaced_element)
 (iframe svg canvas都是替换元素，默认宽高为300*150)  
-[Eelment.insertAdjacentElement](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/insertAdjacentElement)
+[Eelment.insertAdjacentElement](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/insertAdjacentElement)  
+[非常有意思的WebAPI](https://mp.weixin.qq.com/s/XV6LR2dAqI2EEDO6d_qxgg)  
+
