@@ -2,4 +2,4 @@
 [canvas相关属性方法文档](https://www.runoob.com/jsref/prop-canvas-textalign.html)  
 [canvas相关功能库集合](https://github.com/0326/canvas)  
 [canvas api](https://www.canvasapi.cn/)
-[canvas绘图模糊问题](https://segmentfault.com/a/1190000004505090)  
+[canvas绘图模糊问题](https://segmentfault.com/a/1190000004505090)   
