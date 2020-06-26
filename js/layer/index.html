@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .add{
+            width: 100px;
+            text-align: center;
+            padding: 5px 0;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="add" onclick="layer()">我是一个按钮</div>
+    <script src="alert.js"></script>
+    <script>
+        function randomColor() {
+            return '#' + Math.random().toString(16).slice(2, 8)
+        }
+        function layer() {
+            let el = new Alert({
+                text: '这是一个提示消息',
+                background: randomColor()
+            })
+            console.log(el)
+        }
+    </script>
+</body>
+</html>
