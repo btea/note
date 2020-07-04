@@ -1,0 +1,81 @@
+html{
+    --color: aqua;
+}
+.triangle-icon-top{
+    width: 0;
+    height: 0;
+    display: inline-block;
+    border: 20px solid;
+    border-color: transparent transparent var(--color) transparent;
+}
+.triangle-icon-right{
+    width: 0;
+    height: 0;
+    display: inline-block;
+    border: 20px solid;
+    border-color: transparent transparent transparent var(--color);
+}
+.triangle-icon-bottom{
+    width: 0;
+    height: 0;
+    display: inline-block;
+    border: 20px solid;
+    border-color: var(--color) transparent transparent transparent;
+}
+.triangle-icon-left{
+    width: 0;
+    height: 0;
+    display: inline-block;
+    border: 20px solid;
+    border-color: transparent var(--color) transparent transparent;
+}
+.triangle-icon-top-left{
+    width: 0;
+    height: 0;
+    display: inline-block;
+    border-top: 40px solid var(--color);
+    border-right: 40px solid transparent;
+
+}
+.triangle-icon-top-right{
+    width: 0;
+    height: 0;
+    display: inline-block;
+    border-top: 40px solid var(--color);
+    border-left: 40px solid transparent;
+}
+.triangle-icon-bottom-left{
+    width: 0;
+    height: 0;
+    display: inline-block;
+    border-bottom: 40px solid var(--color);
+    border-right: 40px solid transparent;
+
+}
+.triangle-icon-bottom-right{
+    width: 0;
+    height: 0;
+    display: inline-block;
+    border-bottom: 40px solid var(--color);
+    border-left: 40px solid transparent;
+}
+.arrow-icon-right{
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-right: 10px solid var(--color);
+    position: relative;
+    transform: rotate(-5deg);
+}
+.arrow-icon-right::before{
+    content: '';
+    width: 20px;
+    border-top: 3px solid var(--color);
+    border-radius: 20px 0 0 0;
+    position: absolute;
+    height: 10px;
+    left: -14px;
+    bottom: 100%;
+    transform: rotate(38deg);
+}
