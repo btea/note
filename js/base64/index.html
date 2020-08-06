@@ -16,21 +16,21 @@
             let file = e.target.files[0]
             // let f = new Uint8Array(file)
             let f = new FileReader();
-            // f.readAsArrayBuffer(file)
-            f.readAsText(file);
+            f.readAsArrayBuffer(file)
+            // f.readAsText(file);
             f.onload = function() {
                 let arr = f.result;
-                let src = charToBinary(arr);
-                console.log(src)
+
+                let sBytes =  new Uint8Array(arr).reduce((accu,next)=> {
+                        return accu + String.fromCharCode(next)
+                }, '')
+                let v =  `data:image/jpg;base64,${btoa(sBytes)}` 
+                console.log(v)
+
+                let src = base64encode(sBytes)
+                src = `data:image/jpg;base64,${src}`
+                img.src = src
             }
-            let f1 = new FileReader();
-            f1.readAsDataURL(file);
-            f1.onload = function() {
-                let result = f1.result;
-                // img.src = result
-                console.log(result)
-            }
-            // console.log(f)
         })
     </script>
 </body>
