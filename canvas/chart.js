@@ -8,6 +8,22 @@ class Chart{
         this.width = ele.width || 100;
         this.height = ele.height || 100;
         this.ctx = ctx;
+        this.initContext();
+    }
+    initContext() {
+        let ctx = this.ctx;
+        let backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
+            ctx.mozBackingStorePixelRatio ||
+            ctx.msBackingStorePixelRatio ||
+            ctx.oBackingStorePixelRatio ||
+            ctx.backingStorePixelRatio || 1;
+        let devicePixelRatio = window.devicePixelRatio || 1;
+        let ratio = devicePixelRatio / backingStoreRatio;
+        this.ele.style.width = `${this.width}px`
+        this.ele.style.height = `${this.height}px`
+        this.ctx.scale(ratio, ratio)
+        this.ele.width = this.width * ratio;
+        this.ele.height = this.height * ratio;
     }
     initData(options){
         if(Array.isArray(options)){
