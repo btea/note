@@ -12,5 +12,7 @@ BFC 即 Block Formatting Contexts (块级格式化上下文)，它属于普通�
 #### BFC特性及应用  
 1、同一个BFC下外边距会发生重叠  
 2、BFC可以包含浮动的元素（清除浮动）  
-3、BFC可以阻止元素被浮动元素覆盖  
+3、BFC可以阻止元素被浮动元素覆盖   
+
+[css伪类说明](https://www.runoob.com/css/css-pseudo-classes.html)  
 
