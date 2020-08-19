@@ -11,3 +11,37 @@ test().then(res => console.log(res))
 
 // todo
 // generator 函数
+
+function testOne() {
+    return asyncFunction(function* test() {
+        const data = yield getData()
+        console.log('data:', data)
+        const data2 = yield getData()
+        console.log('data2:', data2)
+        return 'success'
+    })
+}
+
+function asyncFunction(fn) {
+    var it = fn.apply(this, arguments)
+    return new Promise((resolve, reject) => {
+        function step(key, val) {
+            var obj
+            try {
+                if (val) {
+                    obj = it[key](val)
+                }else {
+                    obj = it[key]()
+                }
+            } catch (error) {
+                return reject(error)
+            }
+            var {done, value} = obj
+            if (done) {
+                return resolve(value)
+            }
+            return Promise.resolve(value).then(val => step('next', val), err => step('throw', err))
+        }
+        step('next')
+    })
+}
