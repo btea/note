@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="https://www.zhangxinxu.com/wordpress/2020/07/js-audio-clip-copy-upload/">JS纯前端实现audio音频裁剪复制播放与上传</a>
+    <div class="audio-box">
+        <input type="file" class="audio">
+    </div>
+    <script>
+        createBar()
+        let audio = document.getElementsByClassName('audio')[0]
+        audio.addEventListener('change', event => {
+            let file = event.target.files[0]
+            createAudio(file)
+            
+        })
+        function startCrop(file) {
+            let fileReader = new FileReader()
+            fileReader.onload = event => {
+                let arrBuffer = event.target.result
+                let audioCtx = new AudioContext()
+                audioCtx.decodeAudioData(arrBuffer, audioBuffer => {
+                    // audioBuffer
+                    // duration 音频时长，单位秒
+                    // numberOfChannels 声道数量
+                    // sampleRate 采样率
+                    // 方法 method
+                    // getChannleData() 获取通道数据
+                    // copyFromChannle() 复制通道数据
+                    // copyToChannel() 写入通道数据
+                    // console.log(audioBuffer)
+                    getAudio(audioBuffer, audioCtx)
+                })
+            }
+            fileReader.readAsArrayBuffer(file)
+        } 
+        function getAudio(buffer, audioCtx) {
+            let channels = buffer.numberOfChannels;
+            let rate = buffer.sampleRate;
+            // 截取前3秒
+            let startOffset = rate * 3
+            let endOffset = rate * 16
+            // 3秒对应的帧数
+            let frameCount = endOffset - startOffset
+            // 创建同样采用率、同样声道数量、长度时前3秒的空的AudioBuffer
+            let newAudioBuffer = new AudioContext().createBuffer(channels, endOffset - startOffset, rate)
+            // 创建临时的Array存放复制的buffer数据
+            let anotherArray = new Float32Array(frameCount)
+            // 声道的数据的复制和写入
+            let offset = 0
+            for(let channel = 0; channel < channels; channel++) {
+                buffer.copyFromChannel(anotherArray, channel, startOffset)
+                newAudioBuffer.copyToChannel(anotherArray, channel, offset)
+            }
+            let source = audioCtx.createBufferSource()
+            source.buffer = newAudioBuffer
+            source.connect(audioCtx.destination)
+            console.log(source)
+        }
+        function createAudio(file) {
+            let audio = document.createElement('audio')
+            audio.src = URL.createObjectURL(file)
+            document.body.appendChild(audio)
+
+        }
+
+        function createBar() {
+            let bar = document.createElement('div')
+            let subBar = document.createElement('div')
+            let w = 300, xLeft = 0, xRight = 0
+            bar.style = `
+                width: ${w}px;
+                height: 10px;
+                border-radius: 10px;
+                border: 1px solid aqua;
+                margin: 0 auto;
+                position: relative;
+            `
+            subBar.style = `
+                border-radius: 10px;
+                height: 10px;
+                position: absolute;
+                left: 0;
+                background: #6cf;
+                right: 0;
+            `
+            bar.appendChild(subBar)
+            bar.addEventListener('click', event => {
+                let x = event.offsetX
+                console.log(event)
+
+            })
+            document.body.appendChild(bar)
+        }
+    </script>
+</body>
+</html>
