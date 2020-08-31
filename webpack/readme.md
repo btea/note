@@ -3,6 +3,7 @@
 [webpack讲解仓库](https://github.com/luoxue-victor/webpack-box)  
 [webpack文档](https://www.webpackjs.com/contribute/writing-a-plugin/)  
 [深入浅出webpack](https://webpack.wuhaolin.cn/)  
+[webpack热更新原理](https://segmentfault.com/a/1190000020310371)  
 
 
 
