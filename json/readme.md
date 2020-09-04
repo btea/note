@@ -2,9 +2,9 @@
 **JSON**是一种语法，用来序列化对象、数组、数值、字符串、布尔值和 null。它基于JavaScript语法，但与之不同：**JavaScript不是JSON，JSON也你不是JavaScript。**   
 
 ## **方法**  
-**JSON.parse()**   
+**[JSON.parse()](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse)**   
 解析JSON字符串并返回对应的值，可以额外传入一个转换函数，用来将生成的值和其属性，在返回之前进行某些修改。  
-**JSON.stringify()**  
+**[JSON.stringify()](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)**  
 返回与指定值对应的JSON字符串，可以通过额外的参数，控制仅包含某些属性，或者以自定义方法来替换某些key对应的属性值。  
 
 
@@ -35,6 +35,20 @@
 
 
 ### JSON.parse 语法  
+`JSON.parse(text[, receiver])`  
+#### text   
+> 要被解析成JavaScript 值的字符串，关于 JSON 的语法格式。  
+
+#### receiver （可选）  
+> 转换器，如果传入该参数（函数），可以用来修改解析生成的原始值，调用时机在 parse 函数返回之前。  
+
+#### 返回值  
+> Object 类型，对应给定 JSON 文本对象/值。  
+
+#### 异常  
+> 若传入的字符串不符合 JSON 规范，则会抛出 `SyntaxError` 异常。  
+
+
 
 
 
