@@ -128,9 +128,17 @@ class Promise{
     }
 }
 
+// https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
 Promise.all = function(promises) {
+    /**
+     * promises 一个可迭代的对象，如Array或String
+     * 
+    */
     return new Promise((resolve, reject) => {
         let arr = []
+        if (!promises) {
+            throw TypeError('undefined is not iterable (cannot read property Symbol(Symbol.iterator))')
+        }
         for(let i = 0; i < promises.length; i++) {
             Promise.resolve(promises[i]).then(function(val) {
                 arr[i] = val
