@@ -132,12 +132,13 @@ Promise.all = function(promises) {
     return new Promise((resolve, reject) => {
         let arr = []
         for(let i = 0; i < promises.length; i++) {
-            promises[i].then(function(val) {
+            Promise.resolve(promises[i]).then(function(val) {
                 arr[i] = val
                 if (i === promises.length - 1) {
                     resolve(arr)
                 }
             }, reject)
+            // 只要有有一个任务报错，返回的promise状态就变成rejected，执行reject方法
         }
     })
 }
