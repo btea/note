@@ -26,7 +26,7 @@ module.exports.addX = addX;
 上面代码通过`module.exports`输出变量`x`和函数`addX`。  
 `require`方法用于加载模块。  
 ```javascript
-var example = require('./example.js);
+var example = require('./example.js');
 console.log(example.x); // 5
 console.log(example.addX(1)); // 6
 ```
@@ -60,7 +60,7 @@ setTimeout(function() {
     module.exports.emit('ready');
 }, 1000);
 ```
-上面模块会在加载1秒后，发出ready事件。其他文件监听该事件，可以写成下面这样。  
+上面模块会在加载1秒后，触发ready事件。其他文件监听该事件，可以写成下面这样。  
 ```javascript
 var a = require('./a')
 a.on('ready', function() {
