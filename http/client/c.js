@@ -48,6 +48,7 @@ http.createServer((request, response) => {
     if (/\.js$/.test(url)) {
         fs.readFile('.' + url, (err, str) => {
             response.setHeader('Content-type', 'application/x-javascript')
+            response.setHeader('Cache-Control', 'no-cache')
             if (err) {
                 console.log(err)
                 return
@@ -63,11 +64,15 @@ http.createServer((request, response) => {
             // If-None-Match If-Modified-Since    request
             // Etag优先级要高  
             // response.setHeader('Etag', 'zys1993');
+
+            // 使用协商缓存之后，可以主动在服务端控制是否更新服务端的文件
+            
             if(request.headers['if-modified-since']) {
                 response.statusCode = 304
                 response.end()
             }else {
-                response.setHeader('last-modified', new Date().toUTCString())
+                response.setHeader('etag', '23333333')
+                response.setHeader('last-modified', new Date(Date.now() + 8 * 60  * 60 * 1000 + 60 * 1000).toUTCString())
                 response.end(str)
             }
         })

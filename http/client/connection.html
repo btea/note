@@ -53,17 +53,11 @@
             xhr.open('post', url)
             // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8') // Form Data
             // xhr.setRequestHeader('Content-Type', 'multipart/form-data')  // payload
-            xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8')
-            if (modified) {
-                xhr.setRequestHeader('if-modified-since', modified)
-            }
-            if (etag) {
-                xhr.setRequestHeader('etag', etag)
-            }
             xhr.send(JSON.stringify(p))
             // xhr.send(p)
         }
     </script>
     <script src="./cc.js"></script>
+    <script src="./dd.js"></script>
 </body>
 </html>
