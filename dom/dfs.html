@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深度优先遍历</title>
+</head>
+<body>
+    <div id="start">
+        <ul class="one">
+            <li>one-1</li>
+            <li>one-2</li>
+        </ul>
+        <ul class="two">
+            <li>two-1</li>
+            <li>two-2</li>
+        </ul>
+    </div>
+    <script>
+        let root = document.getElementById('start')
+        function getEl(el) {
+            let list = el.children
+            for(let i = 0; i < list.length; i++) {
+                console.log(list[i])
+                if (list[i].children.length) {
+                    getEl(list[i])
+                }
+            }
+        }
+    </script>
+</body>
+</html>
