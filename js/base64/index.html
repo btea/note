@@ -24,14 +24,41 @@
                 let sBytes =  new Uint8Array(arr).reduce((accu,next)=> {
                         return accu + String.fromCharCode(next)
                 }, '')
-                let v =  `data:image/jpg;base64,${btoa(sBytes)}` 
-                console.log(v)
+                // let v =  `data:image/jpg;base64,${btoa(sBytes)}` 
+                // console.log(new Uint8Array(arr))
 
                 let src = base64encode(sBytes)
                 src = `data:image/jpg;base64,${src}`
                 img.src = src
+                compress(src)
             }
         })
+
+        function compress(src) {
+            console.log('base64------------------')
+            console.log(src)
+            let img = new Image()
+            img.onload = function() {
+                let w, h, canvas
+                w = this.width;
+                h = this.height;
+                canvas = document.createElement('canvas')
+                canvas.width = w 
+                canvas.style.width = w + 'px'
+                canvas.height = h
+                canvas.style.height = h + 'px'
+                let ctx = canvas.getContext('2d')
+                ctx.drawImage(this, 0, 0, w, h)
+                document.body.appendChild(canvas)
+                let s = canvas.toDataURL('image/jpeg', 0.3)
+                let img = new Image()
+                img.src = s
+                document.body.appendChild(img)
+                console.log('compress---------------')
+                console.log(s)
+            }
+            img.src = src
+        }
     </script>
 </body>
 </html>
