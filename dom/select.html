@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div class="le">
+            <p>1</p>
+        </div>
+        <div class="le">
+            <p>2</p>
+        </div>
+        <div class="le"></div>
+        <div class="le"></div>
+        <div class="le"></div>
+        <div></div>
+    </div>
+    <script>
+        function query(str, con) {
+            str = str.trim()
+            let reg = /\s+/g
+            let start = str[0]
+            let container = con || document
+            if (reg.test(str)) {
+                let arr = str.split(reg), list = []
+                let el = getEle(arr[0], container)
+                // for(let i = 0; i < arr.length; i++) {
+                    // list.push(query(arr.slice(1).join(' '), el))
+                // }
+                // return list
+                if (el.length) {
+                    for(let i = 0; i < el.length; i++) {
+                        let v = query(arr.slice(1).join(' '), el[i])
+                        list.push(...v)
+                    }
+                    return list
+                }else {
+                    return query(arr.slice(1).join(' '), el)
+                }
+                // return [].concat(list)
+            }else {
+                return getEle(str, container)
+            }
+        }
+        function getEle(str, container) {
+            let start = str[0]
+            if (start === '#') {
+                return container.getElementById(str.slice(1))
+            }
+            if (start === '.') {
+                return container.getElementsByClassName(str.slice(1))
+            }
+            return container.getElementsByTagName(str)
+        }
+    </script>
+</body>
+</html>
