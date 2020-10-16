@@ -25,30 +25,21 @@
             let start = str[0]
             let container = con || document
             if (reg.test(str)) {
-                let arr = str.split(reg), list = []
+                let arr = str.split(reg)
                 let el = getEle(arr[0], container)
-                // for(let i = 0; i < arr.length; i++) {
-                    // list.push(query(arr.slice(1).join(' '), el))
-                // }
-                // return list
-                if (el.length) {
-                    for(let i = 0; i < el.length; i++) {
-                        let v = query(arr.slice(1).join(' '), el[i])
-                        list.push(...v)
-                    }
-                    return list
-                }else {
-                    return query(arr.slice(1).join(' '), el)
+                for (let i = 0; i < el.length; i++) {
+                    let v = query(arr.slice(1).join(' '), el[i])
+                    list = [...list, ...v]
                 }
-                // return [].concat(list)
-            }else {
-                return getEle(str, container)
+            } else {
+                list = [...list,...getEle(str, container)]
             }
+            return list
         }
         function getEle(str, container) {
             let start = str[0]
             if (start === '#') {
-                return container.getElementById(str.slice(1))
+                return [container.getElementById(str.slice(1))]
             }
             if (start === '.') {
                 return container.getElementsByClassName(str.slice(1))
