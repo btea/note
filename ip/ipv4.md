@@ -43,3 +43,7 @@ IPv4地址和IP地址的具体区别如下：
 3、IP地址中A类、B类、C类地址的区别，IP地址的长度决定了IPv4的地址空间，决定了地址的有限。  
 4、IP包含了私网IP、公网IP、IPv4、IPv6。
 
+
+[IPv6优势](https://cloud.tencent.com/developer/news/573194)  
+
+
