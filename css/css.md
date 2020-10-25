@@ -10,4 +10,7 @@
 [cssnext](https://cssnext.github.io/features/#automatic-vendor-prefixes)  
 [css triggers](https://csstriggers.com/)  
 [css render](https://segmentfault.com/a/1190000014520786)  
-[css filter](https://github.com/chokcoco/iCSS/issues/30)
+[css filter](https://github.com/chokcoco/iCSS/issues/30)  
+[css selector](https://www.w3.org/TR/CSS21/selector.html#pattern-matching)  
+
+ 
