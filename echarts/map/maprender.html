@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>render map</title>
+</head>
+
+<body>
+    <canvas id="canvas" width="800" height="600"></canvas>
+    <script src="./map.js"></script>
+    <script src="./render.js"></script>
+    <script>
+        new Yrender({
+            el: document.getElementById('canvas')
+        })
+    </script>
+</body>
+
+</html>
