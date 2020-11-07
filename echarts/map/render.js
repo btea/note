@@ -73,6 +73,9 @@ class Yrender {
             this.ctx.lineTo(x, y);
         }
         this.ctx.stroke();
+        // 添加了填充颜色之后，边界线似乎就不那么明显了~~
+        this.ctx.fillStyle = '#' + Math.random().toString(16).slice(2, 8)
+        this.ctx.fill();
     }
     drawText(item) {
         this.ctx.save();

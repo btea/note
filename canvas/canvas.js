@@ -13,7 +13,7 @@ class CanvasInit{
         ctx.scale(ratio, ratio)
         canvas.width = width * ratio;
         canvas.height = height * ratio;
-        return canvas
+        return ctx
     }
 }
 
