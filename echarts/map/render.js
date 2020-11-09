@@ -5,8 +5,8 @@ class Yrender {
         this.width = this.el.width;
         this.height = this.el.height;
         this.initCanvas();
-        this.calculateData();
         this.padding = options.padding || 50; // 默认给地图区域留50px的边界距离
+        this.calculateData();
         this.addEvent();
     }
     initCanvas() {
@@ -28,7 +28,9 @@ class Yrender {
         let scale = xScale < yScale ? xScale : yScale;
         this.scale = Math.floor(scale);
         this.minLog = v.minLog;
+        this.maxLog = v.maxLog
         this.minLat = v.minLat;
+        this.maxLat = v.maxLat;
         this.drawArea();
     }
     getBoundry() {
@@ -64,12 +66,17 @@ class Yrender {
         this.ctx.beginPath();
         let p = points[0];
         let x = (p[0] - this.minLog) * this.scale;
-        let y = (p[1] - this.minLat) * this.scale;
+        /**
+         * 说明：注释部分代码绘制的地图，与真实地图南北纬相反，故调整
+         * 
+        */
+        // let y = (p[1] - this.minLat) * this.scale;
+        let y = (this.maxLat - p[1]) * this.scale + this.padding;
         this.ctx.moveTo(x, y);
-        // console.log({ x, y });
         for (let i = 0; i < points.length; i++) {
             x = (points[i][0] - this.minLog) * this.scale;
-            y = (points[i][1] - this.minLat) * this.scale;
+            // y = (points[i][1] - this.minLat) * this.scale;
+            y = (this.maxLat - points[i][1]) * this.scale + this.padding;
             this.ctx.lineTo(x, y);
         }
         this.ctx.stroke();
@@ -82,7 +89,8 @@ class Yrender {
         this.ctx.textAlign = 'center';
         let x, y;
         x = (item.center[0] - this.minLog) * this.scale;
-        y = (item.center[1] - this.minLat) * this.scale;
+        // y = (item.center[1] - this.minLat) * this.scale;
+        y = (this.maxLat - item.center[1]) * this.scale + this.padding;
         this.ctx.fillStyle = '#6cf';
         this.ctx.font = '16px 微软雅黑';
         this.ctx.fillText(item.name, x, y);
