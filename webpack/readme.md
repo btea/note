@@ -4,6 +4,7 @@
 [webpack文档](https://www.webpackjs.com/contribute/writing-a-plugin/)  
 [深入浅出webpack](https://webpack.wuhaolin.cn/)  
 [webpack热更新原理](https://segmentfault.com/a/1190000020310371)  
+[webpack5发布](https://mp.weixin.qq.com/s/0aBm_-YuV6ezJ0vL9OF8ig)  
 
 
 
