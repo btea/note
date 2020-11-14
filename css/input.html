@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .one{
+            margin: 10px;
+            display: flex;
+            flex-direction:row-reverse;
+            width: 300px;
+        }
+        .one input{
+            width: 200px;
+            height: 30px;
+            border-radius: 5px;
+            border: 1px solid #00000050;
+            padding: 0 10px;
+            outline: none;
+        }
+        .one input:focus{
+            border-color: aqua;
+        }
+        .one input:focus + .tx{
+            color: aqua;
+        }
+
+        .two{
+            margin: 10px;
+            width: 300px;
+        }
+        .two input{
+            float: right;
+            width: 200px;
+            height: 30px;
+            border-radius: 5px;
+            border: 1px solid #00000050;
+            padding: 0 10px;
+            outline: none;
+        }
+        .two input:focus{
+            border-color: aqua;
+        }
+        .two input:focus + .tx{
+            color: aqua;
+        }
+
+        .three{
+            margin: 10px;
+            width: 300px;
+            position: relative;
+        }
+        .three input{
+            width: 200px;
+            height: 30px;
+            border-radius: 5px;
+            border: 1px solid #00000050;
+            padding: 0 10px;
+            outline: none;
+            margin-left: 60px;
+        }
+        .three input:focus{
+            border-color: aqua;
+        }
+        .three input:focus + .tx{
+            color: aqua;
+        } 
+        .three .tx{
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="one">
+        <input type="text"><span class="tx">输入框1</span>
+    </div>
+    <div class="two">
+        <input type="text"><span class="tx">输入框2</span>
+    </div>
+    <div class="three">
+        <input type="text"><span class="tx">输入框3</span>
+    </div>
+</body>
+</html>
