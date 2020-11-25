@@ -107,6 +107,7 @@
     ".jpe":"application/x-jpe",
     ".jpeg":"image/jpeg",
     ".jpg":"application/x-jpg",
+    ".webp": "image/webp",
     ".js":"application/x-javascript",
     ".jsp":"text/html",
     ".la1":"audio/x-liquid-file",
