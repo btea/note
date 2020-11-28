@@ -6,29 +6,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-
+        .one{
+            height: 100px;
+            background: aqua;
+        }
     </style>
 </head>
 
 <body>
+    <div class="one"></div>
     <canvas class="canvas"></canvas>
     <script>
         let el = document.getElementsByClassName('canvas')[0]
         let ctx = el.getContext('2d')
         let ratio = window.devicePixelRatio
-        let width = 600, height = 400;
+        let width = 1132, height = 816;
         el.style.width = width + 'px'
         el.style.height = height + 'px'
         el.width = width * ratio
         el.height = height * ratio
         ctx.scale(ratio, ratio)
         let points = [
-            { x: 10, y: 500 }, { x: 50, y: 400 }, { x: 90, y: 210 }, { x: 130, y: 300 }, { x: 170, y: 350 }, { x: 210, y: 75 }, { x: 250, y: 100 }
+            { x: 100, y: 406 }, { x: 250, y: 350 }, { x: 400, y: 365 }, { x: 550, y: 349 }, { x: 700, y: 171 }, { x: 850, y: 151 }, {x: 1000, y: 156}
         ]
 
         function drawLine(points) {
             // ctx.clearRect(0, 0, width, height)
             ctx.beginPath()
+            ctx.save()
             ctx.moveTo(points[0].x, points[0].y)
             for (let i = 1; i < points.length; i++) {
                 ctx.lineTo(points[i].x, points[i].y)
@@ -37,9 +42,36 @@
             ctx.stroke()
             ctx.restore()
         }
-        drawLine(points)
+        // drawLine(points)
         function smoothPoints(points) {
             ctx.beginPath()
+            // ctx.createLinearGradient(x1, y1, x2, y2)
+            // x1,y1渐变的起点   x2,y2渐变的终点
+            let gradient = ctx.createLinearGradient(0, 0, 0, height)
+            gradient.addColorStop(0, '#00ffff')
+            gradient.addColorStop(1, '#00ffd0')
+            // ctx.fillStyle = 'rgba(0,255,255, 0.5)';
+            ctx.fillStyle = gradient
+            let last = points[points.length - 1]
+            let first = points[0]
+            drawSmooth(points)
+            ctx.lineTo(last.x, height)
+            ctx.lineTo(100, height)
+            ctx.lineTo(first.x, first.y)
+            ctx.fill()
+            ctx.beginPath()
+
+            ctx.beginPath()
+            ctx.save()
+            ctx.strokeStyle = '#66ccff'
+            ctx.lineWidth = 2
+            drawSmooth(points)
+            ctx.stroke()
+            ctx.beginPath();
+            ctx.restore()
+            drawPoint(points)
+        }
+        function drawSmooth(points) {
             points.forEach((item, index) => {
                 let scale = 0.1
                 // 前一个点坐标
@@ -61,7 +93,11 @@
                 }
                 if (index === 1) {
                     cAx = last1X + nowX * scale
-                    cAy = last1Y + nowY * scale
+                    if (last1Y > nowY) {
+                        cAy = last1Y - nowY * scale
+                    }else {
+                        cAy = last1Y + nowX * scale
+                    }
                     console.log({ cAx, cAy, cBx, cBx, cBy, nowX, nowY })
                     ctx.bezierCurveTo(cAx, cAy, cBx, cBy, nowX, nowY)
                     return
@@ -75,11 +111,20 @@
                     cBy = nowY - (nowY - last1Y) * scale
                 }
                 ctx.bezierCurveTo(cAx, cAy, cBx, cBy, nowX, nowY)
-                console.log({ cAx, cAy, cBx, cBx, cBy, nowX, nowY })
-
+                
             })
-            ctx.stroke()
         }
+
+        function drawPoint(points) {
+            points.forEach(p => {
+                ctx.beginPath()
+                ctx.strokeStyle = 'aqua'
+                ctx.arc(p.x, p.y, 5, 0, Math.PI * 2)
+                ctx.stroke()
+                ctx.closePath()
+            })
+        }
+        smoothPoints(points)
     </script>
 </body>
 
