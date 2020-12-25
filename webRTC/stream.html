@@ -14,7 +14,7 @@
         const videoConstraints = {width: 1366, height: 768};
         const videoNode = document.querySelector('#video');
         let stream = await navigator.mediaDevice.getUserMedia({ audio: true, video: videoConstraints });
-        videoNode.src = stream;
+        videoNode.srcObject = stream;
         videoNode.play();
     </script>
 </body>
