@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>stream</title>
-</head>
-<body>
-    <video id="video" autoplay></video>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>stream</title>
+    </head>
+    <body>
+        <video id="video" autoplay></video>
 
-    <script>
-        // https://juejin.im/post/5c4916c251882524fe52cf5e
-        const videoConstraints = {width: 1366, height: 768};
-        const videoNode = document.querySelector('#video');
-        let stream = await navigator.mediaDevice.getUserMedia({ audio: true, video: videoConstraints });
-        videoNode.srcObject = stream;
-        videoNode.play();
-    </script>
-</body>
+        <script>
+            // https://juejin.im/post/5c4916c251882524fe52cf5e
+            const videoConstraints = { width: 1366, height: 768 };
+            const videoNode = document.querySelector("#video");
+            async function start() {
+                let stream = await navigator.mediaDevices.getUserMedia({
+                    audio: false,
+                    video: videoConstraints,
+                });
+                videoNode.srcObject = stream;
+                videoNode.play();
+            }
+            start();
+        </script>
+    </body>
 </html>
