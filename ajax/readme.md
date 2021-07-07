@@ -1,3 +1,4 @@
+### [XMLHttpRequest标准说明文档](https://xhr.spec.whatwg.org/)  
 [fetch](https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API/Using_Fetch)  
 
 ***Ajax(Asynchronous JavaScript + XML)，能够向服务器请求额外的数据，而无需卸载页面。***   
