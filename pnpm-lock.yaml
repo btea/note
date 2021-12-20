@@ -11,7 +11,7 @@ importers:
       multiparty: ^4.2.1
       nodejs-websocket: ^1.7.2
       vconsole: ^3.2.0
-      ws: ^7.4.6
+      ws: ^8.0.0
     dependencies:
       cheerio: 1.0.0-rc.10
       esprima: 4.0.1
@@ -20,7 +20,7 @@ importers:
       multiparty: 4.2.2
       nodejs-websocket: 1.7.2
       vconsole: 3.10.0
-      ws: 7.5.6
+      ws: 8.3.0
 
   canvas/bezier:
     specifiers:
@@ -6698,6 +6698,19 @@ packages:
   /ws/7.5.6:
     resolution: {integrity: sha512-6GLgCqo2cy2A2rjCNFlxQS6ZljG/coZfZXclldI8FB/1G3CCI36Zd8xy2HrFVACi8tfk5XrgLQEk+P0Tnz9UcA==}
     engines: {node: '>=8.3.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dev: false
+
+  /ws/8.3.0:
+    resolution: {integrity: sha512-Gs5EZtpqZzLvmIM59w4igITU57lrtYVFneaa434VROv4thzJyV6UjIL3D42lslWlI+D4KzLYnxSwtfuiO79sNw==}
+    engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
       utf-8-validate: ^5.0.2
