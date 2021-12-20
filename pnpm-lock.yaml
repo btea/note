@@ -34,11 +34,11 @@ importers:
 
   webpack:
     specifiers:
-      cross-env: ^6.0.3
-      css-loader: ^3.4.0
-      rimraf: ^3.0.0
-      webpack: ^4.41.4
-      webpack-cli: ^3.3.10
+      cross-env: 6.0.3
+      css-loader: 3.6.0
+      rimraf: 3.0.2
+      webpack: 4.46.0
+      webpack-cli: 3.3.12
     devDependencies:
       cross-env: 6.0.3
       css-loader: 3.6.0_webpack@4.46.0
