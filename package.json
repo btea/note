@@ -19,7 +19,7 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
     "esprima": "^4.0.1",
-    "fabric": "^3.0.0",
+    "fabric": "^4.0.0",
     "html2canvas": "^1.0.0-rc.5",
     "multiparty": "^4.2.1",
     "nodejs-websocket": "^1.7.2",
