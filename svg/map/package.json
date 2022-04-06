@@ -8,7 +8,7 @@
     "build": "parcel build index.html"
   },
   "dependencies": {
-    "echarts": "^4.5.0",
+    "echarts": "^5.0.0",
     "zrender": "^5.2.1"
   },
   "devDependencies": {
