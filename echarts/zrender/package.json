@@ -15,6 +15,6 @@
     "parcel": "^1.12.4"
   },
   "devDependencies": {
-    "zrender": "5.2.1"
+    "zrender": "5.6.0"
   }
 }
