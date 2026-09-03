@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "parcel": "^1.12.4"
+    "parcel": "^2.0.0"
   },
   "devDependencies": {
     "zrender": "5.2.1"
